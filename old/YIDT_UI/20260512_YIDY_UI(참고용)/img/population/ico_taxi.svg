@@ -1,0 +1,16 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M8.05125 4.75H15.9488C17.2697 4.75 17.9305 5.00302 18.2933 5.28563C18.6483 5.56225 18.8382 5.95826 19.0056 6.56353C19.0057 6.56388 19.0058 6.56423 19.0059 6.56458L20.0166 10.25H3.98339L4.99414 6.56458C4.99421 6.56433 4.99427 6.56409 4.99434 6.56385C5.16177 5.9584 5.35163 5.5623 5.70673 5.28563C6.06946 5.00302 6.73031 4.75 8.05125 4.75Z" stroke="#A2A3C3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M2.76904 8.92188H4.3075" stroke="#A2A3C3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M19.6924 8.92188H21.2308" stroke="#A2A3C3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<mask id="path-4-inside-1_1592_30475" fill="white">
+<path d="M7 3.5C7 2.67157 7.67157 2 8.5 2L15.5 2C16.3284 2 17 2.67157 17 3.5C17 4.32843 16.3284 5 15.5 5L8.5 5C7.67157 5 7 4.32843 7 3.5Z"/>
+</mask>
+<path d="M5.5 2.75C5.5 1.50736 6.50736 0.5 7.75 0.5L16.25 0.5C17.4926 0.5 18.5 1.50736 18.5 2.75L15.5 3.5L8.5 3.5L5.5 2.75ZM17 5L7 5L17 5ZM7.75 5C6.50736 5 5.5 3.99264 5.5 2.75C5.5 1.50736 6.50736 0.5 7.75 0.5L8.5 3.5C8.5 4.32843 8.5 5 8.5 5H7.75ZM16.25 0.5C17.4926 0.5 18.5 1.50736 18.5 2.75C18.5 3.99264 17.4926 5 16.25 5L15.5 5C15.5 5 15.5 4.32843 15.5 3.5L16.25 0.5Z" fill="#A2A3C3" mask="url(#path-4-inside-1_1592_30475)"/>
+<rect x="2.75" y="10.75" width="18.5" height="7.5" rx="0.85" stroke="#A2A3C3" stroke-width="1.5"/>
+<path d="M9.69238 15.8438H14.3078" stroke="#A2A3C3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M9.69238 13.5391H14.3078" stroke="#A2A3C3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M6.22735 14.6932H6.23427" stroke="#A2A3C3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M17.7659 14.6932H17.7728" stroke="#A2A3C3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="7.25" y="21.25" width="2.5" height="2.5" rx="1.25" transform="rotate(-180 7.25 21.25)" stroke="#A2A3C3" stroke-width="1.5" stroke-linejoin="round"/>
+<rect x="19.25" y="21.25" width="2.5" height="2.5" rx="1.25" transform="rotate(-180 19.25 21.25)" stroke="#A2A3C3" stroke-width="1.5" stroke-linejoin="round"/>
+</svg>

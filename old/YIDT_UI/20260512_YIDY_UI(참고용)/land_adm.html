@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>현장조사 관리 | 용인행정 디지털트윈플랫폼</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/facility.css" rel="stylesheet">
+    <link href="css/facility_manage.css" rel="stylesheet">
+    <link href="css/public.css" rel="stylesheet">
+    <link href="css/form.css" rel="stylesheet">
+    <script src="js/jquery-3.7.1.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <style>
+        #map { position:absolute; top:0; width:100%; height:100%; background:linear-gradient(160deg,#1e2a1e 0%,#2a3a2a 40%,#1a2e28 100%); z-index:0; }
+        .footer { position:absolute; bottom:0; width:100%; z-index:5; }
+        .footer_txt { text-align:center; font-size:10px; color:rgba(255,255,255,0.55); padding:6px 0; }
+        /* 테이블 스타일 */
+        .tbl-wrap { overflow-x:auto; margin-top:16px; }
+        .tbl-list { width:100%; border-collapse:collapse; }
+        .tbl-list thead th {
+            padding:10px 12px;
+            background:var(--secondary2-10);
+            border-bottom:2px solid var(--secondary2-20);
+            font-size:13px;
+            font-weight:600;
+            color:var(--secondary2-120);
+            text-align:center;
+        }
+        .tbl-list tbody td {
+            padding:10px 12px;
+            border-bottom:1px solid var(--gray-90);
+            font-size:13px;
+            text-align:center;
+            cursor:pointer;
+        }
+        .tbl-list tbody tr:hover { background:var(--primary-10); }
+        .tbl-list tbody tr.active { background:var(--primary-10); }
+        .btn-regist-fill {
+            padding:7px 16px;
+            background:var(--primary-100);
+            color:#fff;
+            border:none;
+            border-radius:8px;
+            font-size:13px;
+            cursor:pointer;
+        }
+        .btn-download {
+            padding:5px 12px;
+            background:var(--white);
+            color:var(--secondary2-100);
+            border:1px solid var(--secondary2-80);
+            border-radius:6px;
+            font-size:12px;
+            cursor:pointer;
+            margin-left:auto;
+        }
+        .public-search {
+            padding:6px 14px;
+            background:var(--primary-100);
+            color:#fff;
+            border:none;
+            border-radius:20px;
+            font-size:13px;
+            cursor:pointer;
+        }
+        .searchbox-wrap input[type=date] {
+            padding:6px 10px;
+            border:1px solid #ccc;
+            border-radius:20px;
+            height:36px;
+            font-size:13px;
+        }
+        .common-select { padding:6px 10px; border:1px solid #ccc; border-radius:20px; font-size:13px; height:36px; cursor:pointer; }
+        .input-field { padding:6px 12px; border:1px solid #ccc; border-radius:20px; height:36px; font-size:13px; outline:none; flex:1; }
+        .btn-input-search { position:absolute; left:10px; width:18px; height:18px; background:url(img/common/btn_input_search.svg) no-repeat center; }
+    </style>
+</head>
+<body>
+<div class="content">
+    <div id="map"></div>
+
+    <!-- LNB -->
+    <header class="main-header">
+        <div class="lnbWrap">
+            <div class="logo txt" style="cursor:pointer;"><p class="logotxt">용인행정<br>디지털<br>트윈플랫폼</p></div>
+            <div class="nav-wrap">
+                <ul class="menu">
+                    <li class="menu-home"><a>메인</a><span>메인</span></li>
+                    <li class="menu-sevice"><a>지도서비스</a><span>지도서비스</span></li>
+                    <li class="menu-people"><a>유동인구</a><span>유동인구</span></li>
+                    <li class="menu-map active"><a>국공유지</a><span>국공유지</span></li>
+                    <li class="menu-facility"><a>시설물</a><span>시설물</span></li>
+                    <li class="menu-admin"><a>시스템설정</a><span>시스템설정</span></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- SNB -->
+    <div class="snb-area" id="snbLand">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn" onclick="location.href='land_dash.html'">대시보드</button>
+            <button type="button" class="btn" onclick="location.href='land_info.html'">국공유지 종합</button>
+            <button type="button" class="btn active" onclick="location.href='land_adm.html'">현장조사 관리</button>
+            <button type="button" class="btn" onclick="location.href='land_analy.html'">AI 분석</button>
+        </div>
+    </div>
+
+    <!-- GNB -->
+    <div class="gnb">
+        <span class="profile">관리자님</span>
+        <span class="sugComment" id="sugComment">건의사항</span>
+    </div>
+
+    <!-- 우측 툴박스 -->
+    <div class="toolbox">
+        <div id="toolBar">
+            <div class="btn-group-vertical" role="group">
+                <input type="radio" class="btn-check" name="changeMap" id="2d">
+                <label class="btn" for="2d">2D</label>
+                <input type="radio" class="btn-check" name="changeMap" id="3d" checked>
+                <label class="btn" for="3d">3D</label>
+            </div>
+            <button type="button" class="item setting">지도설정</button>
+            <button type="button" class="item layer">레이어</button>
+            <button type="button" class="item save">저장</button>
+            <button type="button" class="item manual">매뉴얼</button>
+            <button type="button" class="item compass" style="padding-top:0;padding-left:8px;"><i style="transform:rotate(-45deg);">◈</i></button>
+        </div>
+    </div>
+
+    <!-- 현장조사 관리 패널 -->
+    <div class="search-area lAdmDiPannel" id="lAdmDiCont">
+        <div class="search-wrap transparent"></div>
+        <div class="panel-open"><button></button></div>
+        <div class="d-flex">
+            <div class="map-sv-search facility-status">
+                <div class="fac-contents">
+                    <div class="title-wrap">
+                        <h3>현장조사 관리</h3>
+                        <button class="btn-regist-fill" type="button" data-bs-toggle="modal" data-bs-target="#addSurveyModal">현장조사 등록</button>
+                    </div>
+
+                    <!-- 검색 폼 -->
+                    <div class="public-form">
+                        <div class="searchbox-wrap">
+                            <div class="input-container">
+                                <input type="date" class="date-round" id="startDateFilter" title="조사 시작일">
+                            </div>
+                            <span style="line-height:32px;">~</span>
+                            <div class="input-container">
+                                <input type="date" class="date-round" id="endDateFilter" title="조사 종료일">
+                            </div>
+                            <select class="common-select" id="searchTypeSelect" title="검색 유형" style="width:130px;">
+                                <option value="relDept">관련부서</option>
+                                <option value="exmnrName">조사자명</option>
+                            </select>
+                            <div class="input-container" style="position:relative;flex:1;">
+                                <span class="btn-input-search"></span>
+                                <input type="text" class="input-field pl-40" id="searchInput" placeholder="관련부서명">
+                            </div>
+                            <button type="button" class="public-search" id="searchButton">검색</button>
+                        </div>
+                        <button type="button" class="btn-download" id="ladmExeclDownload">엑셀 다운로드</button>
+                    </div>
+
+                    <!-- 목록 테이블 -->
+                    <div class="tbl-wrap">
+                        <table class="tbl-list" id="surveyTable">
+                            <caption>현장조사목록</caption>
+                            <colgroup>
+                                <col style="width:5%;">
+                                <col style="width:20%;">
+                                <col style="width:25%;">
+                                <col style="width:20%;">
+                                <col style="width:20%;">
+                                <col style="width:10%;">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>조사일자</th>
+                                    <th>관련부서</th>
+                                    <th>조사자</th>
+                                    <th>등록일자</th>
+                                    <th>설정</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="active">
+                                    <td>1</td>
+                                    <td>2025.03.05</td>
+                                    <td>용인시 기흥구청 건설과</td>
+                                    <td>홍길동</td>
+                                    <td>2025.03.06</td>
+                                    <td><button class="btn-round" style="padding:3px 8px;font-size:11px;">수정</button></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>2025.02.20</td>
+                                    <td>용인시 기흥구청 도시과</td>
+                                    <td>이순신</td>
+                                    <td>2025.02.21</td>
+                                    <td><button class="btn-round" style="padding:3px 8px;font-size:11px;">수정</button></td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>2025.02.10</td>
+                                    <td>용인시 처인구청 건설과</td>
+                                    <td>강감찬</td>
+                                    <td>2025.02.11</td>
+                                    <td><button class="btn-round" style="padding:3px 8px;font-size:11px;">수정</button></td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>2025.01.28</td>
+                                    <td>용인시 수지구청 도로과</td>
+                                    <td>세종대왕</td>
+                                    <td>2025.01.29</td>
+                                    <td><button class="btn-round" style="padding:3px 8px;font-size:11px;">수정</button></td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>2025.01.15</td>
+                                    <td>용인시 기흥구청 환경과</td>
+                                    <td>장보고</td>
+                                    <td>2025.01.16</td>
+                                    <td><button class="btn-round" style="padding:3px 8px;font-size:11px;">수정</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 페이지네이션 -->
+                <div class="pagination-wrap">
+                    <ul class="pagination">
+                        <li class="page-item"><a class="page-prev first"></a></li>
+                        <li class="page-item"><a class="page-prev"></a></li>
+                        <li class="page-item"><a class="page-link active">1</a></li>
+                        <li class="page-item"><a class="page-link">2</a></li>
+                        <li class="page-item"><a class="page-link">3</a></li>
+                        <li class="page-item"><a class="page-next"></a></li>
+                        <li class="page-item"><a class="page-next last"></a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <button class="btn-side-1st open" style="left:1095px;"></button>
+        </div>
+    </div>
+
+    <!-- 현장조사 등록 Modal -->
+    <div class="modal fade" id="addSurveyModal" tabindex="-1" aria-modal="true" role="dialog">
+        <div class="modal-dialog popup">
+            <div class="modal-content popup">
+                <div class="modal-header">
+                    <h1 class="modal-title">현장조사 등록</h1>
+                    <button type="button" class="modal-btn-close ml-auto" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="header-line"></div>
+                    <div class="form-wrap">
+                        <div class="sub-head-wrap"><span class="sub-head mb-10">조사 기본 정보</span></div>
+                        <ul class="d-flex mb-14" style="gap:16px;">
+                            <li style="flex:1;">
+                                <label style="font-size:12px;color:#888;display:block;margin-bottom:4px;">조사일자</label>
+                                <input type="date" class="date-round" style="width:100%;">
+                            </li>
+                            <li style="flex:1;">
+                                <label style="font-size:12px;color:#888;display:block;margin-bottom:4px;">관련부서</label>
+                                <input type="text" class="form-input" placeholder="관련부서명 입력">
+                            </li>
+                        </ul>
+                        <ul class="d-flex mb-14" style="gap:16px;">
+                            <li style="flex:1;">
+                                <label style="font-size:12px;color:#888;display:block;margin-bottom:4px;">조사자명</label>
+                                <input type="text" class="form-input" placeholder="조사자명 입력">
+                            </li>
+                        </ul>
+                        <div class="sub-head-wrap mt-20"><span class="sub-head">조사 내용</span></div>
+                        <textarea rows="4" style="width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;font-size:13px;resize:none;" placeholder="조사 내용을 입력하십시오."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancel" data-bs-dismiss="modal">취소</button>
+                    <button type="button" class="btn-primary">등록</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- footer -->
+    <div class="footer">
+        <div class="footer_txt">
+            ※ 본 자료는 실제 현황과 차이가 있을 수 있으므로 충분히 유의하여 참고용으로만 활용하시기 바라며, 업무 목적 외 타 용도로의 사용을 금합니다. ※
+        </div>
+    </div>
+</div>
+<script src="js/ui.js"></script>
+<script>
+$(document).ready(function(){
+    $('table tbody tr').click(function(){
+        $('table tbody tr').removeClass('active');
+        $(this).addClass('active');
+    });
+});
+</script>
+</body>
+</html>

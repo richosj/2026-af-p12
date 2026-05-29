@@ -1,0 +1,20 @@
+<svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group 427320256">
+<path id="Rectangle 3467732" d="M4 17H2.6C1.71634 17 1 16.2837 1 15.4V13.6C1 12.7163 1.71634 12 2.6 12H19.4C20.2837 12 21 12.7163 21 13.6V15.4C21 16.2837 20.2837 17 19.4001 17C18.9414 17 18.4452 17 18 17M7 17C7 17 12.1066 17 15 17" stroke="#A2A3C3" stroke-width="1.5"/>
+<g id="Rectangle 3467735">
+<mask id="path-2-inside-1_3034_42896" fill="white">
+<path d="M1 1.6C1 0.716345 1.71634 0 2.6 0H13.4C14.2837 0 15 0.716344 15 1.6V10.4C15 11.2837 14.2837 12 13.4 12H2.6C1.71635 12 1 11.2837 1 10.4V1.6Z"/>
+</mask>
+<path d="M-0.5 1.6C-0.5 -0.112083 0.887917 -1.5 2.6 -1.5H13.4C15.1121 -1.5 16.5 -0.112083 16.5 1.6L13.5 1.6C13.5 1.54477 13.4552 1.5 13.4 1.5H2.6C2.54477 1.5 2.5 1.54477 2.5 1.6L-0.5 1.6ZM15 12H1H15ZM2.6 12C0.887917 12 -0.5 10.6121 -0.5 8.9V1.6C-0.5 -0.112083 0.887917 -1.5 2.6 -1.5L2.6 1.5C2.54477 1.5 2.5 1.54477 2.5 1.6V10.4C2.5 11.2837 2.54477 12 2.6 12H2.6ZM13.4 -1.5C15.1121 -1.5 16.5 -0.112083 16.5 1.6V8.9C16.5 10.6121 15.1121 12 13.4 12C13.4552 12 13.5 11.2837 13.5 10.4V1.6C13.5 1.54477 13.4552 1.5 13.4 1.5V-1.5Z" fill="#A2A3C3" mask="url(#path-2-inside-1_3034_42896)"/>
+</g>
+<path id="Vector" d="M15 4H16.6093C18.4897 4 18.905 5.06242 19.1467 6.36475L20 11" stroke="#A2A3C3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_2" d="M5 4L5 9" stroke="#A2A3C3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_3" d="M11 4L11 9" stroke="#A2A3C3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_4" d="M17 6L17 9" stroke="#A2A3C3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_5" d="M19 6L17 6" stroke="#A2A3C3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_6" d="M19 9L17 9" stroke="#A2A3C3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_7" d="M8 4L8 9" stroke="#A2A3C3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<rect id="Rectangle 3467733" x="7.25" y="19.25" width="3.5" height="3.5" rx="1.75" transform="rotate(-180 7.25 19.25)" stroke="#A2A3C3" stroke-width="1.5" stroke-linejoin="round"/>
+<rect id="Rectangle 3467736" x="18.25" y="19.25" width="3.5" height="3.5" rx="1.75" transform="rotate(-180 18.25 19.25)" stroke="#A2A3C3" stroke-width="1.5" stroke-linejoin="round"/>
+</g>
+</svg>

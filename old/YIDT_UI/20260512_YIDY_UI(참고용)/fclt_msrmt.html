@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>실시간 계측 | 용인행정 디지털트윈플랫폼</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/facility.css" rel="stylesheet">
+    <link href="css/facility_manage.css" rel="stylesheet">
+    <script src="js/jquery-3.7.1.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <style>
+        /* JSP 인라인 스타일과 동일 */
+        span.situation-tit { font-size: 20px !important; }
+        .sub-date span { font-size: 10px; font-weight: 500; }
+        .map-container { width: -webkit-fill-available; height: -webkit-fill-available; }
+        .btn-side-1st { left: auto; }
+        .facility-realtime { z-index: 1; }
+        .facility-realtime-wrap .sensor-cont { height: calc(100%) !important; }
+        .ico_refresh {
+            position: relative; top: 4px; left: 6px;
+            width: 16px; height: 16px;
+            background: url(img/ico_refresh.svg) no-repeat center;
+            cursor: pointer; display: inline-block;
+        }
+        .m-head { font-size: 15px; }
+        .m-con  { font-size: 15px; }
+        .title-wrap .sub-date {
+            position: absolute; left: 111px; top: 31px;
+            font-size: 14px; font-weight: 500;
+        }
+        .title-wrap .ico_refresh2 {
+            position: absolute; left: 290px; top: 32px;
+            width: 16px; height: 16px;
+            background: url(img/ico_refresh.svg) no-repeat center;
+            cursor: pointer;
+        }
+
+        /* .hide = display:none (실제 소스 JS toggle 방식과 동일) */
+        .hide { display: none !important; }
+
+        /* 페이지 배경 */
+        #map {
+            position: absolute; top: 0; width: 100%; height: 100%;
+            background: linear-gradient(160deg, #1a2a3a 0%, #243448 40%, #1e3040 100%);
+            z-index: 0;
+        }
+        .footer { position: absolute; bottom: 0; width: 100%; z-index: 5; }
+        .footer_txt { text-align: center; font-size: 10px; color: rgba(255,255,255,0.55); padding: 6px 0; }
+
+        /* map-view-area: facility_manage.css는 556×530 고정 → 퍼블에서 비율 유지 */
+        .map-view-area {
+            width: 100% !important;
+            height: calc(100vh - 330px) !important;
+            border-radius: 10px;
+            background: #FAFAFA;
+            padding: 12px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<div class="content">
+    <div id="map"></div>
+
+    <!-- LNB -->
+    <header class="main-header">
+        <div class="lnbWrap">
+            <div class="logo txt" style="cursor:pointer;"><p class="logotxt">용인행정<br>디지털<br>트윈플랫폼</p></div>
+            <div class="nav-wrap">
+                <ul class="menu">
+                    <li class="menu-home"><a>메인</a><span>메인</span></li>
+                    <li class="menu-sevice"><a>지도서비스</a><span>지도서비스</span></li>
+                    <li class="menu-people"><a>유동인구</a><span>유동인구</span></li>
+                    <li class="menu-map"><a>국공유지</a><span>국공유지</span></li>
+                    <li class="menu-facility active"><a>시설물</a><span>시설물</span></li>
+                    <li class="menu-admin"><a>시스템설정</a><span>시스템설정</span></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- SNB -->
+    <div class="snb-area" id="snbFclt">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn" onclick="location.href='fclt_dash.html'">대시보드</button>
+            <button type="button" class="btn" onclick="location.href='fclt_analy.html'">시설물 종합</button>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn" data-bs-toggle="dropdown" aria-expanded="false">시설물 관리</button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" onclick="location.href='fclt_mstat.html'">시설물 관리 현황</a></li>
+                </ul>
+            </div>
+            <button type="button" class="btn active" onclick="location.href='fclt_msrmt.html'">실시간 계측</button>
+            <button type="button" class="btn" onclick="location.href='fclt_simul.html'">시설물 시뮬레이션</button>
+        </div>
+    </div>
+
+    <!-- GNB -->
+    <div class="gnb">
+        <span class="profile">관리자님</span>
+        <span class="sugComment" id="sugComment">건의사항</span>
+    </div>
+
+    <!-- 우측 툴박스 -->
+    <div class="toolbox">
+        <div id="toolBar">
+            <div class="btn-group-vertical" role="group">
+                <input type="radio" class="btn-check" name="changeMap" id="2d">
+                <label class="btn" for="2d">2D</label>
+                <input type="radio" class="btn-check" name="changeMap" id="3d" checked>
+                <label class="btn" for="3d">3D</label>
+            </div>
+            <button type="button" class="item setting">지도설정</button>
+            <button type="button" class="item layer">레이어</button>
+            <button type="button" class="item shine">일조권</button>
+            <button type="button" class="item visible">가시권</button>
+            <button type="button" class="item land">경관보기</button>
+            <button type="button" class="item distance">거리</button>
+            <button type="button" class="item elev">표고</button>
+            <button type="button" class="item area">면적</button>
+            <button type="button" class="item save">저장</button>
+            <button type="button" class="item estate">부동산</button>
+            <button type="button" class="item slope">경사도</button>
+            <button type="button" class="item manual">매뉴얼</button>
+            <button type="button" class="item compass" style="padding-top:0;padding-left:8px;">
+                <i style="transform:rotate(0rad) rotate(-45deg);"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- search -->
+    <div class="search-area">
+        <div class="search-wrap transparent"></div>
+        <div class="panel-open"><button></button></div>
+
+        <div class="realtimeall">
+
+            <!-- 좌측: 실시간 계측 센서 현황 (map-sv-search.facility-realtime = 604px) -->
+            <div class="map-sv-search facility-realtime">
+                <div class="result-item population">
+                    <div>
+                        <span class="sub-head">실시간 계측 센서 현황</span>
+                    </div>
+                </div>
+
+                <div class="sensor-cont">
+                    <!-- situation-box: 4열 그리드, 각 130px -->
+                    <ul class="situation-box">
+                        <li>
+                            <span class="situation-tit">전체</span>
+                            <span class="num">14</span>
+                            <span class="unit">개소</span>
+                        </li>
+                        <li>
+                            <span class="situation-tit">기흥구</span>
+                            <span class="num">0</span>
+                            <span class="unit">개소</span>
+                        </li>
+                        <li>
+                            <span class="situation-tit">수지구</span>
+                            <span class="num">6</span>
+                            <span class="unit">개소</span>
+                        </li>
+                        <li>
+                            <span class="situation-tit">처인구</span>
+                            <span class="num">8</span>
+                            <span class="unit">개소</span>
+                        </li>
+                    </ul>
+
+                    <!-- 지도 영역 -->
+                    <div class="map-view-area">
+                        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                            <!-- 용인시 행정구역 경계 (간략) -->
+                            <path d="M180,30 Q230,20 270,50 Q310,80 320,130 Q330,180 310,230 Q290,275 260,300 Q230,320 200,315 Q160,310 135,280 Q105,250 100,210 Q90,170 100,130 Q115,85 140,60 Z"
+                                  fill="#f5f5f5" stroke="#ccc" stroke-width="2"/>
+                            <!-- 행정구 경계 -->
+                            <line x1="130" y1="170" x2="320" y2="175" stroke="#ddd" stroke-width="1" stroke-dasharray="5,3"/>
+                            <line x1="195" y1="50" x2="205" y2="315" stroke="#ddd" stroke-width="1" stroke-dasharray="5,3"/>
+                            <!-- 구 레이블 -->
+                            <text x="130" y="120" font-size="13" fill="#888">수지구</text>
+                            <text x="230" y="120" font-size="13" fill="#888">기흥구</text>
+                            <text x="160" y="250" font-size="13" fill="#888">처인구</text>
+                            <!-- 센서 위치 (초록 점) - 수지구 6개 -->
+                            <circle cx="145" cy="100" r="6" fill="#10AD78" stroke="#fff" stroke-width="2"/>
+                            <circle cx="160" cy="130" r="6" fill="#10AD78" stroke="#fff" stroke-width="2"/>
+                            <circle cx="130" cy="145" r="6" fill="#10AD78" stroke="#fff" stroke-width="2"/>
+                            <circle cx="175" cy="115" r="6" fill="#10AD78" stroke="#fff" stroke-width="2"/>
+                            <circle cx="155" cy="155" r="6" fill="#10AD78" stroke="#fff" stroke-width="2"/>
+                            <circle cx="140" cy="165" r="6" fill="#10AD78" stroke="#fff" stroke-width="2"/>
+                            <!-- 센서 위치 - 처인구 8개 -->
+                            <circle cx="155" cy="210" r="6" fill="#10AD78" stroke="#fff" stroke-width="2"/>
+                            <circle cx="175" cy="230" r="6" fill="#10AD78" stroke="#fff" stroke-width="2"/>
+                            <circle cx="140" cy="245" r="6" fill="#10AD78" stroke="#fff" stroke-width="2"/>
+                            <circle cx="190" cy="215" r="6" fill="#10AD78" stroke="#fff" stroke-width="2"/>
+                            <circle cx="165" cy="260" r="6" fill="#10AD78" stroke="#fff" stroke-width="2"/>
+                            <circle cx="145" cy="275" r="6" fill="#10AD78" stroke="#fff" stroke-width="2"/>
+                            <circle cx="185" cy="255" r="6" fill="#10AD78" stroke="#fff" stroke-width="2"/>
+                            <circle cx="130" cy="290" r="6" fill="#10AD78" stroke="#fff" stroke-width="2"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 우측: 실시간 계측 센서 조회 (facility-realtime-wrap.public = 584px) -->
+            <div class="facility-realtime-wrap public">
+                <div class="result-item population">
+                    <div>
+                        <span class="sub-head">실시간 계측 센서 조회</span>
+                        <span class="sub-date">
+                            <span>2026-05-12</span> <span>08:53</span> 기준
+                            <span class="ico_refresh"></span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="sensor-cont">
+                    <!-- sensor-inquiry: 3열 그리드 (facility_manage.css 정의) -->
+                    <!-- 첫 3개: sbox-status → 첫 행 -->
+                    <!-- 이후: sbox-list → 나머지 행 자동 배치 -->
+                    <div class="sensor-inquiry">
+                        <div class="sbox-status normal">
+                            <span class="tit">안전</span>
+                            <span>14개소</span>
+                        </div>
+                        <div class="sbox-status warning">
+                            <span class="tit">점검</span>
+                            <span>0개소</span>
+                        </div>
+                        <div class="sbox-status danger">
+                            <span class="tit">경고</span>
+                            <span>0개소</span>
+                        </div>
+
+                        <!-- sbox-list 14개 -->
+                        <div class="sbox-list normal">
+                            <span class="badge normal">안전</span>
+                            <p class="name">김량대교</p>
+                            <dl><dt>수평변위</dt><dd>0.44mm</dd></dl>
+                            <dl><dt>수직변위</dt><dd>0.03mm</dd></dl>
+                        </div>
+                        <div class="sbox-list normal">
+                            <span class="badge normal">안전</span>
+                            <p class="name">동천동 수로교</p>
+                            <dl><dt>수평변위</dt><dd>0.04mm</dd></dl>
+                            <dl><dt>수직변위</dt><dd>1.33mm</dd></dl>
+                        </div>
+                        <div class="sbox-list normal">
+                            <span class="badge normal">안전</span>
+                            <p class="name">둔전영문리인도교</p>
+                            <dl><dt>수평변위</dt><dd>0.15mm</dd></dl>
+                            <dl><dt>수직변위</dt><dd>-0.13mm</dd></dl>
+                        </div>
+                        <div class="sbox-list normal">
+                            <span class="badge normal">안전</span>
+                            <p class="name">백설교</p>
+                            <dl><dt>수평변위</dt><dd>0.12mm</dd></dl>
+                            <dl><dt>수직변위</dt><dd>0.92mm</dd></dl>
+                        </div>
+                        <div class="sbox-list normal">
+                            <span class="badge normal">안전</span>
+                            <p class="name">삼계교</p>
+                            <dl><dt>수평변위</dt><dd>8.15mm</dd></dl>
+                            <dl><dt>수직변위</dt><dd>-8.68mm</dd></dl>
+                        </div>
+                        <div class="sbox-list normal">
+                            <span class="badge normal">안전</span>
+                            <p class="name">성복1교</p>
+                            <dl><dt>수평변위</dt><dd>-0.45mm</dd></dl>
+                            <dl><dt>수직변위</dt><dd>1.69mm</dd></dl>
+                        </div>
+                        <div class="sbox-list normal">
+                            <span class="badge normal">안전</span>
+                            <p class="name">성복2교</p>
+                            <dl><dt>수평변위</dt><dd>0.64mm</dd></dl>
+                            <dl><dt>수직변위</dt><dd>1.25mm</dd></dl>
+                        </div>
+                        <div class="sbox-list normal">
+                            <span class="badge normal">안전</span>
+                            <p class="name">성복4교</p>
+                            <dl><dt>수평변위</dt><dd>0.40mm</dd></dl>
+                            <dl><dt>수직변위</dt><dd>0.62mm</dd></dl>
+                        </div>
+                        <div class="sbox-list normal">
+                            <span class="badge normal">안전</span>
+                            <p class="name">수역교</p>
+                            <dl><dt>수평변위</dt><dd>1.28mm</dd></dl>
+                            <dl><dt>수직변위</dt><dd>-0.57mm</dd></dl>
+                        </div>
+                        <div class="sbox-list normal">
+                            <span class="badge normal">안전</span>
+                            <p class="name">수포교</p>
+                            <dl><dt>수평변위</dt><dd>0.75mm</dd></dl>
+                            <dl><dt>수직변위</dt><dd>0.13mm</dd></dl>
+                        </div>
+                        <div class="sbox-list normal">
+                            <span class="badge normal">안전</span>
+                            <p class="name">왕산교</p>
+                            <dl><dt>수평변위</dt><dd>-0.42mm</dd></dl>
+                            <dl><dt>수직변위</dt><dd>3.55mm</dd></dl>
+                        </div>
+                        <div class="sbox-list normal">
+                            <span class="badge normal">안전</span>
+                            <p class="name">전궁교</p>
+                            <dl><dt>수평변위</dt><dd>0.59mm</dd></dl>
+                            <dl><dt>수직변위</dt><dd>0.40mm</dd></dl>
+                        </div>
+                        <div class="sbox-list normal">
+                            <span class="badge normal">안전</span>
+                            <p class="name">초부교</p>
+                            <dl><dt>수평변위</dt><dd>0.98mm</dd></dl>
+                            <dl><dt>수직변위</dt><dd>-0.41mm</dd></dl>
+                        </div>
+                        <div class="sbox-list normal">
+                            <span class="badge normal">안전</span>
+                            <p class="name">하손곡교</p>
+                            <dl><dt>수평변위</dt><dd>0.56mm</dd></dl>
+                            <dl><dt>수직변위</dt><dd>0.86mm</dd></dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-side-1st close"></button>
+
+            <!-- 상세 패널 (기본 숨김, sbox-list 클릭 시 표시) -->
+            <div id="detailPanel" class="d-flex hide" style="z-index:20;">
+                <div class="map-sv-search facility-status detail">
+                    <div class="fac-contents">
+                        <div class="title-wrap">
+                            <h3>상세정보</h3>
+                            <span class="sub-date">2026-05-12 08:53 기준</span>
+                            <span class="ico_refresh2"></span>
+                            <button type="button" id="closeDetail"
+                                style="margin-left:20px;width:24px;height:24px;background:url(img/common/btn_close.svg) no-repeat center center;border:none;cursor:pointer;"></button>
+                        </div>
+                        <div class="fac-detail-wrap">
+                            <div class="fac-detail-top">
+                                <div class="info">
+                                    <div class="result-txt">
+                                        <div class="place-info">
+                                            <span class="current">운영중</span>
+                                            <span class="place" id="fcltNm">성복1교</span>
+                                            <span class="address" style="margin-left:10px;line-height:0;padding-top:9px;">경기 용인시 수지구 성복길</span>
+                                        </div>
+                                    </div>
+                                    <div class="img-wrap">
+                                        <div>
+                                            <div class="img-box" style="height:140px;width:220px;"><img src=""></div>
+                                            <span>근경</span>
+                                        </div>
+                                        <div>
+                                            <div class="img-box" style="height:140px;width:220px;"><img src=""></div>
+                                            <span>원경</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="info-detail-wrap">
+                                    <div class="info-detail">
+                                        <div class="list"><span class="m-head">Satellite count</span><span class="m-con" id="satellites">12</span></div>
+                                        <div class="list"><span class="m-head">수평변위(mm)</span><span class="m-con" id="latdpcmt">-0.45</span></div>
+                                        <div class="list"><span class="m-head">수직변위(mm)</span><span class="m-con" id="londpcmt">1.69</span></div>
+                                    </div>
+                                    <div class="info-detail">
+                                        <div class="list"><span class="m-head">24H 평균 수평변위(mm)</span><span class="m-con" id="latdpcmt24">-0.52</span></div>
+                                        <div class="list"><span class="m-head">24H 평균 수직변위(mm)</span><span class="m-con" id="londpcmt24">1.85</span></div>
+                                        <div class="list"><span class="m-head">rms x, y, z</span><span class="m-con" id="rms">0.01, 0.01, 0.01</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="gr-info-wrap">
+                                <div class="disvalue" style="padding-top:8px;">
+                                    <div class="tit-area" style="margin-bottom:15px;"><h3>실시간 수평 변위값</h3></div>
+                                    <div class="grade-ch-wrap" style="margin-bottom:18px;height:120px;background:#f9f9f9;border-radius:8px;"></div>
+                                    <div class="tit-area" style="margin-bottom:15px;"><h3>실시간 수직 변위값</h3></div>
+                                    <div class="grade-ch-wrap" style="height:120px;background:#f9f9f9;border-radius:8px;"></div>
+                                </div>
+                                <div class="coordinate">
+                                    <div class="tit-area">
+                                        <h3>실시간 수평 좌표</h3>
+                                        <select class="common-select" id="dRang_slct" style="width:120px;border:1px solid #ccc;border-radius:20px;padding:4px 8px;font-size:12px;">
+                                            <option value="m">최근 10분</option>
+                                            <option value="h">최근 1시간</option>
+                                        </select>
+                                    </div>
+                                    <div class="grade-ch-wrap" style="height:280px;background:#f9f9f9;border-radius:8px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- footer -->
+    <div class="footer">
+        <div class="footer_txt">
+            ※ 본 자료는 실제 현황과 차이가 있을 수 있으므로 충분히 유의하여 참고용으로만 활용하시기 바라며, 업무 목적 외 타 용도로의 사용을 금합니다. ※
+            <span style="margin-left:20px;color:#f3722c;font-weight:500;">고도 : 1,212m | 기울임 각도 : 55°</span>
+        </div>
+    </div>
+</div>
+
+<script src="js/ui.js"></script>
+<script>
+$(document).ready(function(){
+    // sbox-list 클릭 → 기존 두 패널 숨기고 상세 패널 표시
+    $('.sbox-list').click(function(){
+        var name = $(this).find('.name').text();
+        $('#fcltNm').text(name);
+
+        // 기존 패널 숨김
+        $('.map-sv-search.facility-realtime').addClass('hide');
+        $('.facility-realtime-wrap.public').addClass('hide');
+
+        // 상세 패널 표시
+        $('#detailPanel').removeClass('hide');
+    });
+
+    // 닫기 버튼 → 상세 패널 숨기고 기존 두 패널 복원
+    $('#closeDetail').click(function(){
+        $('#detailPanel').addClass('hide');
+        $('.map-sv-search.facility-realtime').removeClass('hide');
+        $('.facility-realtime-wrap.public').removeClass('hide');
+    });
+});
+</script>
+</body>
+</html>

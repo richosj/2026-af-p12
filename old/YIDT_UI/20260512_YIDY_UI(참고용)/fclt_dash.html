@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>시설물 대시보드 | 용인행정 디지털트윈플랫폼</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/facility.css" rel="stylesheet">
+    <script src="js/jquery-3.7.1.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        #map { position:absolute; top:0; width:100%; height:100%; background:linear-gradient(160deg,#1a2a3a 0%,#243448 40%,#1e3040 100%); z-index:0; }
+        .footer { position:absolute; bottom:0; width:100%; z-index:5; }
+        .footer_txt { text-align:center; font-size:10px; color:rgba(255,255,255,0.55); padding:6px 0; }
+        .no_result { background:url(img/img_noresult.png) no-repeat center center; background-size:32%; width:100%; height:120px; }
+        /* 대시보드 right 보정 */
+        .dashboard-container .right .board-box { background:var(--white); border-radius:10px; padding:20px; }
+        .dashboard-container .right .board-wrapper .board-box { height:auto !important; }
+        .board-list { display:flex; gap:10px; padding:8px 0; border-bottom:1px solid var(--gray-90); font-size:12px; align-items:center; }
+        .board-list span { flex:1; }
+        .board-list .fac-type { width:40px; flex:none; }
+        .board-list .fac-name { flex:2; font-weight:500; color:var(--secondary2-120); }
+        .board-list .fac-date { color:var(--gray-60); }
+    </style>
+</head>
+<body>
+<div class="content">
+    <div id="map"></div>
+
+    <!-- LNB -->
+    <header class="main-header">
+        <div class="lnbWrap">
+            <div class="logo txt" style="cursor:pointer;"><p class="logotxt">용인행정<br>디지털<br>트윈플랫폼</p></div>
+            <div class="nav-wrap">
+                <ul class="menu">
+                    <li class="menu-home"><a>메인</a><span>메인</span></li>
+                    <li class="menu-sevice"><a>지도서비스</a><span>지도서비스</span></li>
+                    <li class="menu-people"><a>유동인구</a><span>유동인구</span></li>
+                    <li class="menu-map"><a>국공유지</a><span>국공유지</span></li>
+                    <li class="menu-facility active"><a>시설물</a><span>시설물</span></li>
+                    <li class="menu-admin"><a>시스템설정</a><span>시스템설정</span></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- SNB -->
+    <div class="snb-area" id="snbFclt">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn active" onclick="location.href='fclt_dash.html'">대시보드</button>
+            <button type="button" class="btn" onclick="location.href='fclt_analy.html'">시설물 종합</button>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn" data-bs-toggle="dropdown" aria-expanded="false">시설물 관리</button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" onclick="location.href='fclt_mstat.html'">시설물 관리 현황</a></li>
+                </ul>
+            </div>
+            <button type="button" class="btn" onclick="location.href='fclt_msrmt.html'">실시간 계측</button>
+            <button type="button" class="btn" onclick="location.href='fclt_simul.html'">시설물 시뮬레이션</button>
+        </div>
+    </div>
+
+    <!-- GNB -->
+    <div class="gnb">
+        <span class="profile">관리자님</span>
+        <span class="sugComment" id="sugComment">건의사항</span>
+    </div>
+
+    <!-- 우측 툴박스 -->
+    <div class="toolbox">
+        <div id="toolBar">
+            <div class="btn-group-vertical" role="group">
+                <input type="radio" class="btn-check" name="changeMap" id="2d">
+                <label class="btn" for="2d">2D</label>
+                <input type="radio" class="btn-check" name="changeMap" id="3d" checked>
+                <label class="btn" for="3d">3D</label>
+            </div>
+            <button type="button" class="item setting">지도설정</button>
+            <button type="button" class="item layer">레이어</button>
+            <button type="button" class="item shine">일조권</button>
+            <button type="button" class="item visible">가시권</button>
+            <button type="button" class="item land">경관보기</button>
+            <button type="button" class="item distance">거리</button>
+            <button type="button" class="item elev">표고</button>
+            <button type="button" class="item area">면적</button>
+            <button type="button" class="item save">저장</button>
+            <button type="button" class="item estate">부동산</button>
+            <button type="button" class="item slope">경사도</button>
+            <button type="button" class="item manual">매뉴얼</button>
+            <button type="button" class="item compass" style="padding-top:0;padding-left:8px;"><i style="transform:rotate(-45deg);">◈</i></button>
+        </div>
+    </div>
+
+    <!-- 대시보드-시설물 -->
+    <div class="dashboard-container">
+        <!-- 좌측: class="left" (pop-left 아님 → 4열 그리드 case-box 적용) -->
+        <div class="left">
+            <div class="board-box population">
+                <div class="box-tit-container">
+                    <span class="board-box-tit">시설물 총괄 현황</span>
+                    <div class="btn-wrap">
+                        <button type="button" class="btn-round active" id="btnAll">전체</button>
+                        <button type="button" class="btn-round" id="btnCI">처인구</button>
+                        <button type="button" class="btn-round" id="btnGH">기흥구</button>
+                        <button type="button" class="btn-round" id="btnSJ">수지구</button>
+                    </div>
+                </div>
+                <ul class="case-box">
+                    <li class="whole"><span class="case-tit">전체</span><span class="case-num" id="dash_count_all">754</span></li>
+                    <li class="case-01"><span class="case-tit">건축물</span><span class="case-num" id="dash_count_ar">323</span></li>
+                    <li class="case-02"><span class="case-tit">교량</span><span class="case-num" id="dash_count_br">295</span></li>
+                    <li class="case-03" style="display:none;"><span class="case-tit">댐</span><span class="case-num" id="dash_count_da">0</span></li>
+                    <li class="case-04" style="display:none;"><span class="case-tit">기타</span><span class="case-num" id="dash_count_et">0</span></li>
+                    <li class="case-05"><span class="case-tit">하천</span><span class="case-num" id="dash_count_ri">8</span></li>
+                    <li class="case-06"><span class="case-tit">옹벽</span><span class="case-num" id="dash_count_rw">50</span></li>
+                    <li class="case-07"><span class="case-tit">절토사면</span><span class="case-num" id="dash_count_sl">3</span></li>
+                    <li class="case-08"><span class="case-tit">터널</span><span class="case-num" id="dash_count_tu">45</span></li>
+                    <li class="case-09" style="display:none;"><span class="case-tit">항만</span><span class="case-num" id="dash_count_ha">0</span></li>
+                    <li class="case-10" style="display:none;"><span class="case-tit">공동구</span><span class="case-num" id="dash_count_uc">0</span></li>
+                    <li class="case-11"><span class="case-tit">상하수도</span><span class="case-num" id="dash_count_ws">30</span></li>
+                </ul>
+            </div>
+
+            <!-- 지도 영역 -->
+            <div class="map-area board-box" id="fclt_dash_map_area"
+                 style="background:linear-gradient(120deg,#a1c4fd 0%,#c2e9fb 100%);padding:0;">
+                <div class="btn-zoom-wrap"></div>
+            </div>
+        </div>
+
+        <!-- 우측 -->
+        <div class="right">
+            <!-- 트리맵 차트 (구별 시설물 종류) -->
+            <div class="board-box" id="fclt_dash_chart">
+                <div id="treemapChart" style="width:100%;height:100%;min-height:380px;"></div>
+            </div>
+
+            <!-- 점검도래 시설물 -->
+            <div class="board-wrapper">
+                <div class="board-box">
+                    <span class="board-box-tit" style="display:flex;">점검 도래 시설물<p style="font-size:12px;margin-top:7px;margin-left:5px;color:#595959;">(참고용)</p></span>
+                    <div class="right-btm-box">
+                        <div class="btm-left">
+                            <div>
+                                <span class="fac-num" id="fclt_plan_month">0</span>
+                                <span class="board-box-tit">이번달</span>
+                            </div>
+                            <div>
+                                <span class="fac-num" id="fclt_plan_week">0</span>
+                                <span class="board-box-tit">금주</span>
+                            </div>
+                        </div>
+                        <div id="fclt_no_result" style="display:block;">
+                            <div class="empty-data-wrap">
+                                <div class="no_result"></div>
+                                <p style="text-align:center;">해당 데이터가 없습니다</p>
+                            </div>
+                        </div>
+                        <ul class="btm-right" id="fclt-plan-list" style="display:none;"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- //대시보드-시설물 -->
+
+    <!-- footer -->
+    <div class="footer">
+        <div class="footer_txt">
+            ※ 본 자료는 실제 현황과 차이가 있을 수 있으므로 충분히 유의하여 참고용으로만 활용하시기 바라며, 업무 목적 외 타 용도로의 사용을 금합니다. ※
+            <span class="altTilt_txt">고도 : <span class="alt">1,212</span>m | 기울임 각도 : <span class="tilt">55</span>°</span>
+        </div>
+    </div>
+</div>
+
+<script src="js/ui.js"></script>
+<script>
+$(document).ready(function(){
+    // 구 필터 버튼
+    $('#btnAll,#btnCI,#btnGH,#btnSJ').click(function(){
+        $(this).siblings().removeClass('active');
+        $(this).addClass('active');
+    });
+
+    // 트리맵 차트 (구별 시설물 종류 - 실제 화면 동일)
+    var treemapChart = echarts.init(document.getElementById('treemapChart'));
+    treemapChart.setOption({
+        series:[{
+            type: 'treemap',
+            roam: false,
+            nodeClick: false,
+            breadcrumb: { show: false },
+            label: {
+                show: true,
+                fontSize: 11,
+                formatter: function(p){ return '▶ ' + p.name; }
+            },
+            levels: [
+                { itemStyle: { borderWidth: 3, borderColor: '#fff', gapWidth: 3 } },
+                { itemStyle: { borderWidth: 1, borderColor: '#fff', gapWidth: 1 } }
+            ],
+            data: [
+                {
+                    name: '기흥구', value: 300,
+                    itemStyle: { color: '#4472C4' },
+                    children: [
+                        { name: '기흥구.건축물',  value: 145, itemStyle:{ color:'#4472C4' } },
+                        { name: '기흥구.교량',    value: 108, itemStyle:{ color:'#5585D4' } },
+                        { name: '기흥구.옹벽',    value: 28,  itemStyle:{ color:'#6699DD' } },
+                        { name: '기흥구.절토사면',value: 2,   itemStyle:{ color:'#77AAEE' } },
+                        { name: '기흥구.터널',    value: 17,  itemStyle:{ color:'#5585D4' } }
+                    ]
+                },
+                {
+                    name: '처인구', value: 330,
+                    itemStyle: { color: '#5DAF5D' },
+                    children: [
+                        { name: '처인구.건축물',   value: 132, itemStyle:{ color:'#5DAF5D' } },
+                        { name: '처인구.교량',     value: 120, itemStyle:{ color:'#6EC06E' } },
+                        { name: '처인구.터널',     value: 28,  itemStyle:{ color:'#7FD17F' } },
+                        { name: '처인구.옹벽',     value: 20,  itemStyle:{ color:'#6EC06E' } },
+                        { name: '처인구.절토사면', value: 1,   itemStyle:{ color:'#90E290' } },
+                        { name: '처인구.상하수도', value: 29,  itemStyle:{ color:'#7FD17F' } }
+                    ]
+                },
+                {
+                    name: '수지구', value: 124,
+                    itemStyle: { color: '#F0A030' },
+                    children: [
+                        { name: '수지구.건축물', value: 46, itemStyle:{ color:'#F0A030' } },
+                        { name: '수지구.교량',   value: 67, itemStyle:{ color:'#F5B548' } },
+                        { name: '수지구.옹벽',   value: 2,  itemStyle:{ color:'#FACA60' } },
+                        { name: '수지구.하천',   value: 8,  itemStyle:{ color:'#F5B548' } },
+                        { name: '수지구.상하수도',value:1,  itemStyle:{ color:'#FACA60' } }
+                    ]
+                }
+            ]
+        }]
+    });
+});
+</script>
+</body>
+</html>

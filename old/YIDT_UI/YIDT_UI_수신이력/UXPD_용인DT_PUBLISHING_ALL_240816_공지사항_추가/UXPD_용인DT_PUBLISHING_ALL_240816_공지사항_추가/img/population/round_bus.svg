@@ -1,0 +1,12 @@
+<svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="17" cy="17" r="17" fill="#FF822F"/>
+<path d="M9.75 10C9.75 8.75736 10.7574 7.75 12 7.75H22C23.2426 7.75 24.25 8.75736 24.25 10V22.4C24.25 22.8694 23.8694 23.25 23.4 23.25H10.6C10.1306 23.25 9.75 22.8694 9.75 22.4V10Z" stroke="white" stroke-width="1.5"/>
+<rect x="14.25" y="26.25" width="2.5" height="2.5" rx="1.25" transform="rotate(-180 14.25 26.25)" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+<rect x="22.25" y="26.25" width="2.5" height="2.5" rx="1.25" transform="rotate(-180 22.25 26.25)" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+<rect x="9.75" y="11.75" width="14.5" height="4.5" rx="0.85" stroke="white" stroke-width="1.5"/>
+<path d="M12.4955 19.5H12.5045" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M21.4955 19.5H21.5045" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M17 12L17 16" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M7 11.3984L7 13.3984" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M27 11.3984L27 13.3984" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css" >
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/facility.css">
+    <link rel="stylesheet" href="css/population.css">
+    <link rel="stylesheet" href="css/form.css">
+    <link rel="stylesheet" href="css/public.css">
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.7.1.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/common.js"></script>
+    <title>용인시 지도 서비스-입지분석</title>
+</head>
+<body>
+    <div class="content">       
+        <!-- left menu 영역 01 -->
+        <header class="main-header"> <!-- depth -->
+            <div class="lnbWrap">
+                <h1 class="logo txt" aria-label="logo"><p class="logotxt">용인행정<br/>디지털<br/>트윈플랫폼</p></h1>
+                <div class="nav-wrap">
+                    <ul class="menu">
+                        <li class="menu-home"><a aria-label="메인">메인</a><span>메인</span></li> <!-- active -->
+                        <li class="menu-sevice"><a aria-label="지도서비스">지도서비스</a><span>지도서비스</span></li>
+                        <li class="menu-people"><a aria-label="유동인구">유동인구</a><span>유동인구</span></li>
+                        <li class="menu-map"><a aria-label="국공유지">국공유지</a><span>국공유지</span></li>
+                        <li class="menu-facility"><a aria-label="시설물">시설물</a><span>시설물</span></li>
+                        <li class="menu-admin"><a aria-label="관리자설정">관리자설정</a><span>관리자설정</span></li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="more-service">
+                <button type="button"></button>
+                <div class="notice-list">
+                    <ul>
+                        <li><a>공지사항</a></li>
+                        <li><a>이용안내/권장사항</a></li>
+                        <li><a>사용자 가이드</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+        <!-- //left menu 영역 01 -->
+
+        <div class="main-content">
+            <!-- search -->
+            <div class="search-area">
+                <div class="search-wrap transparent">
+                    <!-- <button type="button" class="btn-cancel"></button> -->
+                </div>
+                <!-- 패널 오픈 버튼 -->
+                <div class="panel-open">
+                    <button></button>
+                </div>
+                <!-- //패널 오픈 버튼 -->
+                <div class="d-flex">
+                    <div class="map-sv-search facility-info"><!-- 우측컨텐츠 오픈시 facility-info 클래스 추가-->
+                        <div class="search-form-wrap">
+                            <span class="sub-head mb-10">임대주택 입지분석</span>
+                            <div>
+                                <span class="mid-tit mb-20">필지</span>
+                                <div class="mb-20">
+                                    <div class="d-flex mb-4">
+                                        <span>필지 면적</span>
+                                        <span class="extent">27㎡ ~168㎡ </span>                            
+                                    </div>
+                                    <div>
+                                        <input id="opacityInput" class="rangeInput" max="100" min="0" step="1" type="range"/>
+                                    </div>
+                                    <div class="range-value">
+                                        <span>0</span>
+                                        <span>100㎡ </span>
+                                        <span>무제한</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="d-flex mb-4">
+                                        <span>필지 금액</span>
+                                        <span class="extent">27㎡ ~168㎡ </span>                            
+                                    </div>
+                                    <div>
+                                        <input id="opacityInput" class="rangeInput" max="100" min="0" step="1" type="range"/>
+                                    </div>
+                                    <div class="range-value">
+                                        <span>0</span>
+                                        <span>무제한</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-20">
+                                <span class="mid-tit mb-14">조건</span>
+                                <ul class="condition-area">
+                                    <li class="active"><span class="round whole"></span><span>전체</span></li>
+                                    <li><span class="round station"></span><span>역세권</span></li>
+                                    <li><span class="round park"></span><span>공원·숲</span></li>
+                                    <li><span class="round school"></span><span>학세권</span></li>
+                                </ul>
+                            </div>
+                            <div class="mb-20">
+                                <span class="mid-tit mb-14">학세권</span> 
+                                <div class="d-grid-2r gap-10">
+                                    <button type="button" class="btn-round active">전체</button>
+                                    <button type="button" class="btn-round">초등학교</button>
+                                    <button type="button" class="btn-round">중학교</button>
+                                    <button type="button" class="btn-round">고등학교</button>
+                                </div>
+                            </div>
+                            <div class="">
+                                <span class="mid-tit mb-14">선호 시설</span> 
+                                <div class="equip-list">
+                                    <button type="button" class="btn-round active">백화점</button>
+                                    <button type="button" class="btn-round">대형마트</button>
+                                    <button type="button" class="btn-round">영화관</button>
+                                    <button type="button" class="btn-round">복합쇼핑몰</button>
+                                    <button type="button" class="btn-round active">종합병원</button>
+                                    <button type="button" class="btn-round">대학병원</button>
+                                    <button type="button" class="btn-round">약국</button>
+                                    <button type="button" class="btn-round">공원</button>
+                                </div>
+                            </div>
+                            <div class="align-center">
+                                <span class="form-label w60">반경</span>
+                                <div class="custom-select">
+                                    <select aria-placeholder="">
+                                        <option value="0">1km</option>
+                                        <option value="1">1km</option>
+                                        <option value="2">1km</option>
+                                    </select>
+                                </div>
+    
+                            </div>
+                            <div class="search-btn-wrap">
+                                <button class="btn-outline" type="button">분석</button>
+                            </div>   
+                        </div>
+                    </div>               
+                    <button class="btn-side-1st close"></button>
+    
+                    <!-- 입지 분석 결과 open -->
+                    <div class="facility-info-wrap">
+                        <div class="result-item population">
+                            <div>
+                                <span class="sub-head">입지 분석 결과</span>
+                            </div>
+                            <button type="button" class="modal-btn-close"></button>
+                        </div>                       
+                        <div class="situation-cont overflow-y-auto">
+                            <div>
+                                <ul class="d-flex mb-14">
+                                    <li class="mr-30">
+                                        <span class="pop-th w60">지목</span>
+                                        <span class="txt-type-lg land">대지</span>
+                                    </li>
+                                    <li class="mr-30">
+                                        <span class="pop-th">면적</span>
+                                        <span class="fs-14 ml-3">12,350㎡</span>
+                                    </li>
+                                </ul>
+                                <ul class="d-flex mb-14">
+                                    <li class="mr-30">
+                                        <span class="pop-th w60">필지</span>
+                                        <span class="fs-14">경기도 용인시 기흥구 동백동 447-6</span>
+                                    </li>
+                                </ul>
+                                <ul class="d-flex mb-14">
+                                    <li class="">
+                                        <span class="pop-th w60">필지금액</span>
+                                        <span class="fs-14">12,345,678,908 (원)</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="popu-wrap">
+                                <div class="popu-down">
+                                    <span>일 평균 유입인구</span>
+                                    <span class="num">1,234,567</span>
+                                </div>
+                                <div class="popu-up">
+                                    <span>일 평균 유입인구</span>
+                                    <span class="num">1,234,567</span>
+                                </div>
+                            </div>
+                            <div class="position-wrap mb-20">
+                                <ul class="status-pop-wrap">
+                                    <li class="status-pop">
+                                        <span class="status-pop-purpose women"></span>
+                                        <span class="status-sm-tit">성별</span>
+                                        <span class="status-pop-num">여성 58%</span>
+                                    </li>
+                                    <li class="status-pop">
+                                        <span class="status-pop-purpose">60</span>
+                                        <span class="status-sm-tit">연령대</span>
+                                        <span class="status-pop-num">69세</span>
+                                    </li>
+                                    <li class="status-pop">
+                                        <span class="status-pop-purpose subway"></span>
+                                        <span class="status-sm-tit">이동수단</span>
+                                        <span class="status-pop-num">대중교통</span>
+                                    </li>
+                                    <li class="status-pop">
+                                        <span class="status-pop-purpose leisure"></span>
+                                        <span class="status-sm-tit">이동목적</span>
+                                        <span class="status-pop-num">출근 65%</span>
+                                    </li>
+
+
+                                     
+                                </ul>
+                            </div>
+
+                            <div class="dashed-line"></div>   
+                            <!-- 선택시설 분포 현황 -->
+                            <div class="mb-20 mt-20">
+                                <span class="sub-head mb-14">선택시설 분포 현황</span>
+                                <ul class="amenities">
+                                    <li>
+                                        <span class="round station"></span>
+                                        <span class="spot-name">정거장</span>
+                                        <span class="sub-head">1,246</span>
+                                    </li>
+                                    <li>
+                                        <span class="round subway"></span>
+                                        <span class="spot-name">전철역</span>
+                                        <span class="sub-head">1,246</span>
+                                    </li>
+                                    <li>
+                                        <span class="round terminal"></span>
+                                        <span class="spot-name">터미널</span>
+                                        <span class="sub-head">1,246</span>
+                                    </li>
+                                    <li>
+                                        <span class="round e-school"></span>
+                                        <span class="spot-name">초등학교</span>
+                                        <span class="sub-head">1,246</span>
+                                    </li>
+                                    <li>
+                                        <span class="round m-school"></span>
+                                        <span class="spot-name">중학교</span>
+                                        <span class="sub-head">1,246</span>
+                                    </li>
+                                    <li>
+                                        <span class="round h-school"></span>
+                                        <span class="spot-name">고등학교</span>
+                                        <span class="sub-head">1,246</span>
+                                    </li>
+                                    <li>
+                                        <span class="round store"></span>
+                                        <span class="spot-name">편의점</span>
+                                        <span class="sub-head">1,246</span>
+                                    </li>
+                                    <li>
+                                        <span class="round hospital"></span>
+                                        <span class="spot-name">병원</span>
+                                        <span class="sub-head">1,246</span>
+                                    </li>
+                                    <li>
+                                        <span class="round pharmacy"></span>
+                                        <span class="spot-name">약국</span>
+                                        <span class="sub-head">1,246</span>
+                                    </li>
+                                    <li>
+                                        <span class="round mart"></span>
+                                        <span class="spot-name">대형마트</span>
+                                        <span class="sub-head">1,246</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="dashed-line"></div>   
+
+                            <div class="mt-20">
+                                <span class="sub-head mb-14">시설물별 최단거리</span>
+                                <div class="popu-chart">
+                                    <!-- 차트 영역 -->
+                                </div>
+                            </div>
+                        </div>
+    
+                       
+                        
+    
+                     </div>
+                     <button class="btn-side close"></button>
+                     <!-- //입지 분석 결과 open -->
+                </div>
+
+
+            </div>
+            <!-- //search -->
+
+            <!-- SNB 영역 -->
+            <div class="snb-area">
+                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                    <button type="button" class="btn">대시보드</button>
+                    <button type="button" class="btn">유동인구 분석</button>
+                    <button type="button" class="btn active">입지 분석</button>
+                </div>
+            </div>
+            <!-- //SNB 영역 -->
+        </div>
+        <!-- 상단 gnb 영역 -->
+        <div class="gnb">
+            <span class="profile"></span>
+            <span class="notify">
+                <span class="badge">1
+                    <!-- <span class="visually-hidden">New alerts</span> -->
+                </span>
+            </span>
+        </div>
+        <!-- //상단 gnb 영역 -->
+
+        <!-- 우측 메뉴 -->
+        <div class="toolbox">
+            <div>
+                <div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">
+                    <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1" autocomplete="off" checked>
+                    <label class="btn" for="vbtn-radio1">2D</label>
+                    <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2" autocomplete="off">
+                    <label class="btn" for="vbtn-radio2">3D</label>
+                </div>
+                <button type="button" class="item setting" data-bs-toggle="modal" data-bs-target="#mapModal">지도설정</button>
+                <button type="button" class="item layer" data-bs-toggle="modal" data-bs-target="#filterModal">레이어</button>
+                <button type="button" class="item shine" data-bs-toggle="modal" data-bs-target="#shineModal">일조권</button>
+                <button type="button" class="item visible">가시권</button>
+                <button type="button" class="item land">경관분석</button>
+                <button type="button" class="item distance">거리</button>
+                <button type="button" class="item elev">표고</button>
+                <button type="button" class="item area">면적</button>
+                <button type="button" class="item save">저장</button>
+                <button type="button" class="item estate">부동산</button>
+            </div>
+            <!-- 일조권 Modal -->
+            <div class="modal fade" id="shineModal" tabindex="-1" aria-labelledby="shineModalLabel" aria-hidden="true">
+                <div class="modal-dialog shine">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h1 class="modal-title" id="shineModalLabel">일조권</h1>
+                    <a class="txt-reset">초기화</a>
+                    <button type="button" class="modal-btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-line"></div>
+                    <div class="modal-body">
+                        <div class="d-flex">
+                            <input type="date" class="date-input"/>
+                            <span class="time">12시 24분</span>
+                            
+                        </div>
+                        <div>
+                            <input id="rangeInput" class="rangeInput" max="24" min="0" step="1" type="range"/>
+                        </div>
+
+                        <div class="range-value">
+                            <span>05</span>
+                            <span>10</span>
+                            <span>15</span>
+                            <span>20</span>
+                        </div>
+                        <div class="time-wrap">
+                            <ol class="time-list">
+                                <li><a>05</a></li>
+                                <li><a>06</a></li>
+                                <li><a>07</a></li>
+                                <li><a>08</a></li>
+                                <li><a>09</a></li>
+                                <li><a>10</a></li>
+                                <li><a>11</a></li>
+                                <li class="active"><a>12</a></li>
+                                <li><a>13</a></li>
+                                <li><a>14</a></li>
+                                <li><a>15</a></li>
+                                <li><a>16</a></li>
+                                <li><a>17</a></li>
+                                <li><a>18</a></li>
+                                <li><a>19</a></li>
+                                <li><a>20</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                </div>
+                </div>
+            </div>
+            <!-- //일조권 Modal -->
+
+            <!-- 필터 Modal -->
+            <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+                <div class="modal-dialog filter">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title" id="filterModalLabel">레이어필터</h1>
+                        <a class="txt-reset">초기화</a>
+                        <button type="button" class="modal-btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-line"></div>
+                    <div class="modal-body">
+                        <div class="accordion accordion-flush" id="accordionFlushExample">
+                            <div class="accordion-item">
+                              <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                                  레이어 필터 그룹
+                                </button>
+                              </h2>
+                              <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <div class="filter-item">
+                                        <div class="switch-wrap">
+                                            <div>
+                                                <label class="switch">
+                                                    <input type="checkbox">
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </div>
+                                            <div class="label">
+                                                <label>레이어 필터 항목</label>
+                                            </div>
+                                        </div>
+                                        <div class="switch-wrap">
+                                            <div>
+                                                <label class="switch">
+                                                    <input type="checkbox" checked>
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </div>
+                                            <div class="label">
+                                                <label>레이어 필터 항목</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="accordion-item">
+                              <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                                    레이어 필터 그룹
+                                </button>
+                              </h2>
+                              <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <div class="filter-item">
+                                        <div class="switch-wrap">
+                                            <div>
+                                                <label class="switch">
+                                                    <input type="checkbox">
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </div>
+                                            <div class="label">
+                                                <label>레이어 필터 항목</label>
+                                            </div>
+                                        </div>
+                                        <div class="switch-wrap">
+                                            <div>
+                                                <label class="switch">
+                                                    <input type="checkbox" checked>
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </div>
+                                            <div class="label">
+                                                <label>레이어 필터 항목</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                    
+                </div>
+                </div>
+            </div>
+            <!-- //필터 Modal -->
+
+            <!-- 지도설정 Modal -->
+            <div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
+                <div class="modal-dialog shine">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h1 class="modal-title" id="mapModalLabel">지도설정</h1>
+                    <a class="txt-reset">초기화</a>
+                    <button type="button" class="modal-btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-line"></div>
+                    <div class="modal-body">
+                        <div class="d-flex">
+                            <span>배경 지도 투명도 설정</span>
+                            <span class="time">74%</span>
+                            
+                        </div>
+                        <div>
+                            <input id="opacityInput" class="rangeInput" max="100" min="0" step="1" type="range"/>
+                        </div>
+
+                        <div class="range-value">
+                            <span>0</span>
+                            <span>100</span>
+                        </div>
+                        
+                        <div class="accordion-filter-wrap">
+                            <div class="accordion accordion-flush" id="accordionFlushExample">
+                                <div class="accordion-item">
+                                  <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                                      건물 설정
+                                    </button>
+                                  </h2>
+                                  <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body">
+                                        <div class="filter-item">
+                                            <div class="switch-wrap">
+                                                <div>
+                                                    <label class="switch">
+                                                        <input type="checkbox">
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </div>
+                                                <div class="label">
+                                                    <label>건물 필터 항목</label>
+                                                </div>
+                                            </div>
+                                            <div class="switch-wrap">
+                                                <div>
+                                                    <label class="switch">
+                                                        <input type="checkbox" checked>
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </div>
+                                                <div class="label">
+                                                    <label>건물 필터 항목</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="accordion-item">
+                                  <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                                        OSM 설정
+                                    </button>
+                                  </h2>
+                                  <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body">
+                                        <div class="filter-item">
+                                            <div class="switch-wrap">
+                                                <div>
+                                                    <label class="switch">
+                                                        <input type="checkbox">
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </div>
+                                                <div class="label">
+                                                    <label>레이어 필터 항목</label>
+                                                </div>
+                                            </div>
+                                            <div class="switch-wrap">
+                                                <div>
+                                                    <label class="switch">
+                                                        <input type="checkbox" checked>
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </div>
+                                                <div class="label">
+                                                    <label>레이어 필터 항목</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                </div>
+            </div>
+            <!-- //지도설정 Modal -->
+        
+            <div class="btm-box">
+                <button type="button" class="item location"></button>
+                <button type="button" class="item zoomin"></button>
+                <button type="button" class="item zoomout"></button>
+            </div>
+        </div>
+        
+        <!-- 데이터설정 버튼 -->
+        <div class="toolbox population" style="display: none;">
+            <button type="button" class="item data">데이터</button>
+        </div>
+        <!-- 데이터설정 팝업 -->
+        <div >
+            <div class="modal-dialog shine data">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h1 class="modal-title" id="mapModalLabel">유동인구 데이터 설정</h1>
+                    <a class="txt-reset">초기화</a>
+                    <button type="button" class="modal-btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-line"></div>
+                    <div class="modal-body">
+                        <div class="mb-20">
+                            <span class="mid-tit mb-14">연령대</span>
+                            <div>
+                                <div class="slider-container">
+                                    <div class="slider-track"></div>
+                                    <input id="rangeMin" class="rangeInput" type="range" min="0" max="100" step="1" value="22">
+                                    <input id="rangeMax" class="rangeInput" type="range" min="0" max="100" step="1" value="67">
+                                    <div id="valueLabelMin" class="value-label">22</div>
+                                    <div id="valueLabelMax" class="value-label">67</div>
+                                </div>
+                            </div>
+    
+                            <!-- <div class="range-value">
+                                <span>0</span>
+                                <span>100</span>
+                            </div> -->
+                        </div>
+                        <div class="mb-20">
+                            <span class="mid-tit mb-20">분석 시간</span>
+                            <div class="align-center mb-10">
+                                <span class="form-label w60">구분</span>
+                                <select class="common-select">
+                                    <option value="0">평일</option>
+                                    <option value="1">평일</option>
+                                    <option value="2">평일</option>
+                                </select>        
+                            </div>
+                            <div class="align-center">
+                                <span class="form-label w60">시간대</span>
+                                <select class="common-select">
+                                    <option value="0">오전</option>
+                                    <option value="1">오전</option>
+                                    <option value="2">오전</option>
+                                </select>        
+                            </div>
+                        </div>
+                        <div class="mb-20">
+                            <span class="mid-tit mb-20">유동인구 레이어 설정</span>
+                            <div class="accordion-body">
+                                <div class="filter-item">
+                                    <div class="switch-wrap">
+                                        <div>
+                                            <label class="switch">
+                                                <input type="checkbox">
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
+                                        <div class="label">
+                                            <label>유동인구 레이어 ON/OFF</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-filter-wrap">
+                            <span class="mid-tit mb-20">입지분석 레이어 설정</span>
+                            <div class="accordion accordion-flush" id="accordionFlushExample">
+                                <div class="accordion-item">
+                                  <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                                      교통편의
+                                    </button>
+                                  </h2>
+                                  <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body">
+                                        <div class="filter-item">
+                                            <div class="switch-wrap">
+                                                <div>
+                                                    <label class="switch">
+                                                        <input type="checkbox">
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </div>
+                                                <div class="label">
+                                                    <label>지하철</label>
+                                                </div>
+                                            </div>
+                                            <div class="switch-wrap">
+                                                <div>
+                                                    <label class="switch">
+                                                        <input type="checkbox" checked>
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </div>
+                                                <div class="label">
+                                                    <label>버스</label>
+                                                </div>
+                                            </div>
+                                            <div class="switch-wrap">
+                                                <div>
+                                                    <label class="switch">
+                                                        <input type="checkbox" checked>
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </div>
+                                                <div class="label">
+                                                    <label>고속버스</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="accordion-item">
+                                  <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                                        편의시설
+                                    </button>
+                                  </h2>
+                                  <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body">
+                                        <div class="filter-item">
+                                            <div class="switch-wrap">
+                                                <div>
+                                                    <label class="switch">
+                                                        <input type="checkbox">
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </div>
+                                                <div class="label">
+                                                    <label>카페</label>
+                                                </div>
+                                            </div>
+                                            <div class="switch-wrap">
+                                                <div>
+                                                    <label class="switch">
+                                                        <input type="checkbox" checked>
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </div>
+                                                <div class="label">
+                                                    <label>공원</label>
+                                                </div>
+                                            </div>
+                                            <div class="switch-wrap">
+                                                <div>
+                                                    <label class="switch">
+                                                        <input type="checkbox" checked>
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </div>
+                                                <div class="label">
+                                                    <label>편의점</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline">조회</button>
+                    </div>
+                </div>
+                </div>
+        </div>
+        <!-- //우측 메뉴 -->
+
+        <div class="copyright">
+            <p>COPYRIGHT © Yonginsi. ALL RIGHT RESERVED</p>
+        </div>
+        <!-- range script-->
+        <script>
+            document.querySelectorAll(".rangeInput").forEach(function (input) {
+            input.addEventListener("input", function (event) {
+                var gradient_value = 100 / event.target.attributes.max.value;
+                event.target.style.background =
+                    "linear-gradient(to right, #595A8A 0%, #595A8A " +
+                    gradient_value * event.target.value +
+                    "%, rgb(236, 236, 236) " +
+                    gradient_value * event.target.value +
+                    "%, rgb(236, 236, 236) 100%)";
+            });
+        });
+        </script>
+
+        <!-- 데이터설정 팝업 range script-->
+        <script>
+            const rangeMin = document.getElementById("rangeMin");
+            const rangeMax = document.getElementById("rangeMax");
+            const valueLabelMin = document.getElementById("valueLabelMin");
+            const valueLabelMax = document.getElementById("valueLabelMax");
+            const sliderTrack = document.querySelector(".slider-track");
+            const maxValue = rangeMin.max;
+    
+            function updateSliderBackground() {
+                const min = parseInt(rangeMin.value);
+                const max = parseInt(rangeMax.value);
+                const gradientValueMin = (min / maxValue) * 100;
+                const gradientValueMax = (max / maxValue) * 100;
+                sliderTrack.style.background = `linear-gradient(to right, rgb(236, 236, 236) ${gradientValueMin}%, #595A8A ${gradientValueMin}%, #595A8A ${gradientValueMax}%, rgb(236, 236, 236) ${gradientValueMax}%)`;
+            }
+    
+            function updateValueLabels() {
+                const min = parseInt(rangeMin.value);
+                const max = parseInt(rangeMax.value);
+                valueLabelMin.textContent = min;
+                valueLabelMax.textContent = max;
+    
+                // Update label positions
+                const minLabelPos = (min / maxValue) * 100;
+                const maxLabelPos = (max / maxValue) * 100;
+                valueLabelMin.style.left = `calc(${minLabelPos}% - 20px)`;
+                valueLabelMax.style.left = `calc(${maxLabelPos}% - 20px)`;
+            }
+    
+            rangeMin.addEventListener("input", function() {
+                if (parseInt(rangeMin.value) > parseInt(rangeMax.value)) {
+                    rangeMin.value = rangeMax.value;
+                }
+                updateSliderBackground();
+                updateValueLabels();
+            });
+    
+            rangeMax.addEventListener("input", function() {
+                if (parseInt(rangeMax.value) < parseInt(rangeMin.value)) {
+                    rangeMax.value = rangeMin.value;
+                }
+                updateSliderBackground();
+                updateValueLabels();
+            });
+    
+            // Initialize slider background and value labels on page load
+            updateSliderBackground();
+            updateValueLabels();
+        </script>
+        
+        <script src="js/form.js"></script>
+</body>
+</html>

@@ -1,0 +1,705 @@
+@charset "UTF-8";
+@import url(../css/common.css);
+
+.btn-group {
+    &.population {
+        box-shadow: inset 0 0 0 1px var(--gray-60);
+        // border: 1px solid var(--gray-60);
+        border-radius: 30px;
+        .btn {
+            font-size: 14px;
+            color: var(--gray-60);
+            border-radius: 30px;
+            &.active, &:active {
+                color: var(--primary-100);
+                border: 1px solid var(--primary-100)
+            }
+        }
+    }
+}
+.divide-02 {
+    .btn-round {
+        width: 100%;
+    }
+}
+input[type="date"] {
+    &.date-round {
+        width: 100% !important;
+        border: 1px solid var(--gray-60) !important;
+        padding: 7px 8px 7px 12px;
+        font-size: 14px;
+        background: #fff url(../img/population/ico_calendar.svg) no-repeat right 14px center;
+    }
+    &::-webkit-calendar-picker-indicator {
+        position: absolute;
+        right: 8px !important;
+        margin-left: 5px;
+        cursor: pointer;
+      }
+
+  }
+// .population {
+//     input[type="date"] {
+
+//         -webkit-appearance: none;
+//         -moz-appearance: none;
+//         appearance: none;
+//         position: relative;
+//         padding: 3px 32px 3px 8px; // Padding 수정: 왼쪽은 작게, 오른쪽은 크게
+//         width: 116px;
+//         background: var(--secondary2-20) url(../img/common/ico_calendar.svg) no-repeat right 10px center; // 아이콘 위치 수정
+//         border: none;
+//         border-radius: 40px;
+    
+//         &::-webkit-calendar-picker-indicator {
+//           position: absolute;
+//           right: 8px; // 위치를 오른쪽으로 변경
+//           margin-right: 5px;
+//           cursor: pointer;
+//         }
+  
+//     }
+// }
+
+.btn-side-1st {
+    position: absolute;
+    top:60px;
+    left: 336px;
+    width: 28px;
+    height: 42px;
+    border-radius: 0 10px 10px 0;
+    background: #fff url(../img/population/btn_side_close.svg) no-repeat center center;
+    margin-top: 20px;
+    &:active {
+        background: #E7E7ED url(../img/population/btn_side_close.svg) no-repeat center center;
+    }
+}
+.dashed-line {
+    margin: 10px 0 10px;
+    width: 100%;
+    border-top: 1px dashed var(--gray-80);
+  }
+  //인구현황
+  .situation-cont {
+    padding: 0 24px 20px;
+    height: calc(100vh - 160px);
+  }
+  .situation-box {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+    li {
+        padding: 14px;
+        height: 80px;
+        background: var(--secondary2-100);
+        border-radius: 10px;
+        &:first-child {
+            background: var(--secondary2-120);
+        }
+        &:last-child {
+            background: #6B6C9D;
+        }
+        span {
+            display: block;
+            color: #fff;
+            &.situation-tit {
+                font-size: 14px;
+                margin-bottom: 12px;
+            }
+            &.situation-num {
+                text-align: right;
+                font-size: 18px;
+                &::after {
+                    content: '원';
+                    margin-left: 4px;
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+  }
+  .indic-box {
+    display: flex;
+    align-items: center;
+    padding: 10px 44px 5px 20px;
+    width: 100%;
+    height: 140px;
+    background: var(--gray-94);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    .indic-info {
+        width: 174px;
+        height: 116px;
+    }
+    span {
+        font-size: 18px;
+        font-weight: 500;
+        &.indic-txt {
+            margin-left: auto;
+            &.num-down {
+                color: var(--chart-01);
+            }
+            &.num-up {
+                color: #F14730;
+            }
+        }
+    }
+  }
+  .indic-chart-area {
+    width: 100%;
+    height: 370px;
+  }
+  //조건
+  .condition-area {
+    display: flex;
+    gap: 8px;
+    li {
+        width: 100%;
+        height: 100px;
+        padding: 14px 9px 0;
+        text-align: center;
+        border: 1px solid var(--gray-90);
+        border-radius: 10px;
+        span {
+            font-size: 10px;
+            color: var(--gray-40);
+            &.round {
+                width: 50px;
+                height: 50px;
+                line-height: 50px;
+                color: var(--secondary2-80);
+                font-weight: 500;
+                background: var(--secondary2-10);
+                border-radius: 50%;
+                vertical-align: middle;
+                margin-bottom: 9px;
+                &.whole {
+                    background: var(--secondary2-10) url(../img/population/ico_whole.svg) no-repeat center center;
+                }  
+                &.station {
+                    background: var(--secondary2-10) url(../img/population/ico_station.svg) no-repeat center center;
+                }    
+                &.park {
+                    background: var(--secondary2-10) url(../img/population/ico_park.svg) no-repeat center center;
+                }   
+                &.school {
+                    background: var(--secondary2-10) url(../img/population/ico_school.svg) no-repeat center center;
+                }   
+            }
+        }
+        &:active, &.active {
+            border: 1px solid var(--primary-100);
+            span {
+                &.round {
+                    background: var(--primary-10);
+                    &.whole {
+                        background: var(--primary-10) url(../img/population/ico_whole_or.svg) no-repeat center center; 
+                    }   
+                    &.station {
+                        background: var(--primary-10) url(../img/population/ico_station_or.svg) no-repeat center center;
+                    }    
+                    &.park {
+                        background: var(--primary-10) url(../img/population/ico_park_or.svg) no-repeat center center;
+                    }   
+                    &.school {
+                        background: var(--primary-10) url(../img/population/ico_school_or.svg) no-repeat center center;
+                    }   
+            }
+        }
+
+
+
+    }
+  }
+
+}
+//선호시설
+.equip-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 4px;
+    button {
+        padding:0;
+        font-size: 12px;
+        height: 36px;
+    }
+    .form-label {
+        font-weight: 500;
+    }
+}
+  //필지면적 span
+  .extent {
+    margin-left: auto;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--secondary2-100)
+  }
+  .range-value {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2px;
+    span {
+        font-size: 10px;
+        color: var(--secondary2-80);
+    }
+  } 
+  //필지리스트
+  .grd-re-txt {
+    color: var(--secondary2-100);
+    margin-bottom: 10px;
+    &.num {
+        font-weight: 500;
+        margin-left: 6px;
+    }
+  }
+
+  .public-th {
+    &.population {
+        span {
+          
+            &:first-child {
+                width: 200px;
+            }
+            &:nth-child(2) {
+                width: 90px;
+            }
+            &:nth-child(3) {
+                width: 88px;
+            }
+        }
+    }
+  }
+  .public-list {
+    &.population {
+        span {
+            white-space: nowrap; /* 텍스트가 줄바꿈되지 않도록 설정 */
+            overflow: hidden; /* 넘치는 텍스트를 숨김 */
+            text-overflow: ellipsis; /* 넘치는 텍스트를 "..."으로 표시 */
+            &:first-child {
+                width: 200px;
+                padding-left: 5px;
+                text-align: left;
+            }
+            &:nth-child(2) {
+                width: 90px;
+                text-align: center;
+            }
+            &:nth-child(3) {
+                width: 88px;
+            }
+        }
+    }
+  }
+
+  //필지정보
+  .pop-th {
+    margin-right: 18px;
+    font-size: 14px;
+    color: var(--gray-40);
+  }
+
+  //거리별 편의시설 현황
+  .amenities {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 5px;
+    li {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 8px 0 14px;
+        border: 1px solid rgba(102, 102, 102, 0.1);
+        border-radius: 10px;
+        span {
+            display: block;
+            text-align: center;
+            &.spot-name {
+                color: var(--gray-40);
+                margin-bottom: 5px;
+            }
+            &.round {
+                width: 34px;
+                height: 34px;
+                margin-bottom: 4px;
+                //정거장
+                &.station {
+                    background: url(../img/population/round_station.svg) no-repeat center center;                   
+                }
+                //전철역
+                &.subway {
+                    background: url(../img/population/round_subway.svg) no-repeat center center;                   
+                }
+                //터미널
+                &.terminal {
+                    background: url(../img/population/round_terminal.svg) no-repeat center center;                   
+                }
+                //편의점
+                &.store {
+                    background: url(../img/population/round_store.svg) no-repeat center center;                   
+                }
+                //병원
+                &.hospital {
+                    background: url(../img/population/round_hospital.svg) no-repeat center center;                   
+                }
+                //약국
+                &.pharmacy {
+                    background: url(../img/population/round_pharmacy.svg) no-repeat center center;                   
+                }
+                //초등학교
+                &.e-school {
+                    background: url(../img/population/round_e_school.svg) no-repeat center center;                   
+                }
+                //중학교
+                &.m-school {
+                    background: url(../img/population/round_m_school.svg) no-repeat center center;                   
+                }
+                //고등학교
+                &.h-school {
+                    background: url(../img/population/round_h_school.svg) no-repeat center center;                   
+                }
+                //대형마트
+                &.mart {
+                    background: url(../img/population/round_mart.svg) no-repeat center center;                   
+                }
+                //복합쇼핑몰
+                &.mall {
+                    background: url(../img/population/round_mall.svg) no-repeat center center;                   
+                }
+                //영화관
+                &.cinema {
+                    background: url(../img/population/round_cinema.svg) no-repeat center center;                   
+                }
+                //산
+                &.mountain {
+                    background: url(../img/population/round_mountain.svg) no-repeat center center;                   
+                }
+                //공원
+                &.park {
+                    background: url(../img/population/round_park.svg) no-repeat center center;                   
+                }
+            }
+        }
+    }
+    div {
+        flex: 1;
+    }
+  }
+
+  .slider-container {
+    position: relative;
+    width: 300px;
+    height: 60px;
+    .rangeInput {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 4px;
+        background: transparent;
+        position: absolute;
+        top: 15px;
+        margin: 0;
+        pointer-events: none; /* To allow pointer events to pass through */
+    }
+    .rangeInput::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: #ffffff;
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        position: relative;
+        z-index: 3;
+        pointer-events: auto; /* To enable pointer events on the thumbs */
+    }
+    .rangeInput::-moz-range-thumb {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: #ffffff;
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        position: relative;
+        z-index: 3;
+        pointer-events: auto;
+    }
+    .slider-track {
+        position: absolute;
+        top: 15px;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(to right, #595a8a 0%, #595a8a 50%, #e7e7ed 50%, #e7e7ed 100%);
+        border-radius: 5px;
+        z-index: 1;
+    }
+    .value-label {
+        position: absolute;
+        top: 30px;
+        width: 40px;
+        color: #595A8A;
+        text-align: center;
+        font-size: 10px;
+        font-weight: 500;
+    }
+}
+
+//무단점유
+.analysis-wrap {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    &.light {
+        li {
+            padding: 10px 10px 6px;
+            background: #fff;
+            border-radius: 10px;    
+            border: 1px solid var(--secondary2-20);
+            &:nth-child(odd) {
+                background: #F0F0F6;
+                border: 1px solid var(--secondary2-100);
+            }
+            &:nth-child(even) {
+                background: #fff;
+                border: 1px solid var(--secondary2-20);
+            }
+            span {
+                color: var(--secondary2-100);
+                &.num {
+                    margin-top: 3px;
+                    text-align: right;
+                    &::after {
+                        content: '건';
+                        margin-left: 4px;
+                        color: var(--secondary2-80);
+                        font-size: 10px;
+                    }
+    
+                }
+            }
+        }
+    }
+    li {
+        padding: 10px 10px 6px;
+        background: var(--secondary2-120);
+        border-radius: 10px;
+        &:nth-child(4),
+        &:nth-child(5),
+        &:nth-child(6) {
+            background: var(--secondary2-100);
+        }
+        span {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #fff;
+            &.num {
+                margin-top: 3px;
+                text-align: right;
+                &::after {
+                    content: '건';
+                    margin-left: 4px;
+                    color: rgba(255, 255, 255, 0.60);
+                    font-size: 10px;
+                }
+
+            }
+        }
+    }
+}
+.analysis-chart {
+    width: 100%;
+    height: 220px;
+    background: #F9F9F9;
+    border-radius: 10px;
+}
+.area-btn-wrap {
+    text-align: center;
+    .btn-outline {
+        width: auto;
+        padding: 10px 14px;
+    }
+}
+//과거 분석 목록
+.public-section {
+    &.past {
+        padding: 0;
+        .public-list-wrap {
+            height: 240px;
+            overflow-y: auto;
+        }
+        span {
+            &:nth-child(1) {
+                width: 60px;
+            }
+            &:nth-child(2) {
+                width: 250px;
+            }
+            &:nth-child(3) {
+                width: 74px;
+            }
+        }
+        button {
+            width: 74px;
+        }
+    }
+}
+
+//open button
+.panel-open {
+    position: absolute;
+    top: 76px;
+    left: 20px;
+    button{
+        display: block;
+        width: 42px;
+        height: 42px;
+        background: #f3722c url(../img/population/btn_panel_open.svg) no-repeat center center;
+        border-radius: 50%;
+        border: none;
+        &:focus {
+            background: #E45304 url(../img/population/btn_panel_open.svg) no-repeat center center;
+        }
+    }
+}
+
+//입지분석결과
+      //유입인구 현황
+      .position-wrap {
+        .status-pop-wrap {
+            display: flex;
+            gap: 8px;
+            .status-pop {
+                padding: 14px 9px;
+                height: 118px;
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                background: #FAFAFA;
+                align-items: center;
+                flex-wrap: nowrap;
+                border-radius: 10px;
+              .status-pop-tit {
+                font-size: 10px;
+                color: var(--gray-40);
+                margin-bottom: 12px;
+              }
+              .status-pop-purpose {
+                width: 50px;
+                height: 50px;
+                line-height: 50px;
+                text-align: center;
+                color: var(--secondary2-80);
+                font-size: 15px;
+                font-weight: 500;
+                background: var(--secondary2-20);
+                border-radius: 50%;
+                vertical-align: middle; 
+                //이동목적
+                &.leisure { 
+                  background: var(--secondary2-20) url(../img/population/ico_leisure.svg) no-repeat center center; //쇼핑,여가
+                }
+                &.school {
+                  background: var(--secondary2-20) url(../img/population/ico_school.svg) no-repeat center center; //학교
+                }
+                &.work {
+                  background: var(--secondary2-20) url(../img/population/ico_work.svg) no-repeat center center; //회사
+                }
+                &.home {
+                  background: var(--secondary2-20) url(../img/population/ico_home.svg) no-repeat center center; //집
+                }
+                &.trip {
+                  background: var(--secondary2-20) url(../img/population/ico_trip.svg) no-repeat center center; //여행
+                }
+                //이동수단
+                &.subway {
+                  background: var(--secondary2-20) url(../img/population/ico_subway.svg) no-repeat center center; //지하철
+                }
+                &.taxi {
+                  background: var(--secondary2-20) url(../img/population/ico_taxi.svg) no-repeat center center; //택시
+                }
+                &.car {
+                  background: var(--secondary2-20) url(../img/population/ico_car.svg) no-repeat center center; //승용차
+                }
+                &.plane {
+                  background: var(--secondary2-20) url(../img/population/ico_plane.svg) no-repeat center center; //비행기
+                }
+                &.train {
+                  background: var(--secondary2-20) url(../img/population/ico_train.svg) no-repeat center center; //철도
+                }
+                &.walk {
+                  background: var(--secondary2-20) url(../img/population/ico_walk.svg) no-repeat center center; //도보
+                }
+                &.expressbus {
+                  background: var(--secondary2-20) url(../img/population/ico_expressbus.svg) no-repeat center center; //시외버스
+                }
+                &.cargo {
+                  background: var(--secondary2-20) url(../img/population/ico_cargo.svg) no-repeat center center; //화물
+                }
+                &.pm {
+                  background: var(--secondary2-20) url(../img/population/ico_pm.svg) no-repeat center center; //PM
+                }
+                &.etc {
+                  background: var(--secondary2-20) url(../img/population/ico_etc.svg) no-repeat center center; //기타
+                }
+                //성별
+                &.men {
+                  background: var(--secondary2-20) url(../img/population/ico_men.svg) no-repeat center center; //남성
+                }
+                &.women {
+                  background: var(--secondary2-20) url(../img/population/ico_women.svg) no-repeat center center; //여성
+                }
+              }
+              .status-sm-tit {
+                font-size: 8px;
+                line-height: 20px;
+                color: var(--secondary2-100);
+              }
+              .status-pop-num {
+                font-weight: 500;
+                margin-top: auto;
+              }
+            }
+          }
+      }
+//유입인구
+.popu-wrap {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+    div {
+        flex: 1;
+        padding: 22px 14px 22px 0;
+        height: 90px;
+        background: #F0F0F6;
+        border-radius: 10px;
+        text-align: right;
+        span {
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .num {
+            margin-top: 5px;
+            font-size: 20px;
+            font-weight: 600;
+            &::after {
+                content: '명';
+                font-size: 14px;
+                font-weight: 500;
+            }
+        }
+        &.popu-down {
+            background: #F0F0F6 url(../img/population/img_popul_down.svg) no-repeat left 8px center;
+        }
+        &.popu-up {
+            background: #F0F0F6 url(../img/population/img_popul_up.svg) no-repeat left 8px center;
+        }
+    }
+}
+
+.popu-chart {
+    width: 100%;
+    height: 240px;
+}

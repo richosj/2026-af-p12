@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>유동인구 대시보드 | 용인행정 디지털트윈플랫폼</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/facility.css" rel="stylesheet">
+    <link href="css/population.css" rel="stylesheet">
+    <script src="js/jquery-3.7.1.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        /* -- 데이터 없을 때 태그 -- */
+        .peo-rate-noData { width: 69px; text-align: right; font-size: 14px; }
+        .indic-box span { font-size: 14px; }
+        /* -- 유동인구 현황 TOP 5 차트 -- */
+        .topChart { height: 255px; }
+        /* -- 일 평균 유동인구 명 제거 -- */
+        .hide-after::after { display: none; }
+        /* -- 지도 범례 -- */
+        .popDashLengend {
+            position: absolute;
+            z-index: 1;
+            right: 15px;
+            top: 16px;
+            display: flex;
+            flex-direction: row;
+        }
+        .popDashLengendDiv {
+            margin-left: 10px;
+            background-color: #f9f9f9;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .popDashLengend span {
+            margin-bottom: 5px;
+            width: 100%;
+            text-align: center;
+            font-weight: 500;
+        }
+        .popDashLengend ul {
+            width: fit-content;
+            height: fit-content;
+            display: flex;
+            flex-direction: row;
+            font-size: 10px;
+        }
+        .popDashLengend ul::before { content: '낮음'; margin-right: 5px; }
+        .popDashLengend ul::after  { content: '높음'; margin-left: 5px; }
+        .popDashLengend li { width: 10px; height: 10px; margin-top: 4px; }
+        /* -- 행정동 유입인구 차트 -- */
+        .dashboard-container .left.pop-left .board-box.radar div.out-radar { padding-left: 10px; }
+        .in-radar { margin-right: 10px; }
+        /* -- SKT 출처 -- */
+        .skt_mark { width: 100%; text-align: right; font-size: 10px; color: #999999; }
+        /* -- 일 평균 유동인구 -- */
+        .indic-box .indic-info .sub-head { height: 100%; display: flex; align-items: center; }
+        /* -- 유동인구 지표 -- */
+        .indic-box { margin-bottom: 0px; }
+        .indic-box .indic-info { height: auto; }
+        .right .board-wrapper .board-box.population { padding: 20px; }
+        /* -- indicator 2열 배치 -- */
+        .facility-wrap.indicator {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        /* -- board-wrapper flex -- */
+        .board-wrapper.pop-wrap { display: flex; gap: 20px; }
+        /* -- 지도 배경 -- */
+        #map {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(160deg, #1a2e3e 0%, #2a4a5a 40%, #1e3848 100%);
+            z-index: 0;
+        }
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            z-index: 5;
+        }
+        .footer_txt {
+            text-align: center;
+            font-size: 10px;
+            color: rgba(255,255,255,0.55);
+            padding: 6px 0;
+        }
+    </style>
+</head>
+<body>
+<div class="content">
+
+    <!-- 지도 배경 -->
+    <div id="map">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="opacity:0.3;">
+            <!-- 버블 시각화 (유입: 파란, 유출: 적갈) -->
+            <circle cx="52%" cy="22%" r="32" fill="rgba(30,120,200,0.55)"/>
+            <circle cx="55%" cy="33%" r="44" fill="rgba(30,100,180,0.50)"/>
+            <circle cx="50%" cy="45%" r="24" fill="rgba(50,130,210,0.45)"/>
+            <circle cx="58%" cy="53%" r="36" fill="rgba(40,110,190,0.55)"/>
+            <circle cx="53%" cy="63%" r="54" fill="rgba(20,90,170,0.60)"/>
+            <circle cx="48%" cy="72%" r="38" fill="rgba(30,100,180,0.50)"/>
+            <circle cx="43%" cy="27%" r="26" fill="rgba(180,80,50,0.45)"/>
+            <circle cx="46%" cy="40%" r="20" fill="rgba(200,100,60,0.40)"/>
+            <circle cx="44%" cy="57%" r="30" fill="rgba(190,90,55,0.50)"/>
+            <circle cx="40%" cy="67%" r="46" fill="rgba(170,70,40,0.55)"/>
+        </svg>
+    </div>
+
+    <!-- LNB -->
+    <header class="main-header">
+        <div class="lnbWrap">
+            <div class="logo txt" style="cursor:pointer;">
+                <p class="logotxt">용인행정<br>디지털<br>트윈플랫폼</p>
+            </div>
+            <div class="nav-wrap">
+                <ul class="menu">
+                    <li class="menu-home"    id="IINTRO"><a aria-label="메인">메인</a><span>메인</span></li>
+                    <li class="menu-sevice"  id="DSEARCH"><a aria-label="지도서비스">지도서비스</a><span>지도서비스</span></li>
+                    <li class="menu-people active" id="PDASH"><a aria-label="유동인구">유동인구</a><span>유동인구</span></li>
+                    <li class="menu-map"     id="LDASH"><a aria-label="국공유지">국공유지</a><span>국공유지</span></li>
+                    <li class="menu-facility" id="FDASH"><a aria-label="시설물">시설물</a><span>시설물</span></li>
+                    <li class="menu-admin"   id="ANOTICE"><a aria-label="시스템설정">시스템설정</a><span>시스템설정</span></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- SNB -->
+    <div class="snb-area" id="snbPop">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn active" onclick="location.href='pop_dashboard.html'">대시보드</button>
+            <button type="button" class="btn" onclick="location.href='pop_analysis.html'">유동인구 분석</button>
+            <button type="button" class="btn" onclick="location.href='land_analysis.html'">입지 분석</button>
+        </div>
+    </div>
+
+    <!-- GNB -->
+    <div class="gnb">
+        <span class="profile" id="mainUser">관리자님</span>
+        <span class="sugComment" id="sugComment">건의사항</span>
+    </div>
+
+    <!-- 우측 툴박스 -->
+    <div class="toolbox">
+        <div id="toolBar">
+            <div class="btn-group-vertical" role="group">
+                <input type="radio" class="btn-check" name="changeMap" id="2d">
+                <label class="btn" for="2d">2D</label>
+                <input type="radio" class="btn-check" name="changeMap" id="3d" checked>
+                <label class="btn" for="3d">3D</label>
+            </div>
+            <button type="button" class="item setting">지도설정</button>
+            <button type="button" class="item layer">레이어</button>
+            <button type="button" class="item shine">일조권</button>
+            <button type="button" class="item visible">가시권</button>
+            <button type="button" class="item land">경관보기</button>
+            <button type="button" class="item distance">거리</button>
+            <button type="button" class="item elev">표고</button>
+            <button type="button" class="item area">면적</button>
+            <button type="button" class="item save">저장</button>
+            <button type="button" class="item estate">부동산</button>
+            <button type="button" class="item slope">경사도</button>
+            <button type="button" class="item manual">매뉴얼</button>
+            <button type="button" class="item compass" style="padding-top:0;padding-left:8px;">
+                <i style="transform:rotate(0rad) rotate(-45deg);">◈</i>
+            </button>
+        </div>
+    </div>
+
+    <!-- 대시보드-유동인구 -->
+    <div class="dashboard-container">
+        <div class="left pop-left">
+
+            <!-- 지도 영역 -->
+            <div class="map-area pop-map-area board-box h440">
+                <!-- 범례 -->
+                <div class="popDashLengend">
+                    <div class="popDashLengendDiv">
+                        <span>유입인구</span>
+                        <ul>
+                            <li style="background-color:#D4D4D4"></li>
+                            <li style="background-color:#DDF0FB"></li>
+                            <li style="background-color:#CBE7F9"></li>
+                            <li style="background-color:#B0DBF6"></li>
+                            <li style="background-color:#9AD2F4"></li>
+                            <li style="background-color:#7BC4F1"></li>
+                            <li style="background-color:#64B9EE"></li>
+                            <li style="background-color:#41AAEB"></li>
+                            <li style="background-color:#209CE8"></li>
+                            <li style="background-color:#1587CD"></li>
+                            <li style="background-color:#1273AE"></li>
+                            <li style="background-color:#0E5A88"></li>
+                        </ul>
+                    </div>
+                    <div class="popDashLengendDiv">
+                        <span>유출인구</span>
+                        <ul>
+                            <li style="background-color:#D4D4D4"></li>
+                            <li style="background-color:#FBE3D6"></li>
+                            <li style="background-color:#F6C6AD"></li>
+                            <li style="background-color:#F2AA84"></li>
+                            <li style="background-color:#EF9A6B"></li>
+                            <li style="background-color:#EA7E42"></li>
+                            <li style="background-color:#E6631A"></li>
+                            <li style="background-color:#E02C02"></li>
+                            <li style="background-color:#D02902"></li>
+                            <li style="background-color:#BA2502"></li>
+                            <li style="background-color:#AE2302"></li>
+                            <li style="background-color:#9C1F02"></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- zoom -->
+                <div class="btn-zoom-wrap">
+                    <button type="button" class="zoomin"></button>
+                    <button type="button" class="zoomout"></button>
+                </div>
+
+                <div>
+                    <div class="select-wrap">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn select dropdown-toggle w132" data-bs-toggle="dropdown" aria-expanded="false">2025년</button>
+                            <ul class="dropdown-menu select">
+                                <li><span class="dropdown-item">2025년</span></li>
+                                <li><span class="dropdown-item">2024년</span></li>
+                            </ul>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn select dropdown-toggle w132" data-bs-toggle="dropdown" aria-expanded="false">3월</button>
+                            <ul class="dropdown-menu select">
+                                <li><span class="dropdown-item">3월</span></li>
+                                <li><span class="dropdown-item">2월</span></li>
+                                <li><span class="dropdown-item">1월</span></li>
+                            </ul>
+                        </div>
+                        <button class="btn-round active" type="button">검색</button>
+                    </div>
+                    <!-- 지도영역 (실제 맵 대체) -->
+                    <div class="pop-map-area" id="map2"
+                         style="margin-top:16px; height:360px; border-radius:8px; background:linear-gradient(135deg,#c4d8e8 0%,#a2bdd0 50%,#88adbc 100%); position:relative; overflow:hidden;">
+                        <svg width="100%" height="100%" style="position:absolute;inset:0;opacity:0.7;">
+                            <circle cx="50%" cy="30%" r="36" fill="rgba(32,156,232,0.6)"/>
+                            <circle cx="56%" cy="50%" r="48" fill="rgba(32,100,200,0.55)"/>
+                            <circle cx="48%" cy="60%" r="28" fill="rgba(20,90,170,0.65)"/>
+                            <circle cx="44%" cy="40%" r="30" fill="rgba(224,44,2,0.50)"/>
+                            <circle cx="40%" cy="65%" r="42" fill="rgba(186,37,2,0.55)"/>
+                        </svg>
+                        <!-- 행정구역 점선 -->
+                        <svg width="100%" height="100%" style="position:absolute;inset:0;pointer-events:none;">
+                            <rect x="38%" y="10%" width="28%" height="82%" rx="8" fill="none"
+                                  stroke="#4488aa" stroke-width="1.5" stroke-dasharray="8,5" opacity="0.5"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 레이더 차트 영역 -->
+            <div class="board-box radar">
+                <div class="in-radar">
+                    <span class="sub-head">행정동 유입인구 TOP 15</span>
+                    <div class="radar-chart" id="radarIn"></div>
+                </div>
+                <div class="out-radar">
+                    <span class="sub-head">행정동 유출인구 TOP 15</span>
+                    <div class="radar-chart" id="radarOut"></div>
+                    <span class="skt_mark">일 평균 / 단위 : 명 / 출처 : SKT</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="right">
+            <!-- 유동인구 지표 -->
+            <div class="board-box population">
+                <span class="board-box-tit">유동인구 지표</span>
+                <p class="p-exp">유동인구는 5분 단위 기지국 데이터를 기준으로 1시간 동안 해당 영역에 체류한 인구의 총량</p>
+                <div class="facility-wrap indicator">
+                    <!-- 유입 -->
+                    <div class="indic-box">
+                        <div class="indic-info">
+                            <span class="sub-head">일 평균<br>유입인구</span>
+                        </div>
+                        <div class="arrow-down"></div>
+                        <div class="indic-info">
+                            <span class="peo-num">367,644</span>
+                            <div class="d-flex ml-auto">
+                                <span class="peo">전월대비</span>
+                                <span class="peo-rate-up">6.23%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 유출 -->
+                    <div class="indic-box">
+                        <div class="indic-info">
+                            <span class="sub-head">일 평균<br>유출인구</span>
+                        </div>
+                        <div class="arrow-up"></div>
+                        <div class="indic-info">
+                            <span class="peo-num">361,924</span>
+                            <div class="d-flex ml-auto">
+                                <span class="peo">전월대비</span>
+                                <span class="peo-rate-up">6.43%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 유입인구 현황 -->
+                    <div class="grade-ch-wrap board-box-popDashIn">
+                        <div class="sub-head-wrap">
+                            <span class="sub-head">유입인구 현황</span>
+                            <span class="source">일 평균 / 단위 : 명 / 출처 : SKT</span>
+                        </div>
+                        <ul class="status-pop-wrap">
+                            <li class="status-pop">
+                                <span class="status-pop-tit">이동 목적</span>
+                                <span class="status-pop-purpose home"></span>
+                                <span class="status-sm-tit">집</span>
+                                <span class="status-pop-num">181,396</span>
+                            </li>
+                            <li class="status-pop">
+                                <span class="status-pop-tit">이동 수단</span>
+                                <span class="status-pop-purpose car"></span>
+                                <span class="status-sm-tit">일반차</span>
+                                <span class="status-pop-num">267,019</span>
+                            </li>
+                            <li class="status-pop">
+                                <span class="status-pop-tit">성별</span>
+                                <span class="status-pop-purpose men"></span>
+                                <span class="status-sm-tit">남성</span>
+                                <span class="status-pop-num">208,019</span>
+                            </li>
+                            <li class="status-pop">
+                                <span class="status-pop-tit">연령대</span>
+                                <span class="status-pop-purpose">50</span>
+                                <span class="status-sm-tit">50대</span>
+                                <span class="status-pop-num">81,481</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 유출인구 현황 -->
+                    <div class="grade-ch-wrap board-box-popDashOut">
+                        <div class="sub-head-wrap">
+                            <span class="sub-head">유출인구 현황</span>
+                            <span class="source">일 평균 / 단위 : 명 / 출처 : SKT</span>
+                        </div>
+                        <ul class="status-pop-wrap">
+                            <li class="status-pop">
+                                <span class="status-pop-tit">이동 목적</span>
+                                <span class="status-pop-purpose home"></span>
+                                <span class="status-sm-tit">집</span>
+                                <span class="status-pop-num">125,331</span>
+                            </li>
+                            <li class="status-pop">
+                                <span class="status-pop-tit">이동 수단</span>
+                                <span class="status-pop-purpose taxi"></span>
+                                <span class="status-sm-tit">택시</span>
+                                <span class="status-pop-num">263,811</span>
+                            </li>
+                            <li class="status-pop">
+                                <span class="status-pop-tit">성별</span>
+                                <span class="status-pop-purpose women"></span>
+                                <span class="status-sm-tit">여성</span>
+                                <span class="status-pop-num">204,711</span>
+                            </li>
+                            <li class="status-pop">
+                                <span class="status-pop-tit">연령대</span>
+                                <span class="status-pop-purpose">50</span>
+                                <span class="status-sm-tit">50대</span>
+                                <span class="status-pop-num">80,048</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 유입/유출 인구 현황 TOP 5 -->
+            <div class="board-wrapper pop-wrap">
+                <div class="board-box population h330">
+                    <div class="sub-head-wrap" style="justify-content:space-between;">
+                        <div>
+                            <span class="sub-head" style="margin-right:2px;">유입인구 현황</span>
+                            <span class="top-rank">TOP 5</span>
+                        </div>
+                        <div>
+                            <button type="button" class="btn_gender" style="padding:5px;border-radius:5px;background-color:#f3722c;color:white;border:none;font-size:12px;cursor:pointer;">성별</button>
+                            <button type="button" class="btn_purpose" style="padding:5px;border-radius:5px;background-color:#f0f0f0;border:1px solid #ddd;font-size:12px;cursor:pointer;">주 목적</button>
+                        </div>
+                    </div>
+                    <div class="topChart" id="barInflow"></div>
+                    <span class="skt_mark">일 평균 / 단위 : 명 / 출처 : SKT</span>
+                </div>
+                <div class="board-box population h330">
+                    <div class="sub-head-wrap" style="justify-content:space-between;">
+                        <div>
+                            <span class="sub-head" style="margin-right:2px;">유출인구 현황</span>
+                            <span class="top-rank">TOP 5</span>
+                        </div>
+                        <div>
+                            <button type="button" class="btn_gender" style="padding:5px;border-radius:5px;background-color:#f3722c;color:white;border:none;font-size:12px;cursor:pointer;">성별</button>
+                            <button type="button" class="btn_purpose" style="padding:5px;border-radius:5px;background-color:#f0f0f0;border:1px solid #ddd;font-size:12px;cursor:pointer;">주 목적</button>
+                        </div>
+                    </div>
+                    <div class="topChart" id="barOutflow"></div>
+                    <span class="skt_mark">일 평균 / 단위 : 명 / 출처 : SKT</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- //대시보드-유동인구 -->
+
+    <!-- footer -->
+    <div class="footer">
+        <div class="footer_txt">
+            ※ 본 자료는 실제 현황과 차이가 있을 수 있으므로 충분히 유의하여 참고용으로만 활용하시기 바라며, 업무 목적 외 타 용도로의 사용을 금합니다. ※
+            <span class="altTilt_txt">고도 : <span class="alt">1,212</span>m | 기울임 각도 : <span class="tilt">55</span>°</span>
+        </div>
+    </div>
+</div>
+
+<script src="js/ui.js"></script>
+<script>
+$(document).ready(function(){
+    var labels = ['역북동','보정동','기흥동','구갈동','마북동','동백2동','죽전3동','보라동','구성동','동백1동','상현2동','신갈동','상현3동','영덕1동','마북동'];
+
+    // ===== 레이더 차트 (ECharts) =====
+    function makeRadar(domId, color) {
+        var chart = echarts.init(document.getElementById(domId));
+        var indicator = labels.map(function(nm, i){
+            return { name: nm, max: 35000 };
+        });
+        var vals = [22000,28000,19000,15000,18000,14000,12000,10000,9000,11000,8000,13000,7000,6000,5000];
+        chart.setOption({
+            radar: {
+                indicator: indicator,
+                radius: '72%',
+                axisName: { fontSize: 9, color: '#555' },
+                splitArea: { areaStyle: { color: ['rgba(255,255,255,0)','rgba(0,0,0,0.02)'] } },
+                axisLine: { lineStyle: { color: '#ddd' } },
+                splitLine: { lineStyle: { color: '#e0e0e0' } }
+            },
+            series: [{
+                type: 'radar',
+                data: [{ value: vals, name: '인구' }],
+                symbol: 'circle',
+                symbolSize: 3,
+                lineStyle: { width: 1.5, color: color },
+                areaStyle: { opacity: 0.2, color: color },
+                itemStyle: { color: color }
+            }]
+        });
+    }
+    makeRadar('radarIn',  '#1C64F2');
+    makeRadar('radarOut', '#C12B02');
+
+    // ===== 막대 차트 (ECharts) =====
+    function makeBar(domId, male, female, categories) {
+        var chart = echarts.init(document.getElementById(domId));
+        chart.setOption({
+            grid: { top: 10, bottom: 30, left: 50, right: 10 },
+            legend: { top: 'bottom', itemWidth: 10, itemHeight: 10, textStyle: { fontSize: 10 }, data: ['남성','여성'] },
+            xAxis: {
+                type: 'category',
+                data: categories,
+                axisLabel: { fontSize: 10 }
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: { fontSize: 9 },
+                splitLine: { lineStyle: { color: '#f0f0f0' } }
+            },
+            series: [
+                { name: '남성', type: 'bar', stack: 'total', data: male, itemStyle: { color: '#74b9e8' }, barMaxWidth: 30 },
+                { name: '여성', type: 'bar', stack: 'total', data: female, itemStyle: { color: '#f8a4b0' }, barMaxWidth: 30 }
+            ]
+        });
+    }
+    makeBar('barInflow',
+        [15685, 15195, 16048, 13979, 12654],
+        [14676, 14055, 12298, 10825, 9042],
+        ['보정동','역북동','기흥동','구갈동','마북동']
+    );
+    makeBar('barOutflow',
+        [15370, 14660, 15439, 13739, 13133],
+        [14138, 13449, 11920, 10629, 9521],
+        ['역북동','보정동','기흥동','구갈동','마북동']
+    );
+
+    // 버튼 토글
+    $('.board-wrapper').each(function(){
+        $(this).find('.btn_gender').click(function(){
+            $(this).css({'background-color':'#f3722c','color':'white'});
+            $(this).siblings('.btn_purpose').css({'background-color':'#f0f0f0','color':''});
+        });
+        $(this).find('.btn_purpose').click(function(){
+            $(this).css({'background-color':'#f3722c','color':'white'});
+            $(this).siblings('.btn_gender').css({'background-color':'#f0f0f0','color':''});
+        });
+    });
+});
+</script>
+</body>
+</html>

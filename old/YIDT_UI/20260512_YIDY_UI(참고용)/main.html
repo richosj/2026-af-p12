@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>용인행정 디지털트윈 플랫폼</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/common.css" rel="stylesheet">
+    <link href="css/service/main.css" rel="stylesheet">
+    <script src="js/jquery-3.7.1.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/ui.js"></script>
+    <style>
+        /* service/main.css 절대경로(/img/) → 상대경로(img/) 오버라이드 */
+        .main-intro {
+            background: url(img/index_bg.png) no-repeat center center;
+            background-size: 100% 100%;
+        }
+        .main-intro .logo {
+            background: url(img/main_logo.png) no-repeat center center;
+        }
+        .main-intro .main-btn a i.ico-map {
+            background: url(img/ico_main_map.svg) no-repeat center center;
+        }
+        .main-intro .main-btn a i.ico-population {
+            background: url(img/ico_main_population.svg) no-repeat center center;
+        }
+        .main-intro .main-btn a i.ico-public {
+            background: url(img/ico_main_public.svg) no-repeat center center;
+        }
+        .main-intro .main-btn a i.ico-facility {
+            background: url(img/ico_main_facility.svg) no-repeat center center;
+        }
+        .main-intro .main-txt {
+            background: url(img/main_text.svg) no-repeat center center;
+        }
+    </style>
+</head>
+<body>
+<div class="content">
+
+    <!-- LNB -->
+    <header class="main-header">
+        <div class="lnbWrap">
+            <div class="logo txt" style="cursor:pointer;" onclick="location.href='main.html'">
+                <p class="logotxt">용인행정<br>디지털<br>트윈플랫폼</p>
+            </div>
+            <div class="nav-wrap">
+                <ul class="menu">
+                    <li class="menu-home active"    id="IINTRO" ><a aria-label="메인">메인</a><span>메인</span></li>
+                    <li class="menu-sevice"          id="DSEARCH"><a aria-label="지도서비스">지도서비스</a><span>지도서비스</span></li>
+                    <li class="menu-people"          id="PDASH"  ><a aria-label="유동인구">유동인구</a><span>유동인구</span></li>
+                    <li class="menu-map"             id="LDASH"  ><a aria-label="국공유지">국공유지</a><span>국공유지</span></li>
+                    <li class="menu-facility"        id="FDASH"  ><a aria-label="시설물">시설물</a><span>시설물</span></li>
+                    <li class="menu-admin"           id="ANOTICE"><a aria-label="시스템설정">시스템설정</a><span>시스템설정</span></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- GNB -->
+    <div class="gnb">
+        <span class="profile" id="mainUser">관리자님</span>
+        <span class="sugComment" id="sugComment">건의사항</span>
+    </div>
+
+    <!-- 메인 인트로 -->
+    <div class="main-intro active" id="intro_div">
+        <div class="logo"></div>
+        <div class="main-wrap">
+            <div class="main-btn">
+                <a href="map_service.html">
+                    <i class="ico-map"></i>
+                    <span>지도서비스</span>
+                </a>
+                <a href="pop_dashboard.html">
+                    <i class="ico-population"></i>
+                    <span>유동인구</span>
+                </a>
+                <a href="land_dash.html">
+                    <i class="ico-public"></i>
+                    <span>국공유지</span>
+                </a>
+                <a href="fclt_dash.html">
+                    <i class="ico-facility"></i>
+                    <span>시설물</span>
+                </a>
+            </div>
+        </div>
+        <p class="main-txt"></p>
+
+        <!-- 공지사항 Modal -->
+        <div class="modal show" id="noticeModal" tabindex="-1" aria-modal="true" role="dialog">
+            <div class="modal-dialog popup">
+                <div class="modal-content popup board-03"
+                     style="position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); margin-top:0;">
+                    <div class="modal-header">
+                        <button type="button" id="noticePopClose" class="modal-btn-close ml-auto"
+                                data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="con-wrap">
+                            <div class="comm_board_02" style="height:390px;">
+                                <span class="board-tit" id="noticePopTtl">
+                                    용인행정 디지털트윈플랫폼 업데이트 안내
+                                </span>
+                                <textarea class="form-control" spellcheck="false" id="noticePopCn"
+                                          style="resize:none; border:none; background:transparent; height:300px; font-size:14px; line-height:1.7;" readonly>
+안녕하세요. 용인행정 디지털트윈플랫폼입니다.
+
+■ 업데이트 내용 (v2.5.0)
+
+1. 유동인구 분석 기능 개선
+   - 시각화 옵션 추가 (버블 / 화살표)
+   - 행정동별 TOP 15 레이더차트 신규 추가
+
+2. 국공유지 AI 분석 성능 향상
+   - 비닐하우스, 묘지 등 무단점용 탐지 정확도 개선
+
+3. 시설물 실시간 계측 연동
+   - GNSS 센서 수평·수직 변위 실시간 모니터링
+
+4. 시설물 시뮬레이션 기능 추가
+   - 화물차, 특수차, 공사장 등 복합 위험요인 분석
+
+■ 문의: 용인시 스마트도시과
+                                </textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-cancel" id="btnNoticeDontShow">일주일간 보지 않기</button>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">확인</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- // 공지사항 Modal -->
+    </div>
+
+</div>
+
+<script>
+$(document).ready(function(){
+    // LNB hover
+    $(".main-header").mouseenter(function(){
+        $(this).addClass("depth");
+        setTimeout(function(){ $(".logotxt,.notice-list").show(); }, 100);
+    });
+    $(".main-header").mouseleave(function(){
+        $(this).removeClass("depth");
+        $(".logotxt,.notice-list").hide();
+    });
+
+    // 메뉴 클릭 이동
+    $("#DSEARCH").click(function(){ location.href = 'map_service.html'; });
+    $("#PDASH").click(function(){   location.href = 'pop_dashboard.html'; });
+    $("#LDASH").click(function(){   location.href = 'land_dash.html'; });
+    $("#FDASH").click(function(){   location.href = 'fclt_dash.html'; });
+
+    // 공지사항 팝업
+    var noticeModal = new bootstrap.Modal(document.getElementById('noticeModal'), { backdrop:false });
+    noticeModal.show();
+
+    $('#btnNoticeDontShow').click(function(){
+        noticeModal.hide();
+    });
+    $('[data-bs-dismiss="modal"]').click(function(){
+        noticeModal.hide();
+    });
+});
+</script>
+</body>
+</html>

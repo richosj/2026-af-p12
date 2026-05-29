@@ -1,0 +1,125 @@
+@charset "UTF-8";
+@import url(../css/common.css);
+
+.content{
+    .search-area{
+        .map-sv-search.facility-status{
+            position:relative; width:1096px; height:828px; background:#fff;
+
+            .pagination-wrap{
+                width:100%; position:absolute; bottom:0; 
+            }
+        }
+    }
+}
+
+.title-wrap{
+    display:flex; justify-content:space-between; padding:30px 0 13px; margin:0 24px; border-bottom:1px solid #ccc;
+    h3{
+        font-size:20px; font-weight:600;
+    }
+}
+
+.status-wrap{
+    display:flex; justify-content:space-between; padding:15px 24px 10px;
+    .facility-grade{
+        width:416px;
+        ul{
+            &:first-child {
+                margin-bottom:10px;
+            }
+            li{
+                &:first-child {
+                    .value{padding:10px 0 0}
+                }
+            }
+        }
+        .grade-wrap li{
+            .grade-tit{
+                background:none; padding-top:20px; font-size: 14px;
+            }
+        }
+    }
+    .board-box{
+        padding:0; 
+        .grade-ch-wrap{
+            width:622px; height:230px; border-radius:10px;
+        }
+    }
+}
+
+.public-form{
+    .searchbox-wrap{
+        display:flex; width:445px; gap:12px;
+        select{
+            width:137px;
+        }
+    }
+}
+
+.tbl-wrap{
+    width:100%; height:320px; padding:0px 24px 10px;
+    .tbl-list{
+        width:100%;
+        thead{
+            tr{
+                th{
+                    height:40px; background:#747596; text-align:center; border-right:1px solid rgba(0, 0, 0, 0.12); vertical-align:middle;
+                    span{
+                        color:var(--white); font-size:14px;
+                    }
+                    &:first-child{
+                        border-radius:10px 0 0 0;
+                    }
+                    &:last-child{
+                        border-radius:0 10px 0 0; border-right:0
+                    }
+                }
+            }       
+        }
+        tbody{
+            tr{
+                td{
+                    min-height:40px; border-bottom:1px solid #ccc; border-right:1px solid #F1F1F1; text-align:center; vertical-align:middle; font-size:12px; padding:0 6px;
+                    &:last-child{
+                        border-right:0;
+                    }
+                    &.tleft{
+                        text-align:left;
+                    }
+                    .name{ 
+                        width:150px; white-space:nowrap; text-overflow:ellipsis; overflow:hidden;
+                    }
+                    .address{font-size:10px;}
+                }
+                &:hover{
+                    background:#f7f7f7;
+                }
+                &:active{
+                    background:#E7E7ED;
+                }
+            }
+        }
+    }
+}
+
+
+//common.css에 추가될 내용
+.btn-fill{
+    width:158px;
+    height:50px;
+    font-size:16px;
+    color:var(--white);
+    background:var(--primary-100);
+    border:1px solid var(--primary-100);
+    border-radius:15px;
+    &:active, &.active {
+        background: var(--primary-120);
+    }
+}
+
+span{
+    &.ico-add{
+        display:block; width:16px; height:6px; background:url(../img/ico_add.svg) no-repeat 0 0;
+    }
+}

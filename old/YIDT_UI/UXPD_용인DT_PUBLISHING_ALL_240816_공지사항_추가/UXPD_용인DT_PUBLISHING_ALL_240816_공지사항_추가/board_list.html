@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css" >
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/facility.css">
+    <link rel="stylesheet" href="css/facility_manage.css">
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/form.css">
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.7.1.js"></script>
+    <script src="js/ui.js"></script>
+    <title>용인시 지도 서비스</title>
+    <style>
+        .flex-none {
+    flex: none !important;
+}
+    </style>
+</head>
+<body>
+    <div class="content">
+
+        <!-- 공지사항 Modal -->
+        <div class="modal fade show" id="fileregiModal" tabindex="-1" aria-labelledby="fileregiModal" aria-modal="true" role="dialog" style="display:block">
+            <div class="modal-dialog popup">
+                <div class="modal-content popup facility">
+                    <div class="modal-header">
+                        <h1 class="modal-title" id="filterModalLabel">공지사항</h1>
+                        <button type="button" class="modal-btn-close ml-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <!-- modal-body -->
+                    <div class="modal-body">
+                        <div class="header-line mb-0"></div>
+                        <!-- 조회 -->
+                         <div>
+                            <div class="public-form board-list">
+                                <select aria-placeholder="조회 선택" class="common-select w160">
+                                    <option value="0">20개씩 조회</option>
+                                    <option value="1">10개씩 조회</option>
+                                </select>   
+                                <select aria-placeholder="작성자" class="common-select w160">
+                                    <option value="0">작성자</option>
+                                    <option value="1">작성자</option>
+                                </select>                                   
+                                <div class="input-container">
+                                    <span class="btn-input-search"></span>
+                                    <input type="text" class="input-field pl-40" id="" placeholder="검색어 입력">
+                                </div>     
+
+
+                                                                        
+                                <button type="button" class="public-search">검색</button>
+                            </div>
+                         </div>
+
+                        <!-- 조회 -->
+
+                        <!-- table -->
+                        <div class="tbl-wrap" style="height: 500px;">
+                            <table class="tbl-list">
+                                <colgroup>
+                                    <col style="width:5%;">
+                                    <col>
+                                    <col style="width:15%;">
+                                    <col style="width:14%;">
+                                    <col style="width:10%;">
+                                    <col style="width:4%;">
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th scope="col"><span class="no-btn">No.</span></th>
+                                        <th scope="col">
+                                            <span>제목</span>
+                                            <!-- button -->
+                                            <div class="order-btn">
+                                                <button type="button" name="" id="" class="order-up"></button>
+                                                <button type="button" name="" id="" class="order-down"></button>
+                                            </div>
+                                            <!-- button -->
+                                        </th>
+                                        <th scope="col">
+                                            <span>작성자</span>
+
+                                            <!-- button -->
+                                            <div class="order-btn">
+                                                <button type="button" name="" id="" class="order-up"></button>
+                                                <button type="button" name="" id="" class="order-down"></button>
+                                            </div>
+                                            <!-- button -->
+                                        </th>
+                                        <th scope="col">
+                                            <span>작성일</span>
+                                            
+                                            <!-- button -->
+                                            <div class="order-btn">
+                                                <button type="button" name="" id="" class="order-up"></button>
+                                                <button type="button" name="" id="" class="order-down"></button>
+                                            </div>
+                                            <!-- button -->
+                                        </th>
+                                        <th scope="col">
+                                            <span>조회수</span>
+                                            
+                                            <!-- button -->
+                                            <div class="order-btn">
+                                                <button type="button" name="" id="" class="order-up"></button>
+                                                <button type="button" name="" id="" class="order-down"></button>
+                                            </div>
+                                            <!-- button -->
+                                        </th>
+                                        
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td class="tleft">
+                                            <span>공지사항 제목 예시입니다</span>
+                                        </td>
+                                        <td>
+                                            <span>홍길동</span>
+                                        </td>
+                                        <td>
+                                            <span>2002-05-23</span>
+                                        </td>
+                                        <td>
+                                            <span>123,456,789</span>
+                                        </td>
+                                        <td>
+                                            <!-- button -->
+                                            <div class="add-btn">
+                                                <button type="button" name="" id="" class="add"></button>
+                                            </div>
+                                            <!-- button -->
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td class="tleft">
+                                            <span>공지사항 제목 예시입니다</span>
+                                        </td>
+                                        <td>
+                                            <span>홍길동</span>
+                                        </td>
+                                        <td>
+                                            <span>2002-05-23</span>
+                                        </td>
+                                        <td>
+                                            <span>123,456,789</span>
+                                        </td>
+                                        <td>
+                                            <!-- button -->
+                                            <div class="add-btn">
+                                                <button type="button" name="" id="" class="add"></button>
+                                            </div>
+                                            <!-- button -->
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td class="tleft">
+                                            <span>공지사항 제목 예시입니다 공지사항 입니다</span>
+                                        </td>
+                                        <td>
+                                            <span>홍길동</span>
+                                        </td>
+                                        <td>
+                                            <span>2002-05-23</span>
+                                        </td>
+                                        <td>
+                                            <span>123,456,789</span>
+                                        </td>
+                                        <td>
+                                            <!-- button -->
+                                            <div class="add-btn">
+                                                <button type="button" name="" id="" class="add"></button>
+                                            </div>
+                                            <!-- button -->
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td class="tleft">
+                                            <span>공지사항 제목 예시입니다 공지사항 입니다 공지사항 제목 예시입니다</span>
+                                        </td>
+                                        <td>
+                                            <span>홍길동</span>
+                                        </td>
+                                        <td>
+                                            <span>2002-05-23</span>
+                                        </td>
+                                        <td>
+                                            <span>123,456,789</span>
+                                        </td>
+                                        <td>
+                                            <!-- button -->
+                                            <div class="add-btn">
+                                                <button type="button" name="" id="" class="add"></button>
+                                            </div>
+                                            <!-- button -->
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- table -->
+                       
+                    </div>
+                     <!-- pagination -->
+                     <div class="pagination-wrap">
+                        <ul class="pagination">
+                            <li class="page-item"><a class="page-prev first" href="#" aria-label="PageFirst"></a></li>
+                            <li class="page-item"><a class="page-prev" href="#" aria-label="Previous"></a></li>
+                            <li class="page-item"><a class="page-link active" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">4</a></li>
+                            <li class="page-item"><a class="page-link" href="#">5</a></li>
+                            <li class="page-item"><a class="page-next" href="#" aria-label="Next"></a></li>
+                            <li class="page-item"><a class="page-next last" href="#" aria-label="PageLast"></a></li>
+                        </ul>
+                    </div>                       
+                    <!-- pagination -->    
+                    <!-- modal-body -->
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-cancel">취소</button>
+                        <button type="button" class="btn btn-primary">저장</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- // 공지사항 Modal -->
+   
+    </div>
+</body>
+</html>

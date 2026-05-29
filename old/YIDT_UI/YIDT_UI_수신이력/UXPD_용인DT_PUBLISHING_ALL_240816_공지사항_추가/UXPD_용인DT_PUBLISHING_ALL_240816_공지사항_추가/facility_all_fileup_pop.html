@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css" >
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/facility.css">
+    <link rel="stylesheet" href="css/facility_manage.css">
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/form.css">
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.7.1.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/fileup.js"></script>
+    <title>용인시 지도 서비스</title>
+
+</head>
+<body>
+    <div class="content">
+
+        <!-- 시설물 일괄 등록 Modal -->
+        <div class="modal fade show" id="fileregiModal" tabindex="-1" aria-labelledby="fileregiModal" aria-modal="true" role="dialog" style="display:block">
+            <div class="modal-dialog popup">
+                <div class="modal-content popup facility" style="width:520px;">
+                    <div class="modal-header">
+                        <h1 class="modal-title" id="filterModalLabel">시설물 일괄 등록</h1>
+                        <button type="button" class="modal-btn-close ml-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="header-line"></div>
+
+                    <div class="info-txt type02">
+                        최신 파일을 다운로드하여 내용을 업데이트 후 다시 업로드해 주세요.<br/>
+                        가장 마지막 업로드 한 내용으로 반영됩니다.
+                    </div>
+
+                    <!-- modal-body -->
+                    <div class="modal-body">
+                        <div class="fileup-wrap">
+                            <span class="sub-head mb-10">최근 등록 이력</span>
+
+                            <div class="file-th">
+                                <span>순번</span>
+                                <span>날짜</span>
+                                <span>총 건수</span>
+                                <span>등록자</span>
+                            </div>
+
+                            <ul class="file-list-wrap">
+                                <li class="file-list">
+                                    <a href="#">
+                                        <span class="">1</span>
+                                        <span class="">2024-05-24</span>
+                                        <span class="">1,234,567건</span>
+                                        <span class="">홍길동</span>
+                                    </a>
+                                </li>
+                                <li class="file-list">
+                                    <a href="#">
+                                        <span class="">2</span>
+                                        <span class="">2024-05-24</span>
+                                        <span class="">1,234,567건</span>
+                                        <span class="">홍길동</span>
+                                    </a>
+                                </li>
+                                <li class="file-list">
+                                    <a href="#">
+                                        <span class="">3</span>
+                                        <span class="">2024-05-24</span>
+                                        <span class="">1,234,567건</span>
+                                        <span class="">홍길동</span>
+                                    </a>
+                                </li>
+                                <li class="file-list">
+                                    <a href="#">
+                                        <span class="">4</span>
+                                        <span class="">2024-05-24</span>
+                                        <span class="">1,234,567건</span>
+                                        <span class="">홍길동</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- fileup -->
+                        <div class="fileup-wrap">
+                            <label for="fileInput">
+                                <span class="button-label">파일을 선택해서 업로드 해주세요</span>
+                            </label>
+                      
+                            <input type="file" id="fileInput"  class="fileInput" multiple>
+                        </div>
+                        <!-- fileup -->
+                        
+                    </div>
+                    <!-- modal-body -->
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-cancel">취소</button>
+                        <button type="button" class="btn btn-primary">등록</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- // 시설물 일괄 등록 Modal -->
+   
+    </div>
+        <!-- file up script-->
+        <script>
+            $(document).ready(function() {
+                $('.fileInput').fileInputPreview();
+            });
+        </script>
+        <!-- //file up script-->
+
+        <!-- <script src="js/form.js"></script> -->
+</body>
+</html>

@@ -1,0 +1,22 @@
+<svg width="82" height="82" viewBox="0 0 82 82" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="popup_img">
+<rect x="11" y="1" width="60" height="60" rx="30" fill="#FFF6ED"/>
+<g id="Group 427319299" filter="url(#filter0_d_3096_307242)">
+<circle id="Ellipse 2" cx="41" cy="31" r="17" fill="#F3722C"/>
+<path id="Line 262" d="M41 23L41 33" stroke="white" stroke-width="3" stroke-linecap="round"/>
+<path id="Line 263" d="M41 38L41 39" stroke="white" stroke-width="3" stroke-linecap="round"/>
+</g>
+</g>
+<defs>
+<filter id="filter0_d_3096_307242" x="0" y="0" width="82" height="82" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="10"/>
+<feGaussianBlur stdDeviation="12"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_3096_307242"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_3096_307242" result="shape"/>
+</filter>
+</defs>
+</svg>

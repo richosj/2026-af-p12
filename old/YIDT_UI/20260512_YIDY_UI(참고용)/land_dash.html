@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>국공유지 대시보드 | 용인행정 디지털트윈플랫폼</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/facility.css" rel="stylesheet">
+    <link href="css/public.css" rel="stylesheet">
+    <script src="js/jquery-3.7.1.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        #map { position:absolute; top:0; width:100%; height:100%; background:linear-gradient(160deg,#1e2a1e 0%,#2a3a2a 40%,#1a2e28 100%); z-index:0; }
+        .footer { position:absolute; bottom:0; width:100%; z-index:5; }
+        .footer_txt { text-align:center; font-size:10px; color:rgba(255,255,255,0.55); padding:6px 0; }
+        .pub-rate-basic { text-align:right; color:#f3722c; padding:3px 0 0; font-size:12px; }
+        .board-list { display:flex; gap:8px; padding:10px 0; border-bottom:1px solid var(--gray-90); font-size:12px; }
+        .board-list span { flex:1; }
+        .board-list .cont-tit { flex:2; color:var(--secondary2-100); font-weight:500; }
+        .accordion.public .accordion-button { background:var(--secondary2-100); color:#fff; border-radius:12px !important; }
+        .accordion.public .accordion-button.collapsed { background:var(--secondary2-80); }
+        .accordion.public .accordion-button::after { filter:brightness(10); }
+        .accordion.public .accordion-button .board-box-tit { color:#fff; }
+        .accordion.public .accordion-button .sta-date { color:rgba(255,255,255,0.7); font-size:10px; }
+        .accordion.public .accordion-button .pub-num { color:#fff; }
+        .accordion.public .accordion-button .pub-surface { color:rgba(255,255,255,0.8); }
+    </style>
+</head>
+<body>
+<div class="content">
+    <div id="map"></div>
+
+    <!-- LNB -->
+    <header class="main-header">
+        <div class="lnbWrap">
+            <div class="logo txt" style="cursor:pointer;"><p class="logotxt">용인행정<br>디지털<br>트윈플랫폼</p></div>
+            <div class="nav-wrap">
+                <ul class="menu">
+                    <li class="menu-home"><a>메인</a><span>메인</span></li>
+                    <li class="menu-sevice"><a>지도서비스</a><span>지도서비스</span></li>
+                    <li class="menu-people"><a>유동인구</a><span>유동인구</span></li>
+                    <li class="menu-map active"><a>국공유지</a><span>국공유지</span></li>
+                    <li class="menu-facility"><a>시설물</a><span>시설물</span></li>
+                    <li class="menu-admin"><a>시스템설정</a><span>시스템설정</span></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- SNB -->
+    <div class="snb-area" id="snbLand">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn active" onclick="location.href='land_dash.html'">대시보드</button>
+            <button type="button" class="btn" onclick="location.href='land_info.html'">국공유지 종합</button>
+            <button type="button" class="btn" onclick="location.href='land_adm.html'">현장조사 관리</button>
+            <button type="button" class="btn" onclick="location.href='land_analy.html'">AI 분석</button>
+        </div>
+    </div>
+
+    <!-- GNB -->
+    <div class="gnb">
+        <span class="profile">관리자님</span>
+        <span class="sugComment" id="sugComment">건의사항</span>
+    </div>
+
+    <!-- 우측 툴박스 -->
+    <div class="toolbox">
+        <div id="toolBar">
+            <div class="btn-group-vertical" role="group">
+                <input type="radio" class="btn-check" name="changeMap" id="2d">
+                <label class="btn" for="2d">2D</label>
+                <input type="radio" class="btn-check" name="changeMap" id="3d" checked>
+                <label class="btn" for="3d">3D</label>
+            </div>
+            <button type="button" class="item setting">지도설정</button>
+            <button type="button" class="item layer">레이어</button>
+            <button type="button" class="item shine">일조권</button>
+            <button type="button" class="item visible">가시권</button>
+            <button type="button" class="item land">경관보기</button>
+            <button type="button" class="item distance">거리</button>
+            <button type="button" class="item elev">표고</button>
+            <button type="button" class="item area">면적</button>
+            <button type="button" class="item save">저장</button>
+            <button type="button" class="item estate">부동산</button>
+            <button type="button" class="item slope">경사도</button>
+            <button type="button" class="item manual">매뉴얼</button>
+            <button type="button" class="item compass" style="padding-top:0;padding-left:8px;"><i style="transform:rotate(-45deg);">◈</i></button>
+        </div>
+    </div>
+
+    <!-- 대시보드-국공유지 -->
+    <div class="dashboard-container lDashDiPannel" id="ldashDiCont">
+
+        <!-- 좌측: 전체/시군구유/시도유 -->
+        <div class="left-area">
+            <div class="whole-info">
+                <div class="public-info">
+                    <span class="board-box-tit">전체</span>
+                    <span class="sta-date">2025.03.11 기준</span>
+                </div>
+                <div class="ml-auto public-info right-info">
+                    <span class="pub-num">12,847</span>
+                    <span class="pub-surface">면적: <span>8,432,150</span> ㎡</span>
+                    <span class="pub-rate-basic">+2.14%</span>
+                </div>
+            </div>
+            <div class="accordion public" id="ldashDiStat">
+                <!-- 시군구유 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <a class="accordion-button show" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true">
+                            <div class="public-info">
+                                <span class="board-box-tit">시군구유</span>
+                                <span class="sta-date">2025.03.11 기준</span>
+                            </div>
+                            <div class="ml-auto public-info right-info">
+                                <span class="pub-num">7,234</span>
+                                <span class="pub-surface">면적: <span>4,812,300</span> ㎡</span>
+                                <span class="pub-rate-basic">+1.82%</span>
+                            </div>
+                        </a>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#ldashDiStat">
+                        <div class="accordion-body">
+                            <div class="accordion-cont">
+                                <ul class="status-wrap">
+                                    <li><span class="status-tit">기획조정관</span><span class="status-value">312</span></li>
+                                    <li><span class="status-tit">도시건설국</span><span class="status-value">1,840</span></li>
+                                    <li><span class="status-tit">행정안전부</span><span class="status-value">520</span></li>
+                                    <li><span class="status-tit">환경부</span><span class="status-value">298</span></li>
+                                    <li><span class="status-tit">교육청</span><span class="status-value">412</span></li>
+                                    <li><span class="status-tit">국토교통부</span><span class="status-value">634</span></li>
+                                    <li><span class="status-tit">기타</span><span class="status-value">3,218</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 시도유 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <a class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false">
+                            <div class="public-info">
+                                <span class="board-box-tit">시도유</span>
+                                <span class="sta-date">2025.03.11 기준</span>
+                            </div>
+                            <div class="ml-auto public-info right-info">
+                                <span class="pub-num">5,613</span>
+                                <span class="pub-surface">면적: <span>3,619,850</span> ㎡</span>
+                                <span class="pub-rate-basic">+2.67%</span>
+                            </div>
+                        </a>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#ldashDiStat">
+                        <div class="accordion-body">
+                            <div class="accordion-cont">
+                                <ul class="status-wrap2">
+                                    <li><span class="status-tit">경기도 도유지</span><span class="status-value">2,140</span></li>
+                                    <li><span class="status-tit">용인시 시유지</span><span class="status-value">3,473</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 중앙: 차트 -->
+        <div class="center-area">
+            <div class="board-box" style="height:100%;padding:20px;">
+                <span class="board-box-tit">국공유지 현황</span>
+                <div class="grade-ch-wrap top">
+                    <div class="sub-head-wrap">
+                        <span class="sub-head">재산관리관별 면적 비율</span>
+                        <span class="ml-auto">상위 10개</span>
+                    </div>
+                    <div class="safe-chart" id="lDashDiStatChart1"></div>
+                </div>
+                <div class="grade-ch-wrap">
+                    <div class="sub-head-wrap">
+                        <span class="sub-head">행정구역별 면적 비율</span>
+                        <span class="ml-auto">상위 10개</span>
+                    </div>
+                    <div class="safe-chart" id="lDashDiStatChart2"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 우측: 변경이력 + 지목현황 -->
+        <div class="right-area">
+            <div class="board-box top">
+                <span class="board-box-tit">재산관리관 변경 이력</span>
+                <span class="ml-auto" style="font-size:12px;color:#888;">최근 21건</span>
+                <div class="carousel carousel-dark slide" data-bs-ride="carousel" id="lDashDiHisList">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#lDashDiHisList" data-bs-slide-to="0" class="active"></button>
+                        <button type="button" data-bs-target="#lDashDiHisList" data-bs-slide-to="1"></button>
+                        <button type="button" data-bs-target="#lDashDiHisList" data-bs-slide-to="2"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active" data-bs-interval="8000">
+                            <div>
+                                <ul class="public-right">
+                                    <li class="board-list"><span>2025.03.01</span><span class="cont-tit">위임관리관 변경</span><span>용인시건설교통국 도로과</span><span>용인시 기흥구청</span></li>
+                                    <li class="board-list"><span>2025.02.18</span><span class="cont-tit">재산관리관 변경</span><span>경기도 도로과</span><span>용인시 수지구청</span></li>
+                                    <li class="board-list"><span>2025.02.10</span><span class="cont-tit">위임관리관 변경</span><span>용인시 처인구청</span><span>용인시 환경과</span></li>
+                                    <li class="board-list"><span>2025.01.28</span><span class="cont-tit">재산관리관 변경</span><span>국토교통부</span><span>용인시건설교통국</span></li>
+                                    <li class="board-list"><span>2025.01.15</span><span class="cont-tit">위임관리관 변경</span><span>용인시 기흥구청</span><span>용인시 도시계획과</span></li>
+                                    <li class="board-list"><span>2025.01.05</span><span class="cont-tit">재산관리관 변경</span><span>용인시 공원과</span><span>경기도 공원과</span></li>
+                                    <li class="board-list"><span>2024.12.20</span><span class="cont-tit">위임관리관 변경</span><span>교육청 시설과</span><span>용인시 교육지원과</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="carousel-item" data-bs-interval="8000">
+                            <div>
+                                <ul class="public-right">
+                                    <li class="board-list"><span>2024.12.05</span><span class="cont-tit">재산관리관 변경</span><span>용인시 재무과</span><span>용인시 기흥구청</span></li>
+                                    <li class="board-list"><span>2024.11.22</span><span class="cont-tit">위임관리관 변경</span><span>용인시 수지구청</span><span>경기도 도로과</span></li>
+                                    <li class="board-list"><span>2024.11.10</span><span class="cont-tit">재산관리관 변경</span><span>국토교통부</span><span>용인시 도시계획과</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="carousel-item" data-bs-interval="8000">
+                            <div>
+                                <ul class="public-right">
+                                    <li class="board-list"><span>2024.10.28</span><span class="cont-tit">위임관리관 변경</span><span>용인시 환경과</span><span>용인시 처인구청</span></li>
+                                    <li class="board-list"><span>2024.10.15</span><span class="cont-tit">재산관리관 변경</span><span>경기도 공원과</span><span>용인시 공원과</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 지목 현황 -->
+            <div class="board-box" id="ldashDiJimok">
+                <span class="board-box-tit">지목 현황</span>
+                <div id="lDashDiJimkChart" style="width:100%;height:180px;"></div>
+            </div>
+        </div>
+    </div>
+    <!-- //대시보드-국공유지 -->
+
+    <!-- footer -->
+    <div class="footer">
+        <div class="footer_txt">
+            ※ 본 자료는 실제 현황과 차이가 있을 수 있으므로 충분히 유의하여 참고용으로만 활용하시기 바라며, 업무 목적 외 타 용도로의 사용을 금합니다. ※
+            <span class="altTilt_txt">고도 : <span class="alt">1,212</span>m | 기울임 각도 : <span class="tilt">55</span>°</span>
+        </div>
+    </div>
+</div>
+
+<script src="js/ui.js"></script>
+<script>
+$(document).ready(function(){
+    // 재산관리관별 면적 비율 (가로 바 차트)
+    var c1 = echarts.init(document.getElementById('lDashDiStatChart1'));
+    c1.setOption({
+        grid: { top:5, bottom:5, left:90, right:60, containLabel:false },
+        xAxis: { type:'value', show:false },
+        yAxis: { type:'category', axisLabel:{fontSize:10}, data:['환경부','기획조정관','교육청','행정안전부','국토교통부','도시건설국','기타'] },
+        series:[{ type:'bar', barMaxWidth:16,
+            data:[298,312,412,520,634,1840,3218],
+            itemStyle:{color:'#595a8a'},
+            label:{show:true,position:'right',fontSize:9,formatter:'{c}개'}
+        }]
+    });
+
+    // 행정구역별 면적 비율 (가로 바 차트)
+    var c2 = echarts.init(document.getElementById('lDashDiStatChart2'));
+    c2.setOption({
+        grid: { top:5, bottom:5, left:70, right:60, containLabel:false },
+        xAxis: { type:'value', show:false },
+        yAxis: { type:'category', axisLabel:{fontSize:10}, data:['수지구','기흥구','처인구'] },
+        series:[{ type:'bar', barMaxWidth:16,
+            data:[3210,4812,4820],
+            itemStyle:{
+                color: function(p){ return ['#3baebb','#595a8a','#444569'][p.dataIndex]; }
+            },
+            label:{show:true,position:'right',fontSize:9,formatter:function(p){return (p.value/10000).toFixed(1)+'만㎡';}}
+        }]
+    });
+
+    // 지목 현황 (도넛 차트)
+    var c3 = echarts.init(document.getElementById('lDashDiJimkChart'));
+    c3.setOption({
+        legend:{ orient:'vertical', right:10, top:'center', textStyle:{fontSize:10} },
+        series:[{ type:'pie', radius:['45%','72%'], center:['35%','50%'],
+            label:{show:true,fontSize:9},
+            data:[
+                {value:3820, name:'답'},
+                {value:2640, name:'전'},
+                {value:1850, name:'대'},
+                {value:1230, name:'임야'},
+                {value:890,  name:'도로'},
+                {value:2417, name:'기타'}
+            ]
+        }]
+    });
+});
+</script>
+</body>
+</html>

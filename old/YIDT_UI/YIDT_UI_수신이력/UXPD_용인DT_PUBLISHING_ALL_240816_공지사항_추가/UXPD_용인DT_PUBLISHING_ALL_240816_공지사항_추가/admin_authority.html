@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css" >
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/facility.css">
+    <link rel="stylesheet" href="css/facility_manage.css">
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/form.css">
+    <link rel="stylesheet" href="css/swiper.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+
+    <!-- <script src="js/bootstrap.min.js"></script> -->
+     <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/jquery-3.7.1.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/fileup.js"></script>
+    <script src="js/common.js"></script>
+    <title>용인시 지도 서비스-관리자-권한관리</title>
+    <style>
+
+    </style>
+
+</head>
+<body>
+    <div class="content">       
+        <!-- left menu 영역 01 -->
+        <header class="main-header"> <!-- depth -->
+            <div class="lnbWrap">
+                <h1 class="logo txt" aria-label="logo"><p class="logotxt">용인행정<br/>디지털<br/>트윈플랫폼</p></h1>
+                <div class="nav-wrap">
+                    <ul class="menu">
+                        <li class="menu-home"><a aria-label="메인">메인</a><span>메인</span></li> <!-- active -->
+                        <li class="menu-sevice"><a aria-label="지도서비스">지도서비스</a><span>지도서비스</span></li>
+                        <li class="menu-people"><a aria-label="유동인구">유동인구</a><span>유동인구</span></li>
+                        <li class="menu-map"><a aria-label="국공유지">국공유지</a><span>국공유지</span></li>
+                        <li class="menu-facility"><a aria-label="시설물">시설물</a><span>시설물</span></li>
+                        <li class="menu-admin"><a aria-label="관리자설정">관리자설정</a><span>관리자설정</span></li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="more-service">
+                <button type="button"></button>
+                <div class="notice-list">
+                    <ul>
+                        <li><a>공지사항</a></li>
+                        <li><a>이용안내/권장사항</a></li>
+                        <li><a>사용자 가이드</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+        <!-- //left menu 영역 01 -->
+
+        <div class="main-content">
+
+            <!-- search -->
+            <div class="search-area">
+                <div class="search-wrap transparent">
+                    <!-- <button type="button" class="btn-cancel"></button> -->
+                </div>
+                
+                <!-- 패널 오픈 버튼 -->
+                <div class="panel-open">
+                    <button></button>
+                </div>
+                <!-- //패널 오픈 버튼 -->
+
+                <!-- 권한 관리 -->
+                <div class="d-flex">
+                    <div class="map-sv-search facility-status position-relative" style="z-index: 2;">
+                        <div class="fac-contents">
+                            <div class="title-wrap">
+                                <h3>권한관리</h3>
+                            </div>
+
+                            <div class="mt-30">
+                                <!-- tree 그룹목록 -->
+                                <div class="checkbox-tree">
+                                  <div class="con-wrap">
+                                    <div>
+                                        <span class="sub-head mb-14">주요 점검 진단 결과</span>
+                                        <div class="d-flex gap-10">
+                                          <input type="text" class="common-input3" id="" readonly>
+                                          <button type="button" class="btn btn-outline-primary w160 fs-14" data-bs-toggle="modal" data-bs-target="#safetyModal">부서 선택</button>
+                                        </div>
+
+                                    </div>
+                                    
+                                </div>
+                                <div>
+                                    <span class="sub-head mb-14">권한 편집</span>
+                                    <ul class="form-check-wrap">
+                                        <li>
+                                            <ul class="mt-6">
+                                                <li class="form-check first">
+                                                    <input type="checkbox" id="submenu1-1" class="form-check-input" />
+                                                    <label for="submenu1-1" class="form-check-label">국공유지</label>
+                                                </li>
+                                                <li class="form-check-tree">
+                                                    <ul class="sub-check-wrap">
+                                                        <li class="form-check">
+                                                            <input type="checkbox" id="subsubmenu1-1-1" class="form-check-input" />
+                                                            <label for="subsubmenu1-1-1" class="form-check-label">국공유지 정보 관리</label>
+                                                        </li>
+                                                        <li class="form-check">
+                                                            <input type="checkbox" id="subsubmenu1-1-2" class="form-check-input" />
+                                                            <label for="subsubmenu1-1-2" class="form-check-label">국공유지 실태조사 정보 관리</label>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+
+                                                <li class="form-check first">
+                                                    <input type="checkbox" id="submenu1-1" class="form-check-input" />
+                                                    <label for="submenu1-1" class="form-check-label">노후시설물</label>
+                                                </li>
+                                                <li class="form-check-tree">
+                                                    <ul class="sub-check-wrap">
+                                                        <li class="form-check">
+                                                            <input type="checkbox" id="subsubmenu1-1-1" class="form-check-input" />
+                                                            <label for="subsubmenu1-1-1" class="form-check-label">노후시설물 정보 관리</label>
+                                                        </li>
+                                                        <li class="form-check">
+                                                            <input type="checkbox" id="subsubmenu1-1-2" class="form-check-input" />
+                                                            <label for="subsubmenu1-1-2" class="form-check-label">노후시설물 점검결과 관리</label>
+                                                        </li>
+                                                        <li class="form-check">
+                                                            <input type="checkbox" id="subsubmenu1-1-3" class="form-check-input" />
+                                                            <label for="subsubmenu1-1-3" class="form-check-label">노후화예측 시뮬레이션</label>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+
+                                                <li class="form-check first">
+                                                    <input type="checkbox" id="submenu1-1" class="form-check-input" />
+                                                    <label for="submenu1-1" class="form-check-label">국공유지</label>
+                                                </li>
+                                                <li class="form-check-tree">
+                                                    <ul class="sub-check-wrap">
+                                                        <li class="form-check">
+                                                            <input type="checkbox" id="subsubmenu1-1-1" class="form-check-input" />
+                                                            <label for="subsubmenu1-1-1" class="form-check-label">국공유지 정보 관리</label>
+                                                        </li>
+                                                        <li class="form-check">
+                                                            <input type="checkbox" id="subsubmenu1-1-2" class="form-check-input" />
+                                                            <label for="subsubmenu1-1-2" class="form-check-label">국공유지 실태조사 정보 관리</label>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+
+                                                <li class="form-check first">
+                                                    <input type="checkbox" id="submenu1-1" class="form-check-input" />
+                                                    <label for="submenu1-1" class="form-check-label">노후시설물</label>
+                                                </li>
+                                                <li class="form-check-tree">
+                                                    <ul class="sub-check-wrap">
+                                                        <li class="form-check">
+                                                            <input type="checkbox" id="subsubmenu1-1-1" class="form-check-input" />
+                                                            <label for="subsubmenu1-1-1" class="form-check-label">노후시설물 정보 관리</label>
+                                                        </li>
+                                                        <li class="form-check">
+                                                            <input type="checkbox" id="subsubmenu1-1-2" class="form-check-input" />
+                                                            <label for="subsubmenu1-1-2" class="form-check-label">노후시설물 점검결과 관리</label>
+                                                        </li>
+                                                        <li class="form-check">
+                                                            <input type="checkbox" id="subsubmenu1-1-3" class="form-check-input" />
+                                                            <label for="subsubmenu1-1-3" class="form-check-label">노후화예측 시뮬레이션</label>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                    
+                                </div>
+
+                                </div>
+                               
+                            </div>
+                 
+                        </div>         
+                        
+                        <div class="modal-footer admin">
+                            <button type="button" class="btn btn-cancel">취소</button>
+                            <button type="button" class="btn btn-primary">저장</button>
+                        </div>         
+                        
+                   </div>
+
+                    <button class="btn-side-1st close"></button>
+                </div>
+            </div>
+
+            <!-- 부서선택 modal -->
+            <div class="modal fade" id="safetyModal" tabindex="-1" aria-labelledby="safetyModalLabel" aria-hidden="true">
+                <div class="modal-dialog popup admin">
+                    <div class="modal-content popup public">
+                        <div class="modal-header">
+                            <h1 class="modal-title" id="filterModalLabel">부동산 종합정보</h1>
+                            <button type="button" class="modal-btn-close ml-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="">
+                            <ul class="tabs" id="pills-tab" role="tablist">
+                                <li class="nav-item">
+                                  <button class="tab active" id="pills-info01-tab" data-bs-toggle="pill" data-bs-target="#pills-info01" type="button" role="tab" aria-controls="pills-info01" aria-selected="true">용인시청</button>
+                                </li>
+                                <li class="nav-item">
+                                  <button class="tab" id="pills-info02-tab" data-bs-toggle="pill" data-bs-target="#pills-info02" type="button" role="tab" aria-controls="pills-info02" aria-selected="false">의회 사무국</button>
+                                </li>
+                                <li class="nav-item">
+                                  <button class="tab" id="pills-info03-tab" data-bs-toggle="pill" data-bs-target="#pills-info03" type="button" role="tab" aria-controls="pills-info03" aria-selected="false">직속기관 및 사업소</button>
+                                </li>
+                                <li class="nav-item">
+                                  <button class="tab" id="pills-info04-tab" data-bs-toggle="pill" data-bs-target="#pills-info04" type="button" role="tab" aria-controls="pills-info04" aria-selected="false">구청(읍/면/동)</button>
+                                </li>
+                            </ul>
+                           
+                            <div class="tab-content" id="pills-tabContent">
+                                 <!-- tab01 용인시청 -->
+                                <div class="tab-pane fade active show" id="pills-info01" role="tabpanel" aria-labelledby="pills-info01-tab" tabindex="0">
+                                    <div class="modal-body">     
+                                        <div class="depart-wrap">
+                                            <div class="depart">
+                                                <button type="button" class="depart-1st">시장</button>
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button" class="depart-2nd">시민소통관</button>
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button" class="depart-3rd">제 1부시장</button>
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button" class="depart-4th">감사관</button>
+                                                <button type="button" class="depart-4th">법무담당관</button>
+                                                <button type="button" class="depart-4th">공보관</button>
+                                                <button type="button" class="depart-4th">청년담당관</button>
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button">기획조정실</button>
+                                                <button type="button">행정과</button>
+                                                <button type="button">정책기획과</button>
+                                                <button type="button">자치분권과</button>
+                                                <button type="button">인사관리과</button>
+                                                <button type="button">정보통신과</button>
+                                                <button type="button">민원여권과</button>                                     
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button">재정국</button>
+                                                <button type="button">예산과</button>
+                                                <button type="button">회계과</button>
+                                                <button type="button">재산관리과</button>
+                                                <button type="button">세정과</button>
+                                                <button type="button">징수과</button>
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button">교육문화체육관광국</button>
+                                                <button type="button">교육청소년과</button>
+                                                <button type="button">평생교육과</button>
+                                                <button type="button">문화예술과</button>
+                                                <button type="button">체육진흥과</button>
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button">복지여성국</button>
+                                                <button type="button">복지정책과</button>
+                                                <button type="button">여성가족과</button>
+                                                <button type="button">아동보육과</button>
+                                                <button type="button">장애인복지과</button>
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button">복지여성국</button>
+                                                <button type="button">복지정책과</button>
+                                                <button type="button">여성가족과</button>
+                                                <button type="button">아동보육과</button>
+                                                <button type="button">장애인복지과</button>
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button">복지여성국</button>
+                                                <button type="button">복지정책과</button>
+                                                <button type="button">여성가족과</button>
+                                                <button type="button">아동보육과</button>
+                                                <button type="button">장애인복지과</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- tab02 의회 사무국 -->
+                                <div class="tab-pane fade" id="pills-info02" role="tabpanel" aria-labelledby="pills-info02-tab" tabindex="0">
+                                    <div class="modal-body">     
+                                        <div class="depart-wrap">
+                                            <div class="depart">
+                                                <button type="button" class="depart-1st">시장</button>
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button" class="depart-2nd">시민소통관</button>
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button" class="depart-3rd">제 1부시장</button>
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button" class="depart-4th">감사관</button>
+                                                <button type="button" class="depart-4th">법무담당관</button>
+                                                <button type="button" class="depart-4th">공보관</button>
+                                                <button type="button" class="depart-4th">청년담당관</button>
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button">기획조정실</button>
+                                                <button type="button">행정과</button>
+                                                <button type="button">정책기획과</button>
+                                                <button type="button">자치분권과</button>
+                                                <button type="button">인사관리과</button>
+                                                <button type="button">정보통신과</button>
+                                                <button type="button">민원여권과</button>                                     
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button">재정국</button>
+                                                <button type="button">예산과</button>
+                                                <button type="button">회계과</button>
+                                                <button type="button">재산관리과</button>
+                                                <button type="button">세정과</button>
+                                                <button type="button">징수과</button>
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button">교육문화체육관광국</button>
+                                                <button type="button">교육청소년과</button>
+                                                <button type="button">평생교육과</button>
+                                                <button type="button">문화예술과</button>
+                                                <button type="button">체육진흥과</button>
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button">복지여성국</button>
+                                                <button type="button">복지정책과</button>
+                                                <button type="button">여성가족과</button>
+                                                <button type="button">아동보육과</button>
+                                                <button type="button">장애인복지과</button>
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button">복지여성국</button>
+                                                <button type="button">복지정책과</button>
+                                                <button type="button">여성가족과</button>
+                                                <button type="button">아동보육과</button>
+                                                <button type="button">장애인복지과</button>
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button">복지여성국</button>
+                                                <button type="button">복지정책과</button>
+                                                <button type="button">여성가족과</button>
+                                                <button type="button">아동보육과</button>
+                                                <button type="button">장애인복지과</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                 <!-- tab03 직속기관 및 사업소 -->
+                                <div class="tab-pane fade" id="pills-info03" role="tabpanel" aria-labelledby="pills-info03-tab" tabindex="0">
+                                    <div class="modal-body">     
+                                        <div class="depart-wrap">
+                                            <div class="depart">
+                                                <button type="button" class="depart-1st">시장</button>
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button" class="depart-2nd">시민소통관</button>
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button" class="depart-3rd">제 1부시장</button>
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button" class="depart-4th">감사관</button>
+                                                <button type="button" class="depart-4th">법무담당관</button>
+                                                <button type="button" class="depart-4th">공보관</button>
+                                                <button type="button" class="depart-4th">청년담당관</button>
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button">기획조정실</button>
+                                                <button type="button">행정과</button>
+                                                <button type="button">정책기획과</button>
+                                                <button type="button">자치분권과</button>
+                                                <button type="button">인사관리과</button>
+                                                <button type="button">정보통신과</button>
+                                                <button type="button">민원여권과</button>                                     
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button">재정국</button>
+                                                <button type="button">예산과</button>
+                                                <button type="button">회계과</button>
+                                                <button type="button">재산관리과</button>
+                                                <button type="button">세정과</button>
+                                                <button type="button">징수과</button>
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button">교육문화체육관광국</button>
+                                                <button type="button">교육청소년과</button>
+                                                <button type="button">평생교육과</button>
+                                                <button type="button">문화예술과</button>
+                                                <button type="button">체육진흥과</button>
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button">복지여성국</button>
+                                                <button type="button">복지정책과</button>
+                                                <button type="button">여성가족과</button>
+                                                <button type="button">아동보육과</button>
+                                                <button type="button">장애인복지과</button>
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button">복지여성국</button>
+                                                <button type="button">복지정책과</button>
+                                                <button type="button">여성가족과</button>
+                                                <button type="button">아동보육과</button>
+                                                <button type="button">장애인복지과</button>
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button">복지여성국</button>
+                                                <button type="button">복지정책과</button>
+                                                <button type="button">여성가족과</button>
+                                                <button type="button">아동보육과</button>
+                                                <button type="button">장애인복지과</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                 <!-- tab04 구청(읍/면/동) -->
+                                 <div class="tab-pane fade" id="pills-info04" role="tabpanel" aria-labelledby="pills-info04-tab" tabindex="0">
+                                    <div class="modal-body">     
+                                        <div class="depart-wrap">
+                                            <div class="depart">
+                                                <button type="button" class="depart-1st">시장</button>
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button" class="depart-2nd">시민소통관</button>
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button" class="depart-3rd">제 1부시장</button>
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button" class="depart-4th">감사관</button>
+                                                <button type="button" class="depart-4th">법무담당관</button>
+                                                <button type="button" class="depart-4th">공보관</button>
+                                                <button type="button" class="depart-4th">청년담당관</button>
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button">기획조정실</button>
+                                                <button type="button">행정과</button>
+                                                <button type="button">정책기획과</button>
+                                                <button type="button">자치분권과</button>
+                                                <button type="button">인사관리과</button>
+                                                <button type="button">정보통신과</button>
+                                                <button type="button">민원여권과</button>                                     
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button">재정국</button>
+                                                <button type="button">예산과</button>
+                                                <button type="button">회계과</button>
+                                                <button type="button">재산관리과</button>
+                                                <button type="button">세정과</button>
+                                                <button type="button">징수과</button>
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button">교육문화체육관광국</button>
+                                                <button type="button">교육청소년과</button>
+                                                <button type="button">평생교육과</button>
+                                                <button type="button">문화예술과</button>
+                                                <button type="button">체육진흥과</button>
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button">복지여성국</button>
+                                                <button type="button">복지정책과</button>
+                                                <button type="button">여성가족과</button>
+                                                <button type="button">아동보육과</button>
+                                                <button type="button">장애인복지과</button>
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button">복지여성국</button>
+                                                <button type="button">복지정책과</button>
+                                                <button type="button">여성가족과</button>
+                                                <button type="button">아동보육과</button>
+                                                <button type="button">장애인복지과</button>
+                                            </div>
+                                            <div class="depart">
+                                                <button type="button">복지여성국</button>
+                                                <button type="button">복지정책과</button>
+                                                <button type="button">여성가족과</button>
+                                                <button type="button">아동보육과</button>
+                                                <button type="button">장애인복지과</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <!-- //부서선택 modal -->
+
+            <!-- //search -->
+
+            <!-- SNB 영역 -->
+            <div class="snb-area menu-3">
+                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                    <button type="button" class="btn">공지사항 관리</button>
+                    <button type="button" class="btn active">권한 관리</button>
+                    <button type="button" class="btn">공통코드 관리</button>
+                </div>
+            </div>
+            <!-- //SNB 영역 -->
+        </div>
+        <!-- 상단 gnb 영역 -->
+        <div class="gnb">
+            <span class="profile"></span>
+            <span class="notify">
+                <span class="badge">1
+                    <!-- <span class="visually-hidden">New alerts</span> -->
+                </span>
+            </span>
+        </div>
+        <!-- //상단 gnb 영역 -->
+
+        <!-- 우측 메뉴 -->
+        <div class="toolbox">
+            <div>
+                <div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">
+                    <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1" autocomplete="off" checked>
+                    <label class="btn" for="vbtn-radio1">2D</label>
+                    <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2" autocomplete="off">
+                    <label class="btn" for="vbtn-radio2">3D</label>
+                </div>
+                <button type="button" class="item setting active" data-bs-toggle="modal" data-bs-target="#mapModal">지도설정</button>
+                <button type="button" class="item layer" data-bs-toggle="modal" data-bs-target="#filterModal">레이어</button>
+                <button type="button" class="item shine" data-bs-toggle="modal" data-bs-target="#shineModal">일조권</button>
+                <button type="button" class="item visible">가시권</button>
+                <button type="button" class="item land">경관분석</button>
+                <button type="button" class="item distance">거리</button>
+                <button type="button" class="item elev">표고</button>
+                <button type="button" class="item area">면적</button>
+                <button type="button" class="item save">저장</button>
+                <button type="button" class="item estate">부동산</button>
+            </div>
+            <!-- 일조권 Modal -->
+            <div class="modal fade" id="shineModal" tabindex="-1" aria-labelledby="shineModalLabel" aria-hidden="true">
+                <div class="modal-dialog shine">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h1 class="modal-title" id="shineModalLabel">일조권</h1>
+                    <a class="txt-reset">초기화</a>
+                    <button type="button" class="modal-btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-line"></div>
+                    <div class="modal-body">
+                        <div class="d-flex">
+                            <input type="date" class="date-input"/>
+                            <span class="time">12시 24분</span>
+                            
+                        </div>
+                        <div>
+                            <input id="rangeInput" class="rangeInput" max="24" min="0" step="1" type="range"/>
+                        </div>
+
+                        <div class="range-value">
+                            <span>05</span>
+                            <span>10</span>
+                            <span>15</span>
+                            <span>20</span>
+                        </div>
+                        <div class="time-wrap">
+                            <ol class="time-list">
+                                <li><a>05</a></li>
+                                <li><a>06</a></li>
+                                <li><a>07</a></li>
+                                <li><a>08</a></li>
+                                <li><a>09</a></li>
+                                <li><a>10</a></li>
+                                <li><a>11</a></li>
+                                <li class="active"><a>12</a></li>
+                                <li><a>13</a></li>
+                                <li><a>14</a></li>
+                                <li><a>15</a></li>
+                                <li><a>16</a></li>
+                                <li><a>17</a></li>
+                                <li><a>18</a></li>
+                                <li><a>19</a></li>
+                                <li><a>20</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                </div>
+                </div>
+            </div>
+            <!-- //일조권 Modal -->
+
+            <!-- 지도설정 Modal -->
+            <div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
+                <div class="modal-dialog shine">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h1 class="modal-title" id="mapModalLabel">지도설정</h1>
+                    <a class="txt-reset">초기화</a>
+                    <button type="button" class="modal-btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-line"></div>
+                    <div class="modal-body">
+                        <div class="d-flex">
+                            <span>배경 지도 투명도 설정</span>
+                            <span class="time">74%</span>
+                            
+                        </div>
+                        <div>
+                            <input id="opacityInput" class="rangeInput" max="100" min="0" step="1" type="range"/>
+                        </div>
+
+                        <div class="range-value">
+                            <span>0</span>
+                            <span>100</span>
+                        </div>
+                        
+                        <div class="accordion-filter-wrap">
+                            <div class="accordion accordion-flush" id="accordionFlushExample">
+                                <div class="accordion-item">
+                                  <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                                      건물 설정
+                                    </button>
+                                  </h2>
+                                  <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body">
+                                        <div class="filter-item">
+                                            <div class="switch-wrap">
+                                                <div>
+                                                    <label class="switch">
+                                                        <input type="checkbox">
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </div>
+                                                <div class="label">
+                                                    <label>건물 필터 항목</label>
+                                                </div>
+                                            </div>
+                                            <div class="switch-wrap">
+                                                <div>
+                                                    <label class="switch">
+                                                        <input type="checkbox" checked>
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </div>
+                                                <div class="label">
+                                                    <label>건물 필터 항목</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="accordion-item">
+                                  <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                                        OSM 설정
+                                    </button>
+                                  </h2>
+                                  <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body">
+                                        <div class="filter-item">
+                                            <div class="switch-wrap">
+                                                <div>
+                                                    <label class="switch">
+                                                        <input type="checkbox">
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </div>
+                                                <div class="label">
+                                                    <label>레이어 필터 항목</label>
+                                                </div>
+                                            </div>
+                                            <div class="switch-wrap">
+                                                <div>
+                                                    <label class="switch">
+                                                        <input type="checkbox" checked>
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </div>
+                                                <div class="label">
+                                                    <label>레이어 필터 항목</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                </div>
+            </div>
+            <!-- //지도설정 Modal -->
+        
+            <div class="btm-box">
+                <button type="button" class="item location"></button>
+                <button type="button" class="item zoomin"></button>
+                <button type="button" class="item zoomout"></button>
+            </div>
+        </div>
+        <!-- //우측 메뉴 -->
+
+        <div class="copyright">
+            <p>COPYRIGHT © Yonginsi. ALL RIGHT RESERVED</p>
+        </div>
+        <!-- range script-->
+        <script>
+            document.querySelectorAll(".rangeInput").forEach(function (input) {
+            input.addEventListener("input", function (event) {
+                var gradient_value = 100 / event.target.attributes.max.value;
+                event.target.style.background =
+                    "linear-gradient(to right, #595A8A 0%, #595A8A " +
+                    gradient_value * event.target.value +
+                    "%, rgb(236, 236, 236) " +
+                    gradient_value * event.target.value +
+                    "%, rgb(236, 236, 236) 100%)";
+            });
+        });
+        </script>
+        <!-- //range script-->    
+
+</body>
+</html>

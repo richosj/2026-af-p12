@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css" >
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/facility.css">
+    <link rel="stylesheet" href="css/facility_manage.css">
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/form.css">
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/jquery-3.7.1.js"></script>
+    <script src="js/ui.js"></script>
+    <title>용인시 지도 서비스</title>
+
+</head>
+<body>
+    <div class="content">       
+        
+        <!-- 시설물 상세 정보 전체 콘텐츠 Modal --> <!-- 개발 작업하실때 style="display:block; position:absolute; left:-200px" 지워주세요 -->
+        <div class="modal fade show" id="faAllModal" tabindex="-1" aria-labelledby="faAllModal" aria-modal="true" role="dialog" style="display:block; position:absolute; left:-200px">
+            <div class="modal-dialog popup">
+                <div class="modal-content popup facility w1340" style="width:1340px;">
+                    <div class="modal-header">
+                        <h1 class="modal-title" id="filterModalLabel">상갈교</h1>
+                        <button type="button" class="modal-btn-close ml-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <!-- modal-body -->
+                    <div class="modal-body">
+                        <div class="header-line"></div>
+
+                        <div class="d-flex facility-detail">
+                            <!-- 왼쪽정보 -->
+                            <div class="info-view">
+                                <div class="form-wrap">
+                                    <!-- 시설물 정보 -->
+                                    <div class="sub-head-wrap">
+                                        <span class="sub-head mb-10">시설물 정보</span>
+
+                                        <div class="equip-list">
+                                            <button type="button" class="btn-round">교량</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="input-container">
+                                        <!-- list -->
+                                        <div class="con-wrap">
+                                            <div>
+                                                <label for="faName">시설물 명</label>
+                                                <input type="text" class="common-input2" id="faName" value="상갈교" title="시설물 명" readonly>
+                                            </div>
+
+                                            <div>
+                                                <label for="fatype">시설물 종</label>
+
+                                                <input type="text" class="common-input2" id="fatype" value="1종" title="시설물 종" readonly>
+                                            </div>
+                                        </div>
+                                        <!-- list -->
+
+                                        <!-- list -->
+                                        <div class="con-wrap">
+                                            <div>
+                                                <label for="city01">시군구</label>
+                                                <input type="text" class="common-input2" id="city01" value="용인시 기흥구" title="시군구" readonly>
+                                            </div>
+
+                                            <div>
+                                                <label for="city02">읍면동</label>
+                                                <input type="text" class="common-input2" id="city02" value="신갈동" title="읍면동" readonly>
+                                            </div>
+
+                                            <div>
+                                                <label for="city03">리</label>
+                                                <input type="text" class="common-input2" id="city03" value="신갈리" title="리" readonly>
+                                            </div>
+                                        </div>
+                                        <!-- list -->
+
+                                        <!-- list -->
+                                        <div class="con-wrap">
+                                            <div>
+                                                <label for="">상세 지번</label>
+                                                <div class="d-flex">
+                                                    <input type="text" class="common-input2" id="" value="123" title="지번" readonly>
+                                                    <span class="divi"> - </span>
+                                                    <input type="text" class="common-input2 mr-20" id="" value="45" title="지번" readonly> 
+
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" disabled>
+                                                        <label class="form-check-label" for="flexCheckDefault">
+                                                            산
+                                                        </label>
+                                                    </div>
+                                                </div>                                                    
+                                            </div>
+                                        </div>
+                                        <!-- list -->
+                                    </div>
+
+                                    <div class="dashed-line"></div>
+                                    <!-- 시설물 정보 -->
+
+                                    <!-- 시설물 기본정보 -->
+                                    <div class="sub-head-wrap">
+                                        <span class="sub-head mb-10">시설물 기본정보</span>
+
+                                        <div class="equip-list">
+                                            <button type="button" class="btn-round">공공</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="input-container">
+                                        <!-- list -->
+                                        <div class="con-wrap">
+                                            <div>
+                                                <label for="cdate">준공일자</label>
+
+                                                <div class="input-container">
+                                                    <input type="text" class="common-input2" id="" value="2024.01.01" title="준공일자" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <label for="entity">관리주체</label>
+                                                <input type="text" class="common-input2" id="" value="용인시" title="관리주체" readonly>
+                                            </div>
+
+                                            <div>
+                                                <label for="owner">소유자</label>
+                                                <input type="text" class="common-input2" id="" value="기흥구 도로과" title="소유자" readonly>
+                                            </div>
+                                        </div>
+                                        <!-- list -->
+
+                                        <!-- list -->
+                                        <div class="con-wrap">
+                                            <div>
+                                                <label for="constrat">공사 시작일</label>
+
+                                                <input type="text" class="common-input2" id="" value="2024.01.01" title="공사 시작일" readonly>
+                                            </div>
+
+                                            <div>
+                                                <label for="conend">공사 종료일</label>
+
+                                                <input type="text" class="common-input2" id="" value="2024.11.01" title="공사 종료일" readonly>
+                                            </div>
+                                        </div>
+                                        <!-- list -->
+
+                                        <!-- list -->
+                                        <div class="con-wrap">
+                                            <div>
+                                                <label for="concompany">시공업체</label>
+                                                <input type="text" class="common-input2" id="" value="(주)OOO" title="시공업체" readonly>
+                                            </div>
+
+                                            <div>
+                                                <label for="designer">설계자</label>
+                                                <input type="text" class="common-input2" id="" value="홍길동" title="설계자" readonly>
+                                            </div>
+                                        </div>
+                                        <!-- list -->
+                                    </div>
+
+                                    <div class="dashed-line"></div>
+                                    <!-- 시설물 기본정보 -->
+
+                                    <!-- 시설물 상세제원 -->
+                                    <span class="sub-head mb-10">시설물 상세제원</span>
+
+                                    <div class="input-container">
+                                        <!-- list -->
+                                        <div class="con-wrap">
+                                            <div>
+                                                <label for="dll">설계활하중</label>
+                                                <input type="text" class="common-input2" id="" value="1234" title="설계활하중" readonly>
+                                            </div>
+
+                                            <div>
+                                                <label for="atl">허용통행하중</label>
+                                                <input type="text" class="common-input2" id="" value="1234" title="허용통행하중" readonly>
+                                            </div>
+                                        </div>
+                                        <!-- list -->
+
+                                        <!-- list -->
+                                        <div class="con-wrap type02">
+                                            <div class="sTit">연장</div>
+
+                                            <div class="d-flex">
+                                                <div>                                 
+                                                    <label for="length">길이(m)</label>
+                                                    <input type="text" class="common-input2" id="" value="1234" title="길이" readonly>
+                                                </div>
+
+                                                <div>                                            
+                                                    <label for="sw">경간수</label>
+                                                    <input type="text" class="common-input2" id="" value="1234" title="경간수" readonly>
+                                                </div>
+
+                                                <div>                                            
+                                                    <label for="maxsl">최대경간장</label>
+                                                    <input type="text" class="common-input2" id="" value="1234" title="최대경간장" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- list -->
+
+                                        <!-- list -->
+                                        <div class="con-wrap type02">
+                                            <div class="sTit">폭</div>
+
+                                            <div class="d-flex">
+                                                <div>                                            
+                                                    <label for="sidewalk">보도(m)</label>
+                                                    <input type="text" class="common-input2" id="" value="1234" title="보도" readonly>
+                                                </div>
+
+                                                <div>                                            
+                                                    <label for="driveway">차도(m)</label>
+                                                    <input type="text" class="common-input2" id="" value="1234" title="차도" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- list -->
+
+                                        <!-- list -->
+                                        <div class="con-wrap type02">
+                                            <div class="sTit">차로수</div>
+
+                                            <div class="d-flex">
+                                                <div>
+                                                    <label for="numroad01">상행차로수</label>
+                                                    <input type="text" class="common-input2" id="" value="-" title="상행차로수" readonly>
+                                                </div>
+
+                                                <div> 
+                                                    <label for="numroad02">하행차로수</label>
+                                                    <input type="text" class="common-input2" id="" value="-" title="하행차로수" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- list -->
+                                    </div>
+
+                                    <div class="dashed-line"></div>
+                                    <!-- 시설물 상세제원 -->
+
+                                    <!-- 상부구조 -->
+                                    <span class="sub-head mb-10">상부구조</span>
+
+                                    <div class="input-container">
+                                        <!-- list -->
+                                        <div class="con-wrap">
+                                            <div>
+                                                <label for="structure01">경간구성</label>
+                                                <input type="text" class="common-input2" id="" value="인접한 두 교각" title="경간구성" readonly>
+                                            </div>
+
+                                            <div>
+                                                <label for="structure02">경간형식(대표)</label>
+                                                <input type="text" class="common-input2" id="" value="단순빔" title="경간구성" readonly>
+                                            </div>
+
+                                            <div>
+                                                <label for="structure03">경간형식(기타)</label>
+                                                <input type="text" class="common-input2" id="" value="-" title="경간형식" readonly>
+                                            </div>
+                                        </div>
+                                        <!-- list -->
+
+                                        <!-- list -->
+                                        <div class="con-wrap">
+                                            <div>
+                                                <label for="structure04">받침종류(대표)</label>
+                                                <input type="text" class="common-input2" id="" value="단순받침" title="경간형식(대표)" readonly>
+                                            </div>
+
+                                            <div>
+                                                <label for="structure05">받침종류(기타)</label>
+                                                <input type="text" class="common-input2" id="" value="받침종류" title="받침종류(기타)" readonly>
+                                            </div>
+                                        </div>
+                                        <!-- list -->
+
+                                        <!-- list -->
+                                        <div class="con-wrap">
+                                            <div>
+                                                <label for="structure06">신축이음종류(대표)</label>
+                                                <input type="text" class="common-input2" id="" value="슬리브형" title="신축이음종류(대표)" readonly>
+                                            </div>
+
+                                            <div>
+                                                <label for="structure07">신축이음종류(기타)</label>
+                                                <input type="text" class="common-input2" id="" value="슬리브형" title="신축이음종류(기타)" readonly>
+                                            </div>
+
+                                            <div>
+                                                <label for="structure08">하부통과 제한높이(m)</label>
+                                                <input type="text" class="common-input2" id="" value="50m" title="하부통과 제한높이(m)" readonly>
+                                            </div>
+                                        </div>
+                                        <!-- list -->
+                                    </div>
+
+                                    <div class="dashed-line"></div>
+                                    <!-- 상부구조 -->
+
+                                    <!-- 하부구조 -->
+                                    <span class="sub-head mb-10">하부구조</span>
+
+                                    <div class="input-container">
+                                        <!-- list -->
+                                        <div class="con-wrap">
+                                            <div>
+                                                <label for="underst01">교각형식(대표)</label>
+                                                <input type="text" class="common-input2" id="" value="T형 교각" title="교각형식(대표)" readonly>
+                                            </div>
+
+                                            <div>
+                                                <label for="underst02">교각형식(기타)</label>
+                                                <input type="text" class="common-input2" id="" value="문형 교각" title="교각형식(기타)" readonly>
+                                            </div>
+                                        </div>
+                                        <!-- list -->
+
+                                        <!-- list -->
+                                        <div class="con-wrap">
+                                            <div>
+                                                <label for="underst03">교각기초형식(대표)</label>
+                                                <input type="text" class="common-input2" id="" value="문형 교각" title="교각기초형식(대표)" readonly>
+                                            </div>
+
+                                            <div>
+                                                <label for="underst04">교각기초형식(기타)</label>
+                                                <input type="text" class="common-input2" id="" value="문형 교각" title="교각기초형식(기타)" readonly>
+                                            </div>
+                                        </div>
+                                        <!-- list -->
+
+                                        <!-- list -->
+                                        <div class="con-wrap">
+                                            <div>
+                                                <label for="underst05">교대형식(대표)</label>
+                                                <input type="text" class="common-input2" id="" value="횃불형 교각" title="교대형식(대표)" readonly>
+                                            </div>
+
+                                            <div>
+                                                <label for="underst06">교대형식(기타)</label>
+                                                <input type="text" class="common-input2" id="" value="횃불형 교각" title="교대형식(대표)" readonly>
+                                            </div>
+                                        </div>
+                                        <!-- list -->
+
+                                        <!-- list -->
+                                        <div class="con-wrap">
+                                            <div>
+                                                <label for="underst07">교대기초형식(대표)</label>
+                                                <input type="text" class="common-input2" id="" value="횃불형 교각" title="교대기초형식(대표)" readonly>
+                                            </div>
+
+                                            <div>
+                                                <label for="underst08">교대기초형식(기타)</label>
+                                                <input type="text" class="common-input2" id="" value="T형 교각" title="교대기초형식(기타)" readonly>
+                                            </div>
+                                        </div>
+                                        <!-- list -->
+
+                                        <!-- list -->
+                                        <div class="con-wrap">
+                                            <div>
+                                                <label for="underst09">교차노선/교차하천</label>
+                                                <input type="text" class="common-input2" id="" value="-" title="교차노선/교차하천" readonly>
+                                            </div>
+
+                                            <div>
+                                                <label for="underst10">교차하천최고수심(m)</label>
+                                                <input type="text" class="common-input2" id="" value="50" title="교차하천최고수심" readonly>
+                                            </div>
+                                        </div>
+                                        <!-- list -->                                    
+                                    </div>
+
+                                    <div class="dashed-line"></div>
+                                    <!-- 하부구조 -->
+
+                                    <!-- 기타 -->
+                                    <div class="input-container">
+                                        <!-- list -->
+                                        <div class="con-wrap">
+                                            <div>
+                                                <label for="etc01">하천해상교량 해당여부</label>
+                                                <input type="text" class="common-input2" id="" value="-" title="하천해상교량 해당여부" readonly>
+                                            </div>
+                                        </div>
+                                        <!-- list -->
+
+                                        <!-- list -->
+                                        <div class="con-wrap">
+                                            <div>
+                                                <label for="etc02">부착시설내용</label>
+                                                <input type="text" class="common-input2" id="" value="-" title="하천해상교량 해당여부" readonly>
+                                            </div>
+                                        </div>
+                                        <!-- list -->
+
+                                        <!-- list -->
+                                        <div class="con-wrap">
+                                            <div>
+                                                <label for="etc03">기타상세제원</label>
+                                                <input type="text" class="common-input2" id="" value="-" title="기타상세제원" readonly>
+                                            </div>
+                                        </div>
+                                        <!-- list -->
+                                    </div>
+                                    <!-- 기타 -->
+                                </div>
+                            </div>
+                            <!-- 왼쪽정보 -->
+
+                            <!-- 오른쪽 이미지 -->
+                            <div class="img-view">
+                                <span class="sub-head mb-10">시설물 3차원 미리보기</span>
+
+                                <div class="thumWrap">
+                                    <img src="img/thum_img_01.png">
+                                </div>
+                            </div>
+                            <!-- 오른쪽 이미지 -->
+                        </div>
+                        
+                    </div>
+                    <!-- modal-body -->
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">확인</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- // 시설물 상세 정보 전체 콘텐츠 Modal -->
+
+   </div>
+</body>
+</html>

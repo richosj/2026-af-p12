@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css" >
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/facility.css">
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/form.css">
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.7.1.js"></script>
+    <script src="js/ui.js"></script>
+    <title>국공유지-대시보드</title>
+</head>
+<body>
+    <div class="content">       
+        <!-- left menu 영역 01 -->
+        <header class="main-header"> <!-- depth -->
+            <div class="lnbWrap">
+                <h1 class="logo txt" aria-label="logo"><p class="logotxt">용인행정<br/>디지털<br/>트윈플랫폼</p></h1>
+                <div class="nav-wrap">
+                    <ul class="menu">
+                        <li class="menu-home"><a aria-label="메인">메인</a><span>메인</span></li> <!-- active -->
+                        <li class="menu-sevice"><a aria-label="지도서비스">지도서비스</a><span>지도서비스</span></li>
+                        <li class="menu-people"><a aria-label="유동인구">유동인구</a><span>유동인구</span></li>
+                        <li class="menu-map"><a aria-label="국공유지">국공유지</a><span>국공유지</span></li>
+                        <li class="menu-facility"><a aria-label="시설물">시설물</a><span>시설물</span></li>
+                        <li class="menu-admin"><a aria-label="관리자설정">관리자설정</a><span>관리자설정</span></li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="more-service">
+                <button type="button"></button>
+                <div class="notice-list">
+                    <ul>
+                        <li><a>공지사항</a></li>
+                        <li><a>이용안내/권장사항</a></li>
+                        <li><a>사용자 가이드</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+        <!-- //left menu 영역 01 -->
+
+        <!-- left menu 영역 02 -->
+        <header class="main-header">
+            <h1 class="logo" aria-label="logo">
+            </h1>
+            <div class="nav-wrap">
+                <ul class="main-menu">
+                    <li class="main-menu-home"><a aria-label="메인"><span>메인</span></a></li>
+                    <li class="main-menu-sevice active"><a aria-label="지도서비스"><span>지도서비스</span></a></li>
+                    <li class="main-menu-people"><a aria-label="유동인구"><span>유동인구</span></a></li>                   
+                    <li class="main-menu-map"><a aria-label="국공유지"><span>국공유지</span></a></li>
+                    <li class="main-menu-facility"><a aria-label="시설물"><span>시설물</span></a></li>
+                    <li class="main-menu-admin"><a aria-label="관리자설정"><span>관리자설정</span></a></li>
+                </ul>
+            </div>
+            <div class="more-service">
+                <button type="button"></button>
+            </div>
+        </header>
+        <!-- //left menu 영역 02 -->
+
+        <!-- search -->
+        <div class="search-area">
+            <div class="search-wrap">
+                <button type="button" class="btn-search">                    
+                </button>
+                <input type="text" class="form-round" placeholder="지역, 주소지, 시설물명 검색">  
+            </div>
+                
+            
+        </div>
+        <!-- //search -->
+
+        <!-- SNB 영역 -->
+        <div class="snb-area">
+            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                <button type="button" class="btn active">대시보드</button>
+                <button type="button" class="btn">국공유지 종합</button>
+                <button type="button" class="btn" data-bs-toggle="dropdown" aria-expanded="false">
+                    현장조사 관리
+                  </button>
+                <button type="button" class="btn">무단점유 분석</button>
+              </div>
+        </div>
+
+        <!-- //SNB 영역 -->
+
+        <!-- 대시보드-국공유지 -->
+        <div class="dashboard-container">
+            <div class="left-area">
+                <div class="whole-info">
+                    <div class="public-info">
+                        <span class="board-box-tit">전체</span>
+                        <span class="sta-date">2024.01.01 기준</span>                         
+                    </div>
+                    <div class="ml-auto public-info right-info">
+                        <span class="pub-num">100,000</span>
+                        <span class="pub-surface">면적: <span class="pub-surface">0000000000</span></span>      
+                        <span class="pub-rate">0.33%</span>
+                    </div>   
+                </div>
+                <div class="accordion public" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <a class="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                <div class="public-info">
+                                    <span class="board-box-tit">군유지</span>
+                                    <span class="sta-date">2024.01.01 기준</span>                         
+                                </div>
+                                <div class="ml-auto public-info">
+                                    <span class="pub-num">100,000</span>
+                                    <span class="pub-surface">면적: <span>0000000000㎡</span></span>      
+                                    <span class="pub-rate-down">0.33%</span>
+                                </div>                           
+                            </a>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="accordion-cont">
+                                    <ul class="status-wrap">
+                                    <li>
+                                        <span class="status-tit">국토부</span>
+                                        <span class="status-value">00,000</span>
+                                    </li>    
+                                    <li>
+                                        <span class="status-tit">기획재정부</span>
+                                        <span class="status-value">000</span>
+                                    </li>    
+                                    <li>
+                                        <span class="status-tit">국토해양부</span>
+                                        <span class="status-value">000</span>
+                                    </li>    
+                                    <li>
+                                        <span class="status-tit">관세청</span>
+                                        <span class="status-value">000</span>
+                                    </li>    
+                                    <li>
+                                        <span class="status-tit">내무부</span>
+                                        <span class="status-value">000</span>
+                                    </li>    
+                                    <li>
+                                        <span class="status-tit">국방부</span>
+                                        <span class="status-value">000</span>
+                                    </li>    
+                                    <li>
+                                        <span class="status-tit">산림청</span>
+                                        <span class="status-value">000</span>
+                                    </li>    
+                                    <li>
+                                        <span class="status-tit">조달청</span>
+                                        <span class="status-value">000</span>
+                                    </li> 
+                                    <li>
+                                        <span class="status-tit">법무부</span>
+                                        <span class="status-value">000</span>
+                                    </li>       
+                                    <li>
+                                        <span class="status-tit">국토부</span>
+                                        <span class="status-value">000</span>
+                                    </li>    
+                                    <li>
+                                        <span class="status-tit">기획재정부</span>
+                                        <span class="status-value">000</span>
+                                    </li>    
+                                    <li>
+                                        <span class="status-tit">국토해양부</span>
+                                        <span class="status-value">000</span>
+                                    </li>    
+                                    <li>
+                                        <span class="status-tit">관세청</span>
+                                        <span class="status-value">000</span>
+                                    </li>    
+                                    <li>
+                                        <span class="status-tit">내무부</span>
+                                        <span class="status-value">000</span>
+                                    </li>    
+                                    <li>
+                                        <span class="status-tit">국방부</span>
+                                        <span class="status-value">000</span>
+                                    </li>    
+                                    <li>
+                                        <span class="status-tit">산림청</span>
+                                        <span class="status-value">000</span>
+                                    </li>    
+                                    <li>
+                                        <span class="status-tit">조달청</span>
+                                        <span class="status-value">000</span>
+                                    </li> 
+                                    <li>
+                                        <span class="status-tit">법무부</span>
+                                        <span class="status-value">000</span>
+                                    </li>   
+                                    </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                            <a class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                <div class="public-info">
+                                    <span class="board-box-tit">시도유지</span>
+                                    <span class="sta-date">2024.01.01 기준</span>                         
+                                </div>
+                                <div class="ml-auto public-info">
+                                    <span class="pub-num">100,000</span>
+                                    <span class="pub-surface">면적: <span>0000000000㎡</span></span>     
+                                    <span class="pub-rate-up">0.33%</span>
+                                </div>   
+                            </a>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="accordion-cont">
+                                    <ul class="status-wrap">
+                                    <li>
+                                            <span class="status-tit">국토부</span>
+                                            <span class="status-value">000</span>
+                                    </li>    
+                                    <li>
+                                            <span class="status-tit">기획재정부</span>
+                                            <span class="status-value">000</span>
+                                    </li>    
+                                    <li>
+                                            <span class="status-tit">국토해양부</span>
+                                            <span class="status-value">000</span>
+                                    </li>    
+                                    <li>
+                                            <span class="status-tit">관세청</span>
+                                            <span class="status-value">000</span>
+                                    </li>    
+                                    <li>
+                                            <span class="status-tit">내무부</span>
+                                            <span class="status-value">000</span>
+                                    </li>    
+                                    <li>
+                                            <span class="status-tit">국방부</span>
+                                            <span class="status-value">000</span>
+                                    </li>    
+                                    <li>
+                                            <span class="status-tit">산림청</span>
+                                            <span class="status-value">000</span>
+                                    </li>    
+                                    <li>
+                                            <span class="status-tit">조달청</span>
+                                            <span class="status-value">000</span>
+                                    </li> 
+                                    <li>
+                                            <span class="status-tit">법무부</span>
+                                            <span class="status-value">000</span>
+                                    </li>       
+                                    </ul>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                            <a class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                <div class="public-info">
+                                    <span class="board-box-tit">미지정</span>
+                                    <span class="sta-date">2024.01.01 기준</span>                         
+                                </div>
+                                <div class="ml-auto public-info">
+                                    <span class="pub-num">100,000</span>
+                                    <span class="pub-surface">면적: <span>0000000000㎡</span></span>   
+                                    <span class="pub-rate-down">0.33%</span>
+                                </div>   
+                            </a>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="accordion-cont">
+                                    <ul class="status-wrap">
+                                        <li>
+                                            <span class="status-tit">국토부</span>
+                                            <span class="status-value">000</span>
+                                        </li>    
+                                        <li>
+                                            <span class="status-tit">기획재정부</span>
+                                            <span class="status-value">000</span>
+                                        </li>    
+                                        <li>
+                                            <span class="status-tit">국토해양부</span>
+                                            <span class="status-value">000</span>
+                                        </li>    
+                                        <li>
+                                            <span class="status-tit">관세청</span>
+                                            <span class="status-value">000</span>
+                                        </li>    
+                                        <li>
+                                            <span class="status-tit">내무부</span>
+                                            <span class="status-value">000</span>
+                                        </li>    
+                                        <li>
+                                            <span class="status-tit">국방부</span>
+                                            <span class="status-value">000</span>
+                                        </li>    
+                                        <li>
+                                            <span class="status-tit">산림청</span>
+                                            <span class="status-value">000</span>
+                                        </li>    
+                                        <li>
+                                            <span class="status-tit">조달청</span>
+                                            <span class="status-value">000</span>
+                                        </li> 
+                                        <li>
+                                            <span class="status-tit">법무부</span>
+                                            <span class="status-value">00,000</span>
+                                        </li>       
+                                    </ul>
+                                </div>
+                        </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>    
+            <div class="center-area">
+                <div class="board-box">
+                    <span class="board-box-tit">국공유지 현황</span>
+                    <div class="grade-ch-wrap top">
+                        <div class="sub-head-wrap">
+                            <span class="sub-head">면적 비율</span>
+                            <span class="ml-auto">값표시</span>
+                        </div>
+                        <!-- 차트 영역 -->
+                        <div class="safe-chart"> 
+                        </div>
+
+                    </div>
+                    <div class="grade-ch-wrap">
+                        <div class="sub-head-wrap">
+                            <span class="sub-head">점용 비율</span>
+                            <span class="ml-auto">값표시</span>
+                        </div>
+                        <!-- 차트 영역 -->
+                        <div class="safe-chart"> 
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="right-area">
+                <!-- 최근 위임관리 변경 건 -->
+                <div class="board-box top">
+                    <span class="board-box-tit">최근 위임관리 변경 건</span>
+                    <!-- swipe area-->
+                    <div id="carouselExampleDark" class="carousel carousel-dark slide">
+                        <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                        </div>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active" data-bs-interval="10000">
+                                <div>
+                                    <ul class="public-right">
+                                        <li class="board-list">
+                                            <span>2024.01.01</span>
+                                            <span class="cont-tit">위임관리관 변경 위임관리관 변경 위임관리관 변경 위임관리관 변경</span>
+                                            <span class="">용인시건설교통국 도로과</span>
+                                            <span>용인시건설교통국 도로과</span>
+                                        </li>
+                                        <li class="board-list">
+                                            <span>2024.02.02</span>
+                                            <span class="cont-tit">용도폐지 결정에 따른 위임관리관 변경 입력 수정</span>
+                                            <span class="">푸른공원사업소 공원조성과</span>
+                                            <span>푸른공원사업소 도시조성과</span>
+                                        </li>
+                                        <li class="board-list">
+                                            <span>2024.01.01</span>
+                                            <span class="cont-tit">위임관리관 변경</span>
+                                            <span class="">푸른공원사업소 공원조성과과과</span>
+                                            <span>용인시건설교통국 도로과</span>
+                                        </li>
+                                        <li class="board-list">
+                                            <span>2024.01.01</span>
+                                            <span class="cont-tit">위임관리관 변경</span>
+                                            <span class="">복지여성국 아동보건과</span>
+                                            <span>용인시건설교통국 도로과</span>
+                                        </li>
+                                        <li class="board-list">
+                                            <span>2024.01.01</span>
+                                            <span class="cont-tit">위임관리관 변경</span>
+                                            <span class="">용인시건설교통국 도로과</span>
+                                            <span>용인시건설교통국 도로과</span>
+                                        </li>
+                                        <li class="board-list">
+                                            <span>2024.01.01</span>
+                                            <span class="cont-tit">위임관리관 변경</span>
+                                            <span class="">용인시건설교통국 도로과</span>
+                                            <span>용인시건설교통국 도로과</span>
+                                        </li>
+                                        <li class="board-list">
+                                            <span>2024.01.01</span>
+                                            <span class="cont-tit">위임관리관 변경</span>
+                                            <span class="">용인시건설교통국 도로과</span>
+                                            <span>용인시건설교통국 도로과</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="carousel-item" data-bs-interval="2000">
+                                <div>
+                                    
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- //최근 위임관리 변경 건 -->
+
+                <!-- 지목 현황 -->
+                <div class="board-box">
+                    <span class="board-box-tit">지목 현황</span>
+                    <ul class="status-wrap">
+                        <li>
+                            <span class="status-tit">전</span>
+                            <span class="status-value">000</span>
+                        </li>
+                        <li>
+                            <span class="status-tit">담</span>
+                            <span class="status-value">000</span>
+                        </li>
+                        <li>
+                            <span class="status-tit">과수원</span>
+                            <span class="status-value">000</span>
+                        </li>
+                        <li>
+                            <span class="status-tit">목장</span>
+                            <span class="status-value">1,000</span>
+                        </li>
+                        <li>
+                            <span class="status-tit">임야</span>
+                            <span class="status-value">20,079</span>
+                        </li>
+                        <li>
+                            <span class="status-tit">광천지</span>
+                            <span class="status-value">000</span>
+                        </li>
+                        <li>
+                            <span class="status-tit">염전</span>
+                            <span class="status-value">000</span>
+                        </li>
+                        <li>
+                            <span class="status-tit">대지</span>
+                            <span class="status-value">000</span>
+                        </li>
+                        <li>
+                            <span class="status-tit">공장용지</span>
+                            <span class="status-value">000</span>
+                        </li>
+                        <li>
+                            <span class="status-tit">학교용지</span>
+                            <span class="status-value">000</span>
+                        </li>
+                        <li>
+                            <span class="status-tit">주차장</span>
+                            <span class="status-value">000</span>
+                        </li>
+                        <li>
+                            <span class="status-tit">주유소용지</span>
+                            <span class="status-value">000</span>
+                        </li>
+                        <li>
+                            <span class="status-tit">창고용지</span>
+                            <span class="status-value">000</span>
+                        </li>
+                        <li>
+                            <span class="status-tit">도로</span>
+                            <span class="status-value">000</span>
+                        </li>
+                        <li>
+                            <span class="status-tit">철도용지</span>
+                            <span class="status-value">000</span>
+                        </li>
+                        <li>
+                            <span class="status-tit">제방</span>
+                            <span class="status-value">000</span>
+                        </li>
+                        <li>
+                            <span class="status-tit">하천</span>
+                            <span class="status-value">000</span>
+                        </li>
+                        <li>
+                            <span class="status-tit">구거</span>
+                            <span class="status-value">000</span>
+                        </li>
+                        <li>
+                            <span class="status-tit">유지</span>
+                            <span class="status-value">000</span>
+                        </li>
+                        <li>
+                            <span class="status-tit">양어장</span>
+                            <span class="status-value">000</span>
+                        </li>
+                        <li>
+                            <span class="status-tit">수도용지</span>
+                            <span class="status-value">000</span>
+                        </li>
+                        <li>
+                            <span class="status-tit">공원용지</span>
+                            <span class="status-value">000</span>
+                        </li>
+                        <li>
+                            <span class="status-tit">체육용지</span>
+                            <span class="status-value">000</span>
+                        </li>
+                        <li>
+                            <span class="status-tit">유원지</span>
+                            <span class="status-value">000</span>
+                        </li>
+                        <li>
+                            <span class="status-tit">종교용지</span>
+                            <span class="status-value">000</span>
+                        </li>
+                        <li>
+                            <span class="status-tit">사적지</span>
+                            <span class="status-value">000</span>
+                        </li>
+                        <li>
+                            <span class="status-tit">묘지</span>
+                            <span class="status-value">000</span>
+                        </li>
+                        <li>
+                            <span class="status-tit">잡종지</span>
+                            <span class="status-value">000</span>
+                        </li>
+                    </ul>
+                </div>
+                <!-- //지목 현황 -->
+            </div>
+        </div>
+        <!-- //대시보드-국공유지 -->
+
+        <!-- 상단 gnb 영역 -->
+        <div class="gnb">
+            <span class="profile"></span>
+            <span class="notify">
+                <span class="badge">1
+                    <!-- <span class="visually-hidden">New alerts</span> -->
+                </span>
+            </span>
+        </div>
+        <!-- //상단 gnb 영역 -->
+
+        <div class="copyright">
+            <p>COPYRIGHT © Yonginsi. ALL RIGHT RESERVED</p>
+        </div>
+    </div>
+</body>
+</html>

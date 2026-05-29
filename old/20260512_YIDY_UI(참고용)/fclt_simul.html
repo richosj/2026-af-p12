@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>시설물 시뮬레이션 | 용인행정 디지털트윈플랫폼</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/facility.css" rel="stylesheet">
+    <link href="css/facility_manage.css" rel="stylesheet">
+    <script src="js/jquery-3.7.1.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        #map { position:absolute; top:0; width:100%; height:100%; background:linear-gradient(160deg,#1a2a3a 0%,#243448 40%,#1e3040 100%); z-index:0; }
+        .footer { position:absolute; bottom:0; width:100%; z-index:5; }
+        .footer_txt { text-align:center; font-size:10px; color:rgba(255,255,255,0.55); padding:6px 0; }
+        .fs-cctv { height:250px; background:url(img/facility/cctv_bg.png) no-repeat; padding:17px; border:1px solid #e0e0e0; border-radius:10px; box-shadow:rgba(149,157,165,0.2) 0 2px 12px; }
+        .btn-outline { border:1px solid var(--secondary2-120); color:var(--secondary2-120); background:#fff; border-radius:15px; width:120px; height:42px; font-size:14px; cursor:pointer; }
+        .btn-outline:hover { border:1px solid #f3722c; color:#f3722c; }
+        /* simul-condition 아이콘 그리드 */
+        .simul-condition.select { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:14px; }
+        .simul-condition.select li {
+            display:flex; flex-direction:column; align-items:center; padding:10px 6px 8px;
+            border:1px solid var(--gray-90); border-radius:10px; cursor:pointer; text-align:center;
+        }
+        .simul-condition.select li.active { border-color:var(--primary-100); background:var(--primary-10); }
+        .simul-condition.select li span.round {
+            width:44px; height:44px; border-radius:50%; background:var(--secondary2-10);
+            display:flex; align-items:center; justify-content:center; margin-bottom:6px;
+        }
+        .simul-condition.select li.active span.round { background:var(--primary-20); }
+        .simul-condition.select li span:last-child { font-size:11px; color:var(--gray-40); }
+        .simul-condition.select li.active span:last-child { color:var(--primary-100); }
+        /* simul detail list */
+        .simul-condition.detail { display:flex; flex-direction:column; gap:8px; }
+        .simul-condition.detail li { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid var(--gray-90); }
+        .simul-condition.detail li span.round { width:34px; height:34px; border-radius:50%; background:var(--secondary2-10); flex-shrink:0; display:inline-flex; align-items:center; justify-content:center; }
+        .simul-condition.detail li .simul-name { margin-left:auto; font-size:12px; color:var(--secondary2-100); font-weight:500; }
+        /* 시설물 아이콘 매핑 */
+        .round.come    { background:var(--secondary2-10) url(img/facility/ico_come.svg) no-repeat center !important; }
+        .round.sgrade  { background:var(--secondary2-10) url(img/facility/ico_sgrade.svg) no-repeat center !important; }
+        .round.time    { background:var(--secondary2-10) url(img/facility/ico_facility_dk.svg) no-repeat center !important; background-size:20px !important; }
+        .round.truck   { background:var(--secondary2-10) url(img/facility/ico_basic.svg) no-repeat center !important; }
+        .round.special { background:var(--secondary2-10) url(img/facility/ico_facility_wh.svg) no-repeat center !important; }
+        .round.construction { background:var(--secondary2-10) url(img/facility/ico_construction.svg) no-repeat center !important; }
+        .round.borrow  { background:var(--secondary2-10) url(img/facility/ico_borrow.svg) no-repeat center !important; }
+        .round.plant   { background:var(--secondary2-10) url(img/facility/ico_plant.svg) no-repeat center !important; }
+        .simul-condition.select li.active .round { filter:none; }
+        .pop-th.w100 { width:100px !important; }
+        .switch-wrap.poi:hover,
+        .switch-wrap.poi .label label:hover { cursor:pointer !important; }
+    </style>
+</head>
+<body>
+<div class="content">
+    <div id="map">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="opacity:0.25;">
+            <!-- 도로 -->
+            <line x1="0%" y1="50%" x2="100%" y2="50%" stroke="#888" stroke-width="4"/>
+            <line x1="50%" y1="0%" x2="50%"  y2="100%" stroke="#777" stroke-width="3"/>
+            <!-- 시뮬레이션 마커 -->
+            <circle cx="45%" cy="38%" r="14" fill="rgba(243,114,44,0.7)" stroke="#fff" stroke-width="2"/>
+            <circle cx="60%" cy="48%" r="10" fill="rgba(243,114,44,0.6)" stroke="#fff" stroke-width="2"/>
+            <circle cx="38%" cy="60%" r="12" fill="rgba(28,100,242,0.7)" stroke="#fff" stroke-width="2"/>
+            <circle cx="55%" cy="65%" r="8"  fill="rgba(16,173,120,0.7)" stroke="#fff" stroke-width="2"/>
+        </svg>
+    </div>
+
+    <!-- LNB -->
+    <header class="main-header">
+        <div class="lnbWrap">
+            <div class="logo txt" style="cursor:pointer;"><p class="logotxt">용인행정<br>디지털<br>트윈플랫폼</p></div>
+            <div class="nav-wrap">
+                <ul class="menu">
+                    <li class="menu-home"><a>메인</a><span>메인</span></li>
+                    <li class="menu-sevice"><a>지도서비스</a><span>지도서비스</span></li>
+                    <li class="menu-people"><a>유동인구</a><span>유동인구</span></li>
+                    <li class="menu-map"><a>국공유지</a><span>국공유지</span></li>
+                    <li class="menu-facility active"><a>시설물</a><span>시설물</span></li>
+                    <li class="menu-admin"><a>시스템설정</a><span>시스템설정</span></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- SNB -->
+    <div class="snb-area" id="snbFclt">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn" onclick="location.href='fclt_dash.html'">대시보드</button>
+            <button type="button" class="btn" onclick="location.href='fclt_analy.html'">시설물 종합</button>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn" data-bs-toggle="dropdown" aria-expanded="false">시설물 관리</button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" onclick="location.href='fclt_mstat.html'">시설물 관리 현황</a></li>
+                </ul>
+            </div>
+            <button type="button" class="btn" onclick="location.href='fclt_msrmt.html'">실시간 계측</button>
+            <button type="button" class="btn active" onclick="location.href='fclt_simul.html'">시설물 시뮬레이션</button>
+        </div>
+    </div>
+
+    <!-- GNB -->
+    <div class="gnb">
+        <span class="profile">관리자님</span>
+        <span class="sugComment" id="sugComment">건의사항</span>
+    </div>
+
+    <!-- 우측 툴박스 -->
+    <div class="toolbox">
+        <div id="toolBar">
+            <div class="btn-group-vertical" role="group">
+                <input type="radio" class="btn-check" name="changeMap" id="2d">
+                <label class="btn" for="2d">2D</label>
+                <input type="radio" class="btn-check" name="changeMap" id="3d" checked>
+                <label class="btn" for="3d">3D</label>
+            </div>
+            <button type="button" class="item setting">지도설정</button>
+            <button type="button" class="item layer">레이어</button>
+            <button type="button" class="item save">저장</button>
+            <button type="button" class="item manual">매뉴얼</button>
+            <button type="button" class="item compass" style="padding-top:0;padding-left:8px;"><i style="transform:rotate(-45deg);">◈</i></button>
+        </div>
+    </div>
+
+    <!-- 데이터필터 버튼 -->
+    <div class="toolbox population" style="display:block;">
+        <button type="button" class="item data" id="btnOpenData">데이터</button>
+    </div>
+
+    <!-- 데이터 필터 모달 -->
+    <div class="modal-dialog shine data" id="lyrToggle" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header" style="justify-content:space-between;">
+                <h1 class="modal-title">데이터 필터</h1>
+                <button type="button" class="modal-btn-close" id="closeDataFilter"></button>
+            </div>
+            <div class="modal-line"></div>
+            <div class="modal-body" style="height:auto;">
+                <div class="mb-20">
+                    <span class="mid-tit mb-20">시뮬레이션 레이어 설정</span>
+                    <div class="accordion-body">
+                        <div class="filter-item">
+                            <div class="switch-wrap poi">
+                                <div><label class="switch"><input type="checkbox" id="its"><span class="slider round"></span></label></div>
+                                <div class="label" style="width:100%;"><label>소통정보</label></div>
+                            </div>
+                            <div class="switch-wrap poi">
+                                <div><label class="switch"><input type="checkbox" id="cctv"><span class="slider round"></span></label></div>
+                                <div class="label" style="width:100%;"><label>CCTV</label></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- search -->
+    <div class="main-content">
+        <div class="search-area">
+            <div class="search-wrap transparent"></div>
+            <div class="panel-open"><button></button></div>
+            <div class="d-flex">
+
+                <!-- 좌측: 시뮬레이션 조건 -->
+                <div class="map-sv-search facility-info">
+                    <div class="search-form-wrap">
+                        <span class="sub-head">시설물 시뮬레이션</span>
+                        <div>
+                            <span class="mid-tit mb-14">조건</span>
+                            <ul class="simul-condition select">
+                                <li data-id="inspect"><span class="round come"></span><span>점검도래</span></li>
+                                <li data-id="grade" class="active"><span class="round sgrade"></span><span>안전등급</span></li>
+                                <li data-id="complete" class="active"><span class="round time"></span><span>오래된 순</span></li>
+                                <li data-id="cargo"><span class="round truck"></span><span>화물차</span></li>
+                                <li data-id="spvh"><span class="round special"></span><span>특수차</span></li>
+                                <li data-id="cstrn" class="active"><span class="round construction"></span><span>공사장</span></li>
+                                <li data-id="roc"><span class="round borrow"></span><span>토석량</span></li>
+                                <li data-id="rmc"><span class="round plant"></span><span>레미콘공장</span></li>
+                            </ul>
+                        </div>
+                        <div class="search-btn-wrap" style="justify-content:center;">
+                            <button class="btn-outline" type="button" id="btnSimulAnalyze">분석</button>
+                        </div>
+                    </div>
+                    <div style="padding:20px;">
+                        <span class="mid-tit mb-14">데이터 제공처</span>
+                        <ul style="list-style:none;padding:0;font-size:11px;color:#666;line-height:1.8;">
+                            <li>1) 점검도래 : 국토교통부(시설물종합정보시스템)</li>
+                            <li>2) 안전등급 : 국토교통부(시설물종합정보시스템)</li>
+                            <li>3) 오래된 순 : 국토교통부(시설물종합정보시스템)</li>
+                            <li>4) 화물차 : 티맵 화물차정보</li>
+                            <li>5) 특수차 : 티맵 화물차정보</li>
+                            <li>6) 공사장 : 공공데이터포털</li>
+                            <li>7) 토석량 : 국토교통부(토석정보공유시스템)</li>
+                            <li>8) 레미콘 공장 : 한국레미콘공업협회</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 우측: 분석 결과 -->
+                <div class="facility-info-wrap" id="simulResult">
+                    <div class="result-item population" style="padding-bottom:0;margin-bottom:-30px;">
+                        <div><span class="sub-head">분석 결과</span></div>
+                    </div>
+                    <div style="height:220px;" id="fchart"></div>
+
+                    <div class="dashed-line-24" style="margin-top:0 !important;"></div>
+                    <div class="result-item population" style="margin-top:0;padding-top:0;">
+                        <div><span class="sub-head">시설물 정보</span></div>
+                    </div>
+
+                    <div class="situation-cont overflow-y-auto" style="height:60%;">
+                        <div>
+                            <ul class="d-flex mb-14">
+                                <li class="mr-30">
+                                    <span class="pop-th w100">시설물명</span>
+                                    <span class="fs-14" id="fclty_nm">상갈교</span>
+                                </li>
+                                <li class="mr-30">
+                                    <span class="txt-type-lg">2종</span>
+                                    <span class="fs-14 ml-3" id="fclty_type">교량</span>
+                                </li>
+                            </ul>
+                            <ul class="d-flex mb-14">
+                                <li class="mr-30">
+                                    <span class="pop-th w100">관리주체 구분</span>
+                                    <span class="fs-14">지자체</span>
+                                </li>
+                            </ul>
+                            <ul class="d-flex mb-14">
+                                <li>
+                                    <span class="pop-th w100">관리주체</span>
+                                    <span class="fs-14">용인시 기흥구청 도로과</span>
+                                </li>
+                            </ul>
+                            <ul class="d-flex mb-14">
+                                <li>
+                                    <span class="pop-th w100">소유자</span>
+                                    <span class="fs-14" id="facil_owner">기흥구청</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="dashed-line-24"></div>
+
+                        <!-- 선택 통계 -->
+                        <ul class="simul-condition detail">
+                            <li data-id="grade">
+                                <span class="round sgrade"></span>
+                                <span style="font-size:12px;">안전등급</span>
+                                <span class="simul-name">B등급</span>
+                            </li>
+                            <li data-id="complete">
+                                <span class="round time"></span>
+                                <span style="font-size:12px;">준공일자</span>
+                                <span class="simul-name">1998년 (27년)</span>
+                            </li>
+                            <li data-id="cstrn">
+                                <span class="round construction"></span>
+                                <span style="font-size:12px;">공사장</span>
+                                <span class="simul-name">반경 1km 내 2개소</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <button class="btn-side close" id="toggleSimulResult"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- footer -->
+    <div class="footer">
+        <div class="footer_txt">
+            ※ 본 자료는 실제 현황과 차이가 있을 수 있으므로 충분히 유의하여 참고용으로만 활용하시기 바라며, 업무 목적 외 타 용도로의 사용을 금합니다. ※
+        </div>
+    </div>
+</div>
+
+<script src="js/ui.js"></script>
+<script>
+$(document).ready(function(){
+    // 조건 토글
+    $('.simul-condition.select li').click(function(){
+        $(this).toggleClass('active');
+    });
+
+    // 데이터 필터
+    $('#btnOpenData').click(function(){ $('#lyrToggle').show(); });
+    $('#closeDataFilter').click(function(){ $('#lyrToggle').hide(); });
+
+    // 분석 실행
+    $('#btnSimulAnalyze').click(function(){
+        $('#simulResult').show();
+        renderSimulChart();
+    });
+
+    var rendered = false;
+    function renderSimulChart(){
+        if(rendered) return; rendered = true;
+        echarts.init(document.getElementById('fchart')).setOption({
+            legend:{ bottom:0, textStyle:{fontSize:10} },
+            series:[{
+                type:'pie', radius:['40%','68%'], center:['50%','44%'],
+                label:{show:true,fontSize:9,formatter:'{b}: {c}개'},
+                data:[
+                    {value:5,  name:'점검도래',  itemStyle:{color:'#F14730'}},
+                    {value:3,  name:'안전등급D이하',itemStyle:{color:'#FFA504'}},
+                    {value:8,  name:'오래된 시설물',itemStyle:{color:'#595a8a'}},
+                    {value:2,  name:'공사장 인접', itemStyle:{color:'#10AD78'}}
+                ]
+            }]
+        });
+    }
+});
+</script>
+</body>
+</html>

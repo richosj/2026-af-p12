@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>유동인구 분석 | 용인행정 디지털트윈플랫폼</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/facility.css" rel="stylesheet">
+    <link href="css/population.css" rel="stylesheet">
+    <link href="css/form.css" rel="stylesheet">
+    <script src="js/jquery-3.7.1.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        .input-date { width:100%; display:flex; justify-content:space-between; align-items:center; }
+        .situation-box li span.situation-num::after { content:"명"; }
+        .situation-tit { font-weight:400; }
+        .situation-num { font-size:20px; font-weight:600; }
+        .indic-box { height:250px; margin-bottom:0; padding:10px 10px 5px 20px; }
+        .search-form-wrap { height:100%; }
+        .search-btn-wrap {
+            height:-webkit-fill-available;
+            display:flex;
+            flex-direction:column;
+            justify-content:flex-end;
+            align-items:center;
+        }
+        .btn-outline {
+            width:250px;
+            background:var(--primary-100);
+            color:white;
+            border:1px solid white;
+        }
+        .div-area tr { border-top:1px solid black; border-bottom:1px solid black; }
+        .td-one   { width:30px;  text-align:center; vertical-align:middle; }
+        .td-two   { width:170px; text-align:left;   vertical-align:middle; padding-left:30px; }
+        .td-three {              vertical-align:middle; text-align:right; }
+        .stat-data {
+            position:absolute;
+            top:128px;
+            right:78px;
+            background:var(--white);
+            border-radius:30px;
+            width:200px;
+            height:100px;
+            display:flex;
+            flex-direction:column;
+            box-shadow:0 4px 12px rgba(0,0,0,0.15);
+        }
+        .stat-modal-header {
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            padding:20px 20px 0;
+        }
+        .stat-modal-title { font-size:14px; font-weight:600; }
+        .stat-modal-body  { text-align:center; display:flex; flex-direction:column; vertical-align:middle; }
+        .stat-modal-body td { text-align:center; font-size:18px; font-weight:700; align-content:center; }
+        .stat-body-data { text-align:right; }
+        .div-area span { font-weight:400; font-size:17px; }
+        .btn-round { font-size:14px; padding:7px 5px; }
+        .indic-chart-area.one   { height:260px; }
+        .indic-chart-area.three { height:280px; }
+        .chart_mark { font-size:10px; color:#999999; margin-left:5px; }
+        .div-num {
+            text-align:center;
+            background:#fff;
+            border-radius:30px;
+            height:30px;
+            vertical-align:middle;
+            align-content:center;
+        }
+        .situation-box li,
+        .situation-box li:first-child,
+        .situation-box li:last-child { background:var(--secondary2-10); }
+        .situation-box li span.situation-tit { margin-bottom:7px; color:black; }
+        /* 3D 맵 배경 */
+        #map {
+            position:absolute;
+            top:0; width:100%; height:100%;
+            background:linear-gradient(160deg,#18283a 0%,#233448 40%,#1a3040 100%);
+            z-index:0;
+        }
+        .footer {
+            position:absolute;
+            bottom:0; width:100%;
+            z-index:5;
+        }
+        .footer_txt {
+            text-align:center;
+            font-size:10px;
+            color:rgba(255,255,255,0.55);
+            padding:6px 0;
+        }
+        /* custom-select fallback for static HTML */
+        .custom-select select {
+            display:block !important;
+            width:100%;
+            padding:6px 10px;
+            border:1px solid #ccc;
+            border-radius:30px;
+            font-size:14px;
+            height:36px;
+            appearance:none;
+            background:url(img/common/ico_arrow_down.svg) no-repeat right 10px center;
+            background-size:16px;
+            cursor:pointer;
+        }
+        .divide-02 { display:flex; gap:8px; }
+        .facility-info-wrap {
+            display:flex;
+            flex-direction:column;
+            width:336px;
+            height:calc(100vh - 76px);
+            background:var(--white);
+            border-radius:0 30px 0 0;
+        }
+        .btn-side.close {
+            position:absolute;
+            right:0;
+            top:60px;
+            width:28px;
+            height:42px;
+            border-radius:0 10px 10px 0;
+            background:#fff url(img/population/btn_side_close.svg) no-repeat center center;
+            margin-top:20px;
+            border:none;
+            cursor:pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="content">
+
+    <!-- 3D 맵 배경 -->
+    <div id="map">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="opacity:0.35;">
+            <defs>
+                <pattern id="hex" x="0" y="0" width="44" height="50" patternUnits="userSpaceOnUse">
+                    <polygon points="22,2 42,13 42,37 22,48 2,37 2,13" fill="none" stroke="#5599bb" stroke-width="0.8"/>
+                </pattern>
+                <pattern id="hex2" x="22" y="25" width="44" height="50" patternUnits="userSpaceOnUse">
+                    <polygon points="22,2 42,13 42,37 22,48 2,37 2,13" fill="none" stroke="#5599bb" stroke-width="0.8"/>
+                </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#hex)"/>
+            <rect width="100%" height="100%" fill="url(#hex2)"/>
+        </svg>
+        <!-- 3D 기둥 시각화 -->
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;">
+            <rect x="51%" y="6%"  width="12" height="90"  rx="2" fill="rgba(50,150,220,0.90)"/>
+            <rect x="53%" y="10%" width="12" height="65"  rx="2" fill="rgba(50,150,220,0.80)"/>
+            <rect x="49%" y="12%" width="12" height="110" rx="2" fill="rgba(30,120,200,0.95)"/>
+            <rect x="55%" y="8%"  width="12" height="52"  rx="2" fill="rgba(60,160,230,0.75)"/>
+            <rect x="47%" y="16%" width="12" height="72"  rx="2" fill="rgba(40,130,210,0.85)"/>
+            <rect x="57%" y="14%" width="12" height="40"  rx="2" fill="rgba(70,170,240,0.70)"/>
+            <rect x="45%" y="22%" width="12" height="58"  rx="2" fill="rgba(50,140,215,0.80)"/>
+            <rect x="52%" y="32%" width="12" height="36"  rx="2" fill="rgba(80,180,250,0.60)"/>
+            <rect x="48%" y="34%" width="12" height="44"  rx="2" fill="rgba(70,170,240,0.65)"/>
+            <rect x="56%" y="30%" width="12" height="28"  rx="2" fill="rgba(90,190,255,0.55)"/>
+            <rect x="68%" y="52%" width="12" height="70"  rx="2" fill="rgba(20,100,200,0.92)"/>
+            <rect x="70%" y="56%" width="12" height="55"  rx="2" fill="rgba(30,110,210,0.82)"/>
+        </svg>
+    </div>
+
+    <!-- LNB -->
+    <header class="main-header">
+        <div class="lnbWrap">
+            <div class="logo txt" style="cursor:pointer;">
+                <p class="logotxt">용인행정<br>디지털<br>트윈플랫폼</p>
+            </div>
+            <div class="nav-wrap">
+                <ul class="menu">
+                    <li class="menu-home"    ><a aria-label="메인">메인</a><span>메인</span></li>
+                    <li class="menu-sevice"  ><a aria-label="지도서비스">지도서비스</a><span>지도서비스</span></li>
+                    <li class="menu-people active"><a aria-label="유동인구">유동인구</a><span>유동인구</span></li>
+                    <li class="menu-map"     ><a aria-label="국공유지">국공유지</a><span>국공유지</span></li>
+                    <li class="menu-facility"><a aria-label="시설물">시설물</a><span>시설물</span></li>
+                    <li class="menu-admin"   ><a aria-label="시스템설정">시스템설정</a><span>시스템설정</span></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- SNB -->
+    <div class="snb-area">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn" onclick="location.href='pop_dashboard.html'">대시보드</button>
+            <button type="button" class="btn active" onclick="location.href='pop_analysis.html'">유동인구 분석</button>
+            <button type="button" class="btn" onclick="location.href='land_analysis.html'">입지 분석</button>
+        </div>
+    </div>
+
+    <!-- GNB -->
+    <div class="gnb">
+        <span class="profile">관리자님</span>
+        <span class="sugComment" id="sugComment">건의사항</span>
+    </div>
+
+    <!-- 우측 툴박스 -->
+    <div class="toolbox">
+        <div id="toolBar">
+            <div class="btn-group-vertical" role="group">
+                <input type="radio" class="btn-check" name="changeMap" id="2d">
+                <label class="btn" for="2d">2D</label>
+                <input type="radio" class="btn-check" name="changeMap" id="3d" checked>
+                <label class="btn" for="3d">3D</label>
+            </div>
+            <button type="button" class="item setting">지도설정</button>
+            <button type="button" class="item layer">레이어</button>
+            <button type="button" class="item shine">일조권</button>
+            <button type="button" class="item visible">가시권</button>
+            <button type="button" class="item land">경관보기</button>
+            <button type="button" class="item distance">거리</button>
+            <button type="button" class="item elev">표고</button>
+            <button type="button" class="item area">면적</button>
+            <button type="button" class="item save">저장</button>
+            <button type="button" class="item estate">부동산</button>
+            <button type="button" class="item slope">경사도</button>
+            <button type="button" class="item manual">매뉴얼</button>
+            <button type="button" class="item compass" style="padding-top:0;padding-left:8px;">
+                <i style="transform:rotate(0rad) rotate(-45deg);">◈</i>
+            </button>
+        </div>
+    </div>
+
+    <!-- search -->
+    <div class="search-area">
+        <div class="search-wrap transparent">
+            <button type="button" class="btn-cancel"></button>
+        </div>
+        <div class="d-flex">
+            <!-- 좌측 분석 패널 -->
+            <div class="map-sv-search">
+                <div class="search-form-wrap">
+                    <span class="sub-head mb-10">유동인구 분석</span>
+
+                    <!-- 기간 설정 -->
+                    <div class="mb-14">
+                        <span class="mid-tit mb-14">기간 설정</span>
+                        <div class="select-wrap">
+                            <div class="btn-group" role="group" style="width:48%;">
+                                <button type="button" class="btn select dropdown-toggle w132" data-bs-toggle="dropdown"
+                                        aria-expanded="false" style="border:1px solid grey;height:36px;font-size:14px;">
+                                    2025년
+                                </button>
+                                <ul class="dropdown-menu select">
+                                    <li><span class="dropdown-item">2025년</span></li>
+                                    <li><span class="dropdown-item">2024년</span></li>
+                                </ul>
+                            </div>
+                            <div class="btn-group" role="group" style="width:48%;margin-left:6px;">
+                                <button type="button" class="btn select dropdown-toggle w132" data-bs-toggle="dropdown"
+                                        aria-expanded="false" style="border:1px solid grey;height:36px;font-size:14px;">
+                                    3월
+                                </button>
+                                <ul class="dropdown-menu select">
+                                    <li><span class="dropdown-item">3월</span></li>
+                                    <li><span class="dropdown-item">2월</span></li>
+                                    <li><span class="dropdown-item">1월</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 시각화 -->
+                    <span class="mid-tit mb-4">시각화</span>
+                    <div class="btn-group population" role="group" style="margin-bottom:14px;">
+                        <button type="button" class="btn active" id="vizBubble">버블</button>
+                        <button type="button" class="btn" id="vizArrow">화살표</button>
+                    </div>
+
+                    <!-- 구역 설정 -->
+                    <span class="mid-tit mb-4">구역 설정 (행정동)</span>
+                    <div class="divide-02 mb-14">
+                        <div class="custom-select">
+                            <select title="시군구 선택">
+                                <option value="0">용인시</option>
+                                <option value="1">용인시 처인구</option>
+                                <option value="2">용인시 기흥구</option>
+                                <option value="3">용인시 수지구</option>
+                            </select>
+                        </div>
+                        <div class="custom-select">
+                            <select title="읍면동 선택">
+                                <option value="0">전체</option>
+                                <option value="1">역북동</option>
+                                <option value="2">보정동</option>
+                                <option value="3">기흥동</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- 데이터 옵션 -->
+                    <span class="mid-tit mb-4">데이터 옵션</span>
+                    <div class="divide-02">
+                        <button type="button" class="btn-round active" id="optGender">성별</button>
+                        <button type="button" class="btn-round" id="optAge">연령대</button>
+                        <button type="button" class="btn-round" id="optPurpose">이동목적</button>
+                        <button type="button" class="btn-round" id="optModal">이동수단</button>
+                    </div>
+                    <div class="custom-select mb-14 gender">
+                        <select title="성별 선택">
+                            <option value="0">전체</option>
+                            <option value="1">남자</option>
+                            <option value="2">여자</option>
+                        </select>
+                    </div>
+
+                    <!-- 방향 설정 -->
+                    <span class="mid-tit mb-4">방향 설정</span>
+                    <div class="btn-group population" role="group" style="margin-bottom:14px;">
+                        <button type="button" class="btn active" id="dirIn">유입</button>
+                        <button type="button" class="btn" id="dirOut">유출</button>
+                    </div>
+
+                    <div class="search-btn-wrap">
+                        <button class="btn-outline" type="button">분석</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 패널 토글 버튼 -->
+            <button class="btn-side-1st close" style="display:block;" id="btnSideToggle"></button>
+
+            <!-- 인구현황 패널 -->
+            <div class="facility-info-wrap" id="statPanel" style="display:none;">
+                <div class="result-item population">
+                    <div>
+                        <span class="sub-head">인구 현황</span>
+                    </div>
+                </div>
+                <div class="situation-cont">
+                    <ul class="situation-box">
+                        <li><div>
+                            <span class="situation-tit" style="text-align:center;">전체 유동인구</span>
+                            <span class="situation-num div-num" style="color:black;text-align:center;">5,842,210</span>
+                        </div></li>
+                        <li><div>
+                            <span class="situation-tit" style="text-align:center;">일일 평균 유동인구</span>
+                            <span class="situation-num div-num" style="color:black;text-align:center;">188,458</span>
+                        </div></li>
+                        <li><div>
+                            <span class="situation-tit" style="text-align:center;">유입인구</span>
+                            <span class="situation-num div-num" style="color:black;text-align:center;">3,041,362</span>
+                        </div></li>
+                        <li><div>
+                            <span class="situation-tit" style="text-align:center;">유출인구</span>
+                            <span class="situation-num div-num" style="color:black;text-align:center;">2,800,848</span>
+                        </div></li>
+                    </ul>
+                    <div class="dashed-line"></div>
+                    <div>
+                        <span class="sub-head mb-14" style="margin-bottom:5px !important;">지역 분석<span class="chart_mark"></span></span>
+                        <div class="indic-box">
+                            <div class="div-area" style="width:100%;text-align:center;">
+                                <span><span class="hdong-nm" style="font-weight:500;">신갈동</span>이 유동인구가 가장 많습니다.</span>
+                                <span><span class="hdong-nm" style="font-weight:500;">신갈동</span>에서 <span class="hdong-nm" style="font-weight:500;">역북동</span>으로 유동이 가장 많습니다.</span>
+                                <div style="width:100%;height:-webkit-fill-available;">
+                                    <table style="margin:10px;height:170px;width:-webkit-fill-available;">
+                                        <tr><td class="td-one">1위</td><td class="td-two">용인시 기흥구 신갈동</td><td class="td-three">1,535,565명</td></tr>
+                                        <tr><td class="td-one">2위</td><td class="td-two">용인시 기흥구 역북동</td><td class="td-three">1,421,388명</td></tr>
+                                        <tr><td class="td-one">3위</td><td class="td-two">용인시 기흥구 기흥동</td><td class="td-three">1,310,220명</td></tr>
+                                        <tr><td class="td-one">4위</td><td class="td-two">용인시 기흥구 구갈동</td><td class="td-three">1,205,140명</td></tr>
+                                        <tr><td class="td-one">5위</td><td class="td-two">용인시 기흥구 마북동</td><td class="td-three">1,099,560명</td></tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="sub-head mb-14"><span class="sub-head">유입</span>&nbsp;데이터 현황</span>
+                        <div class="indic-chart-area one" id="statChart1"><!-- chart 영역 --></div>
+                        <div class="indic-chart-area three" id="statChart2"><!-- chart 영역 --></div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-side close" id="btnResultToggle" style="display:none;"></button>
+        </div>
+    </div>
+    <!-- //search -->
+
+    <!-- 지도 위 데이터 팝업 -->
+    <div class="stat-data" id="statDataPopup">
+        <div class="stat-modal-content">
+            <div class="stat-modal-header">
+                <span class="stat-modal-title"><span>유입</span>인구 데이터</span>
+                <button type="button" class="stat-modal-btn-close" id="closeStatPopup"
+                        style="width:20px;height:20px;border:none;background:url(img/common/btn_close.svg) no-repeat center;cursor:pointer;"></button>
+            </div>
+        </div>
+        <div class="stat-modal-body">
+            <table style="margin:5px 25px 0;height:40px;width:-webkit-fill-available;">
+                <tr><td class="stat-body-data">21명</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- footer -->
+    <div class="footer">
+        <div class="footer_txt">
+            ※ 본 자료는 실제 현황과 차이가 있을 수 있으므로 충분히 유의하여 참고용으로만 활용하시기 바라며, 업무 목적 외 타 용도로의 사용을 금합니다. ※
+            <span class="altTilt_txt">고도 : <span class="alt">16,055</span>m | 기울임 각도 : <span class="tilt">55</span>°</span>
+        </div>
+    </div>
+</div>
+
+<script src="js/ui.js"></script>
+<script>
+$(document).ready(function(){
+    // 패널 토글
+    var panelOpen = false;
+    $('#btnSideToggle').click(function(){
+        panelOpen = !panelOpen;
+        if(panelOpen){
+            $('#statPanel').show();
+            $('#btnResultToggle').show();
+            $(this).removeClass('close').addClass('open');
+            renderStatCharts();
+        } else {
+            $('#statPanel').hide();
+            $('#btnResultToggle').hide();
+            $(this).removeClass('open').addClass('close');
+        }
+    });
+
+    // 데이터 팝업 닫기
+    $('#closeStatPopup').click(function(){ $('#statDataPopup').hide(); });
+
+    // 시각화 탭
+    $('#vizBubble,#vizArrow').click(function(){
+        $('#vizBubble,#vizArrow').removeClass('active');
+        $(this).addClass('active');
+    });
+    // 방향 탭
+    $('#dirIn,#dirOut').click(function(){
+        $('#dirIn,#dirOut').removeClass('active');
+        $(this).addClass('active');
+    });
+    // 데이터 옵션
+    $('#optGender,#optAge,#optPurpose,#optModal').click(function(){
+        $(this).toggleClass('active');
+    });
+
+    var chartsRendered = false;
+    function renderStatCharts() {
+        if(chartsRendered) return;
+        chartsRendered = true;
+
+        // 시간대별 차트
+        var c1 = echarts.init(document.getElementById('statChart1'));
+        c1.setOption({
+            grid:{top:10,bottom:30,left:45,right:10},
+            xAxis:{type:'category',data:['00','02','04','06','08','10','12','14','16','18','20','22'],axisLabel:{fontSize:9}},
+            yAxis:{type:'value',axisLabel:{fontSize:9},splitLine:{lineStyle:{color:'#f0f0f0'}}},
+            series:[{type:'line',data:[1200,800,600,900,3500,8200,12000,14500,11000,9500,7800,5200],
+                smooth:true,itemStyle:{color:'#1C64F2'},areaStyle:{opacity:0.1,color:'#1C64F2'}}]
+        });
+
+        // 요일별 차트
+        var c2 = echarts.init(document.getElementById('statChart2'));
+        c2.setOption({
+            grid:{top:10,bottom:30,left:45,right:10},
+            xAxis:{type:'category',data:['월','화','수','목','금','토','일'],axisLabel:{fontSize:9}},
+            yAxis:{type:'value',axisLabel:{fontSize:9},splitLine:{lineStyle:{color:'#f0f0f0'}}},
+            series:[
+                {name:'유입',type:'bar',data:[185000,190000,188000,192000,210000,175000,160000],itemStyle:{color:'#1C64F2'},barMaxWidth:20},
+                {name:'유출',type:'bar',data:[180000,185000,183000,188000,205000,170000,155000],itemStyle:{color:'#F14730'},barMaxWidth:20}
+            ]
+        });
+    }
+});
+</script>
+</body>
+</html>

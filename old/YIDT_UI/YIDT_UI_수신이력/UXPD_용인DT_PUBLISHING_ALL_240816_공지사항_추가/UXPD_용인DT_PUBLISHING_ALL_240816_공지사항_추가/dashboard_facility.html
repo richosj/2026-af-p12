@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/common.css" rel="stylesheet">
+    <link href="css/facility.css" rel="stylesheet">
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/jquery-3.7.1.js"></script>
+    <script src="js/ui.js"></script>
+    <title>용인시 지도 서비스</title>
+</head>
+<body>
+    <div class="content">       
+        <!-- left menu 영역 01 -->
+        <header class="main-header"> <!-- depth -->
+            <div class="lnbWrap">
+                <h1 class="logo txt" aria-label="logo"><p class="logotxt">용인행정<br/>디지털<br/>트윈플랫폼</p></h1>
+                <div class="nav-wrap">
+                    <ul class="menu">
+                        <li class="menu-home"><a aria-label="메인">메인</a><span>메인</span></li> <!-- active -->
+                        <li class="menu-sevice"><a aria-label="지도서비스">지도서비스</a><span>지도서비스</span></li>
+                        <li class="menu-people"><a aria-label="유동인구">유동인구</a><span>유동인구</span></li>
+                        <li class="menu-map"><a aria-label="국공유지">국공유지</a><span>국공유지</span></li>
+                        <li class="menu-facility"><a aria-label="시설물">시설물</a><span>시설물</span></li>
+                        <li class="menu-admin"><a aria-label="관리자설정">관리자설정</a><span>관리자설정</span></li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="more-service">
+                <button type="button"></button>
+                <div class="notice-list">
+                    <ul>
+                        <li><a>공지사항</a></li>
+                        <li><a>이용안내/권장사항</a></li>
+                        <li><a>사용자 가이드</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+        <!-- //left menu 영역 01 -->
+
+        <!-- search -->
+        <div class="search-area">       
+        </div>
+        <!-- //search -->
+
+        <!-- SNB 영역 -->
+        <div class="snb-area">
+            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                <button type="button" class="btn active">대시보드</button>
+                <button type="button" class="btn">시설물 종합</button>
+              
+                <div class="btn-group" role="group">
+                  <button type="button" class="btn" data-bs-toggle="dropdown" aria-expanded="false">
+                    시설물 관리
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">시설물 관리 현황</a></li>
+                    <li><a class="dropdown-item" href="#">시설물 안전점검 현황</a></li>
+                    <li><a class="dropdown-item" href="#">시설물 보강/결함 현황</a></li>
+                  </ul>
+                </div>
+                <button type="button" class="btn">실시간 계측</button>
+              </div>
+        </div>
+
+        <!-- //SNB 영역 -->
+
+        <!-- 대시보드-시설물 -->
+        <div class="dashboard-container">
+            <div class="left">
+                <div class="board-box population">
+                    <div class="box-tit-container">
+                        <span class="board-box-tit">시설물 총괄 현황</span>
+                        <div class="btn-wrap">
+                            <button type="button" class="btn-round active">전체</button>
+                            <button type="button" class="btn-round">기흥구</button>
+                            <button type="button" class="btn-round">수지구</button>
+                            <button type="button" class="btn-round">처인구</button>
+                        </div>
+                    </div>
+
+                    <ul class="case-box">
+                        <li class="whole"><span class="case-tit">전체</span><span class="case-num">1,442</span></li>
+                        <li class="case-01"><span class="case-tit">건축물</span><span class="case-num">432</span></li>
+                        <li class="case-02"><span class="case-tit">교량</span><span class="case-num">432</span></li>
+                        <li class="case-03"><span class="case-tit">댐</span><span class="case-num">432</span></li>
+                        <li class="case-04"><span class="case-tit">기타</span><span class="case-num">432</span></li>
+                        <li class="case-05"><span class="case-tit">하천</span><span class="case-num">432</span></li>
+                        <li class="case-06"><span class="case-tit">웅벽</span><span class="case-num">432</span></li>
+                        <li class="case-07"><span class="case-tit">절토사면</span><span class="case-num">432</span></li>
+                        <li class="case-08"><span class="case-tit">터널</span><span class="case-num">432</span></li>
+                        <li class="case-09"><span class="case-tit">항만</span><span class="case-num">432</span></li>
+                        <li class="case-10"><span class="case-tit">공동구</span><span class="case-num">432</span></li>
+                        <li class="case-11"><span class="case-tit">상하수도</span><span class="case-num">432</span></li>
+                    </ul>
+                </div>
+
+                <div class="map-area board-box">
+                    <div class="btn-zoom-wrap">
+                        <button type="button" class="zoomin"></button>
+                        <button type="button" class="zoomout"></button>
+                    </div>
+                    <div class="map-container">
+                        <img id="displayed-image" src="./img/facility/map_yongin.svg" alt="Displayed Image">
+                    </div>
+                </div>
+
+            </div>
+            <div class="right">
+                
+                <div class="board-box">
+                    <!-- 차트 영역 -->
+                </div>
+
+                <!-- 점검도래시설물 -->
+                <div class="board-wrapper">
+                    <div class="board-box">
+                        <span class="board-box-tit">점검 도래 시설물</span>
+                        <div class="right-btm-box">
+                            <div class="btm-left">
+                                <div>
+                                    <span class="fac-num">100</span>
+                                    <span class="board-box-tit">이번달</span>
+                                </div>
+                                <div>
+                                    <span class="fac-num">50</span>
+                                    <span class="board-box-tit">금주</span>
+                                </div>
+                            </div>
+                            <ul class="btm-right">
+                                <li class="board-list">
+                                    <span class="txt-type etc">기타</span>
+                                    <span class="fac-name">상갈교</span>
+                                    <span class="comp-year">준공 2015</span>
+                                    <span class="">점검 예정 2024. 05. 30</span>
+                                </li>
+                                <li class="board-list">
+                                    <span class="txt-type">1종</span>
+                                    <span class="fac-name">고매 2교(가나다라마바)</span>
+                                    <span class="comp-year active">준공 2015</span>
+                                    <span class="active">점검 예정 2024. 05. 30</span>
+                                </li>
+                                <li class="board-list">
+                                    <span class="txt-type second">2종</span>
+                                    <span class="fac-name">고매교교교교교교</span>
+                                    <span class="comp-year">준공 2015</span>
+                                    <span class="">점검 예정 2024. 05. 30</span>
+                                </li>
+                                <li class="board-list">
+                                    <span class="txt-type third">3종</span>
+                                    <span class="fac-name">고매 2교(가나다라마바)</span>
+                                    <span class="comp-year">준공 2015</span>
+                                    <span class="">점검 예정 2024. 05. 30</span>
+                                </li>
+                                <li class="board-list">
+                                    <span class="txt-type">1종</span>
+                                   <span class="fac-name">고매 2교(가나다라마바)</span>
+                                    <span class="comp-year">준공 2015</span>
+                                    <span class="">점검 예정 2024. 05. 30</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- //대시보드-시설물 -->
+
+        <!-- 상단 gnb 영역 -->
+        <div class="gnb">
+            <span class="profile"></span>
+            <span class="notify">
+                <span class="badge">1
+                    <!-- <span class="visually-hidden">New alerts</span> -->
+                </span>
+            </span>
+        </div>
+        <!-- //상단 gnb 영역 -->
+
+        <!-- 우측 메뉴 -->
+        <div class="toolbox" style="display: none;">
+            <div>
+                <button type="button" class="item layer">필터</button>
+                <button type="button" class="item theme">테마</button>
+                <button type="button" class="item route">거리뷰</button>
+            </div>
+            <div>
+                <button type="button" class="item favorite">저장</button>
+                <button type="button" class="item share">공유</button>
+                <button type="button" class="item print">인쇄</button>
+            </div>
+            <div class="btm-box">
+                <button type="button" class="item location"></button>
+                <button type="button" class="item zoomin"></button>
+                <button type="button" class="item zoomout"></button>
+            </div>
+        </div>
+        <!-- //우측 메뉴 -->
+
+        <!-- 범례 -->
+        <div class="legend" style="display: none;">
+            <div class="range">
+                <span>100</span>
+                <span class="dash"></span>
+                <span>0</span>
+                <span class="dash"></span>
+                <span>100</span>
+            </div>
+            <div class="ratio-wrap">
+                <span class="gender">여성</span>
+                <ul class="color-lev">
+                    <li class="w-05"></li>
+                    <li class="w-04"></li>
+                    <li class="w-03"></li>
+                    <li class="w-02"></li>
+                    <li class="w-01"></li>
+                    <li class="lev-0"></li>
+                    <li class="m-01"></li>
+                    <li class="m-02"></li>
+                    <li class="m-03"></li>
+                    <li class="m-04"></li>
+                    <li class="m-05"></li>
+                </ul>
+                <span class="gender">남성</span>
+                <span class="rate">비율(%)</span>
+            </div>
+
+        </div>
+        <!-- //범례 -->
+        <div class="copyright">
+            <p>COPYRIGHT © Yonginsi. ALL RIGHT RESERVED</p>
+        </div>
+    </div>
+        <!-- map image change -->
+        <script>
+            function changeImage(imageSrc) {
+            document.getElementById('displayed-image').src = imageSrc;
+            }
+        </script>
+</body>
+</html>

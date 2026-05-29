@@ -1,0 +1,556 @@
+@charset "UTF-8";
+@import url(../css/common.css);
+
+
+
+//국공유지 목록
+.public-section {
+    padding: 0 20px 0;
+    .sub-head {
+        margin-bottom: 10px;
+    }
+    .pagination {
+        border-top: none;
+    }
+}
+.public-list-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.public-list {
+    a {
+        display: flex;
+        width: 100%;
+        gap: 6px;
+        align-items: center;
+        height: 40px;
+        padding: 6px 0;
+        background: #f9f9f9;
+        border-radius: 10px;
+        border: 1px solid #f9f9f9;
+        &:active, &.active {
+            background: var(--primary-10);
+            border: 1px solid var(--primary-100);
+        }
+        span {
+            white-space: nowrap; /* 텍스트가 줄바꿈되지 않도록 설정 */
+            overflow: hidden; /* 넘치는 텍스트를 숨김 */
+            text-overflow: ellipsis; /* 넘치는 텍스트를 "..."으로 표시 */
+            &:first-child {
+                width: 60px;
+                text-align: center;
+            }
+            &:nth-child(2) {
+                flex: 1;
+                white-space: nowrap;       /* 텍스트를 한 줄로 유지 */
+                overflow: hidden;          /* 넘친 내용을 숨김 */
+                text-overflow: ellipsis;
+            }
+            &:last-child {
+                width: 40px;
+                text-align: center;
+            }
+        }
+    }
+
+}
+.public-th {
+    display: flex;
+    gap: 6px;
+    span {
+        &:first-child {
+            width: 60px;
+        }
+        &:nth-child(2) {
+            flex: 1;
+        }
+        &:last-child {
+            width: 40px;
+        }
+        border-top: 1px solid var(--gray-80);
+        padding: 8px 0 7px;
+        text-align: center;
+        color: var(--gray-40);
+    }
+}
+
+// 국공유지 목록 우측 컨텐츠
+.search-form-wrap {
+    padding: 30px 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    .divide-02 {
+      display: flex;
+      gap: 10px;
+    }
+    .search-btn-wrap {
+      margin: 14px 0 30px;
+      text-align: center;
+    }
+  }
+  .facility-info-wrap {
+    &.public {
+        .tab-content {
+            height: calc(100vh - 225px);
+
+        }
+        .public-info {
+            height: calc(100vh - 225px);
+            padding: 0;
+            position: relative;
+            overflow-y: hidden;
+            .pagination-wrap {
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                .pagination {
+                    background: #fff;
+                }
+            }
+
+        }
+    }
+  }
+  .public-form {
+    display: flex;
+    gap: 8px;
+    padding: 24px;
+    .custom-select {
+        width: 122px;
+    }
+    .input-container {
+        flex: 1;
+    }
+    .public-search {
+        width: 51px;
+        height: 36px;
+        line-height: 34px;
+        text-align: center;
+        background: #fff;
+        border: 1px solid var(--gray-20);
+        border-radius: 18px;
+      }
+  }
+//변동이력 테이블
+.public-table-wrap {
+    padding: 0 24px 18px;
+    &.public-modal {
+        padding: 0;
+    }
+    .pagination {
+        border-top: 0;
+    }
+    .public-th {
+        span {
+            color: var(--secondary2-100);
+            border-top: 1px solid var(--secondary2-100);
+            // &:nth-child(1) {
+            //     width: 96px;
+            // }
+            // &:nth-child(2) {
+            //     width: 90px;
+            // }
+            // &:nth-child(3) {
+            //     width: 106px;
+            // }
+            // &:nth-child(4) {
+            //     width: 80px;
+            // }
+        }
+
+    }
+    .public-list {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px;
+        min-height: 42px;
+        background: var(--secondary2-20);
+        border-radius: 10px;
+        a {
+            &:active, &.active {
+                background: var(--primary-10);
+                border: 1px solid var(--primary-100);
+            }
+        }
+        span {
+            white-space: nowrap; /* 텍스트가 줄바꿈되지 않도록 설정 */
+            overflow: hidden; /* 넘치는 텍스트를 숨김 */
+            text-overflow: ellipsis; /* 넘치는 텍스트를 "..."으로 표시 */
+        }
+    }
+}
+//우측 탭 내부 테이블 너비
+.tab-02 {
+    span {
+        text-align: center;
+        &:nth-child(1) {
+            width: 96px;
+        }
+        &:nth-child(2) {
+            flex: 1;
+        }
+        &:nth-child(3) {
+            width: 66px;
+        }
+        &:nth-child(4) {
+            width: 80px;
+        }
+    }
+}
+.tab-03 {
+    span {
+        text-align: center;
+        &:nth-child(1) {
+            width: 96px;
+        }
+        &:nth-child(2) {
+            width: 90px;
+        }
+        &:nth-child(3) {
+            width: 106px;
+        }
+        &:nth-child(4) {
+            width: 80px;
+        }
+    }
+}
+.tab-04 {
+    span {
+        text-align: center;
+        &:nth-child(1) {
+            width: 96px;
+        }
+        &:nth-child(2) {
+            flex: 1;
+        }
+        &:nth-child(3) {
+            width: 80px;
+        }
+    }
+}
+.tab-05 {
+    span {
+        text-align: center;
+        &:nth-child(1) {
+            width: 96px;
+        }
+        &:nth-child(2) {
+            flex: 1;
+        }
+        &:nth-child(3) {
+            width: 80px;
+        }
+    }
+}
+//개별공시지가 테이블
+.modal-tab-04 {
+    span {
+        text-align: center;
+        &:nth-child(1) {
+            width: 420px;
+        }
+        &:nth-child(2) {
+            width: 140px;
+        }
+        &:nth-child(3) {
+            width: 140px;
+        }
+        &:nth-child(4) {
+            width: 114px;
+        }
+    }
+}
+//개별주택공시가격 테이블
+.modal-tab-05 {
+    span {
+        text-align: center;
+        &:nth-child(1) {
+            width: 80px;
+        }
+        &:nth-child(2) {
+            width: 160px;
+        }
+        &:nth-child(3) {
+            width: 100px;
+        }
+        &:nth-child(4) {
+            width: 140px;
+        }
+        &:nth-child(5) {
+            width: 140px;
+        }
+        &:nth-child(6) {
+            width: 96px;
+        }
+        &:nth-child(7) {
+            width: 80px;
+        }
+    }
+}
+
+//부동산 종합정보 팝업
+.public-tr {
+    margin-bottom: 5px;
+    .pop-th {
+        min-width: 103px;
+    }
+}
+.address-area {
+    margin: 20px 0 17px;
+}
+.modal-content {
+    &.public {
+        height: 850px;
+        position: relative;
+        .modal-body {
+            margin: 0 4px 0 !important;
+            padding: 0 18px 20px !important;
+            height: 645px;
+            overflow-y: auto;
+        }
+        .modal-footer {
+            position: absolute;
+            width: 100%;
+            left: 0;
+            bottom: 0;
+        }
+    }
+    &.public-finder {
+        height: 850px;
+        position: relative;
+        .modal-body {
+            margin: 0 4px 3px !important;
+            padding: 0 18px 20px !important;
+            height: 683px;
+            overflow-y: auto;
+        }
+        .modal-footer {
+            display: flex;
+            gap: 14px;
+        }
+    }
+}
+.md-section {
+    .md-section-tit {
+        width: 100%;
+        height: 40px;
+        line-height: 40px;
+        font-size: 14px;
+        text-align: center;
+        color: var(--secondary2-100);
+        background: var(--secondary2-10);
+        border-radius: 10px 10px 0 0;
+    }
+    .sec-img-wrap {
+        display: flex;
+        gap: 28px;
+        padding: 14px;
+        .img-box {
+            flex: 1;
+            height: 154px;
+            background: var(--gray-90) url(../img/public/img_image.svg) no-repeat center center;
+            border: none !important;
+            border-radius: 10px;
+            position: relative;
+            // overflow: hidden;
+            &::after {
+                content: "";
+                position: absolute;
+                right: -14px; /* Half of the gap to center the line */
+                top: 0;
+                bottom: 0;
+                width: 1px;
+                border-left: 1px dashed rgba(89, 90, 138, 0.2);
+            }
+            &:last-child {
+                &::after {
+                    content: none;
+                }
+            }
+            img {
+                border-radius: 10px;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+           }
+        }
+    }
+}
+//범례
+.square-wrap {
+    display: flex;
+    justify-content: center;
+    margin: 24px 0 14px;
+    .square {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 138px;
+        position: relative;
+        border-right: 1px dashed rgba(89, 90, 138, 0.2);
+        &:last-child {
+            border-right: 0;
+        }
+        // &::after {
+        //     content: "";
+        //     position: absolute;
+        //     right: -45px; /* Half of the gap to center the line */
+        //     top: 0;
+        //     bottom: 0;
+        //     width: 1px;
+        //     border-left: 1px dashed rgba(89, 90, 138, 0.2);
+        // }
+        // &:last-child {
+        //     &::after {
+        //         content: none;
+        //     }
+        // }
+        .square-box {
+            margin-bottom: 14px;
+            width: 40px;
+            height: 40px;
+            border: 1px solid #BD0C0C;
+            &.second {
+                background: #FCAD55;
+                border: 1px solid #000;
+            }
+            &.third {
+                background: #3BA8EC;
+                border: 1px solid #000;
+            }
+            &.fourth {
+                background: #9AD0F1;
+                border: 1px solid #6AA8CF;
+            }
+            &.fifth {
+                background: #699D71;
+                border: 1px solid #000;
+            }
+            &.sixth {
+                background: #9F9F9F;
+                border: 1px solid #000;
+            }
+        }
+    }
+}
+//대부 및 사용허가 영역
+.m-sec-cont {
+    display: flex;
+    padding: 14px 0 13px;
+    height: 84px;
+    background: var(--secondary2-20);
+    border-radius: 4px;
+    //입력폼
+    &.sec-input {
+        background: #f7f7f7;
+        li {
+            flex: 1;
+            padding: 0 10px 0;
+            .m-head {
+                color: var(--gray-40);
+                margin-bottom: 4px;
+            }
+            .common-date2 {
+                min-height: 36px;
+            }
+        }
+    }
+    li {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        &:not(:last-child) {
+            border-right: 1px solid rgba(89, 90, 138, 0.2);
+        }
+        .m-head {
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: var(--secondary2-100);
+        }
+    }
+}
+.sec-img-area {
+    display: flex;
+    gap: 14px;
+    .sec-img-wrap {
+        // flex: 1;
+        width: 409px;
+        .md-img-wrap {
+            padding:14px;
+            background: #fafafa;
+            border-radius: 10px;
+            height: 260px;
+            .img-box {
+                width: 100%;
+                height: 100%;
+                background: var(--gray-90) url(../img/public/img_image.svg) no-repeat center center;
+                border: none !important;
+                border-radius: 10px;
+                overflow: hidden;
+                position: relative;
+                img {
+                    width: 100%;
+                }
+                .swiper {
+                    width: 100%;
+                    height: 232px;
+                  }
+                  .swiper-slide {
+                    text-align: center;
+                    font-size: 18px;
+                    background: #fff;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 232px;
+                  }
+                  .swiper-slide img {
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                  }
+                  .swiper-pagination-fraction {
+                      padding-top: 3px;
+                      width: 80px;
+                      height: 24px;
+                      color: #fff;
+                      background: rgba(0, 0, 0, 0.6);
+                      border-radius: 100px;
+                      left: 280px;
+                      span {
+                        color: #fff;
+                      }
+                  }
+                  .swiper-button-next,
+                  .swiper-button-prev {
+                    color: #fff;
+                    right: 20px;
+                    top: 211px;
+                    z-index: 100;
+                    &::after {
+                        font-size: 11px;
+                    }
+                  }
+                  .swiper-button-prev {
+                    left: 278px;
+                  }
+            }
+        }
+
+    }
+}
+
+// 공통코드 등록 팝업 내부 컨텐츠
+.mid-cont {
+    background: var(--gray-94);
+    padding: 14px;
+    border-radius: 4px;
+}
+
+.map-sv-search-wrap{display:flex;}

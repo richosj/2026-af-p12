@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>시설물 관리 현황 | 용인행정 디지털트윈플랫폼</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/facility.css" rel="stylesheet">
+    <link href="css/facility_manage.css" rel="stylesheet">
+    <link href="css/public.css" rel="stylesheet">
+    <link href="css/form.css" rel="stylesheet">
+    <script src="js/jquery-3.7.1.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <style>
+        #map { position:absolute; top:0; width:100%; height:100%; background:linear-gradient(160deg,#1a2a3a 0%,#243448 40%,#1e3040 100%); z-index:0; }
+        .footer { position:absolute; bottom:0; width:100%; z-index:5; }
+        .footer_txt { text-align:center; font-size:10px; color:rgba(255,255,255,0.55); padding:6px 0; }
+        .tbl-wrap { overflow-x:auto; margin-top:16px; }
+        .tbl-list { width:100%; border-collapse:collapse; }
+        .tbl-list thead th { padding:10px 8px; background:var(--secondary2-10); border-bottom:2px solid var(--secondary2-20); font-size:12px; font-weight:600; color:var(--secondary2-120); text-align:center; }
+        .tbl-list tbody td { padding:9px 8px; border-bottom:1px solid var(--gray-90); font-size:12px; text-align:center; cursor:pointer; }
+        .tbl-list tbody tr:hover { background:var(--primary-10); }
+        .tbl-list tbody tr.active { background:var(--primary-10); }
+        .btn-regist-fill { padding:7px 14px; background:var(--primary-100); color:#fff; border:none; border-radius:8px; font-size:12px; cursor:pointer; }
+        .reg-button-container { display:flex; gap:6px; margin-left:auto; }
+        .input-container { position:relative; display:flex; align-items:center; }
+        .input-field { padding:6px 12px; border:1px solid #ccc; border-radius:20px; height:36px; font-size:13px; outline:none; }
+        .common-select { padding:6px 10px; border:1px solid #ccc; border-radius:20px; font-size:13px; height:36px; cursor:pointer; }
+        .public-search { padding:6px 14px; background:var(--primary-100); color:#fff; border:none; border-radius:20px; font-size:13px; cursor:pointer; }
+        .form-input { width:100%; padding:6px 12px; border:1px solid #ccc; border-radius:20px; height:36px; font-size:14px; outline:none; }
+        .grade-badge { display:inline-block; padding:2px 8px; border-radius:10px; font-size:11px; font-weight:600; }
+        .grade-A { background:#C9FFD8; color:#0a6b35; }
+        .grade-B { background:#D7FAFA; color:#006b6b; }
+        .grade-C { background:#FDFBBC; color:#7a7000; }
+        .grade-D { background:#FFDCA7; color:#8a4a00; }
+        .grade-E { background:#FDCBBC; color:#8a1500; }
+    </style>
+</head>
+<body>
+<div class="content">
+    <div id="map"></div>
+
+    <!-- LNB -->
+    <header class="main-header">
+        <div class="lnbWrap">
+            <div class="logo txt" style="cursor:pointer;"><p class="logotxt">용인행정<br>디지털<br>트윈플랫폼</p></div>
+            <div class="nav-wrap">
+                <ul class="menu">
+                    <li class="menu-home"><a>메인</a><span>메인</span></li>
+                    <li class="menu-sevice"><a>지도서비스</a><span>지도서비스</span></li>
+                    <li class="menu-people"><a>유동인구</a><span>유동인구</span></li>
+                    <li class="menu-map"><a>국공유지</a><span>국공유지</span></li>
+                    <li class="menu-facility active"><a>시설물</a><span>시설물</span></li>
+                    <li class="menu-admin"><a>시스템설정</a><span>시스템설정</span></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- SNB -->
+    <div class="snb-area" id="snbFclt">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn" onclick="location.href='fclt_dash.html'">대시보드</button>
+            <button type="button" class="btn" onclick="location.href='fclt_analy.html'">시설물 종합</button>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn active" data-bs-toggle="dropdown" aria-expanded="false">시설물 관리</button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item active" onclick="location.href='fclt_mstat.html'">시설물 관리 현황</a></li>
+                </ul>
+            </div>
+            <button type="button" class="btn" onclick="location.href='fclt_msrmt.html'">실시간 계측</button>
+            <button type="button" class="btn" onclick="location.href='fclt_simul.html'">시설물 시뮬레이션</button>
+        </div>
+    </div>
+
+    <!-- GNB -->
+    <div class="gnb">
+        <span class="profile">관리자님</span>
+        <span class="sugComment" id="sugComment">건의사항</span>
+    </div>
+
+    <!-- 우측 툴박스 -->
+    <div class="toolbox">
+        <div id="toolBar">
+            <div class="btn-group-vertical" role="group">
+                <input type="radio" class="btn-check" name="changeMap" id="2d">
+                <label class="btn" for="2d">2D</label>
+                <input type="radio" class="btn-check" name="changeMap" id="3d" checked>
+                <label class="btn" for="3d">3D</label>
+            </div>
+            <button type="button" class="item setting">지도설정</button>
+            <button type="button" class="item layer">레이어</button>
+            <button type="button" class="item save">저장</button>
+            <button type="button" class="item manual">매뉴얼</button>
+            <button type="button" class="item compass" style="padding-top:0;padding-left:8px;"><i style="transform:rotate(-45deg);">◈</i></button>
+        </div>
+    </div>
+
+    <!-- 시설물 관리 현황 -->
+    <div class="search-area">
+        <div class="search-wrap transparent"></div>
+        <div class="panel-open"><button id="mstat_panel_open"></button></div>
+        <div class="d-flex">
+            <div class="map-sv-search facility-status">
+                <div class="fac-contents">
+                    <div class="title-wrap">
+                        <h3>시설물 관리 현황</h3>
+                        <div class="reg-button-container">
+                            <button class="btn-regist-fill" type="button" data-bs-toggle="modal" data-bs-target="#mstat_bulk_insert_modal">시설물 일괄 등록</button>
+                            <button class="btn-regist-fill" type="button" data-bs-toggle="modal" data-bs-target="#safetyModal">시설물 등록</button>
+                        </div>
+                    </div>
+
+                    <!-- 검색 폼 -->
+                    <div class="public-form">
+                        <div class="searchbox-wrap">
+                            <div class="input-container" style="flex:1;">
+                                <input type="text" class="input-field" placeholder="시설물명을 입력하십시오.">
+                            </div>
+                            <select class="common-select" style="width:130px;">
+                                <option>종 전체</option>
+                                <option>1종</option>
+                                <option>2종</option>
+                                <option>3종</option>
+                            </select>
+                            <select class="common-select" style="width:130px;">
+                                <option>안전등급 전체</option>
+                                <option>A등급</option>
+                                <option>B등급</option>
+                                <option>C등급</option>
+                                <option>D등급</option>
+                                <option>E등급</option>
+                            </select>
+                            <select class="common-select" style="width:130px;">
+                                <option>시설물 종류</option>
+                                <option>교량</option>
+                                <option>터널</option>
+                                <option>하천</option>
+                                <option>옹벽</option>
+                            </select>
+                            <button type="button" class="public-search">검색</button>
+                        </div>
+                    </div>
+
+                    <!-- 테이블 -->
+                    <div class="tbl-wrap">
+                        <table class="tbl-list">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>시설물명</th>
+                                    <th>시설물 종류</th>
+                                    <th>종</th>
+                                    <th>안전등급</th>
+                                    <th>관리주체</th>
+                                    <th>소재지</th>
+                                    <th>준공년도</th>
+                                    <th>설정</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="active">
+                                    <td>1</td>
+                                    <td>상갈교</td>
+                                    <td>교량</td>
+                                    <td>2종</td>
+                                    <td><span class="grade-badge grade-A">A</span></td>
+                                    <td>용인시 기흥구청</td>
+                                    <td>기흥구 상갈로</td>
+                                    <td>1998</td>
+                                    <td><button class="btn-round" style="padding:3px 8px;font-size:11px;">수정</button></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>신갈교</td>
+                                    <td>교량</td>
+                                    <td>2종</td>
+                                    <td><span class="grade-badge grade-B">B</span></td>
+                                    <td>용인시 기흥구청</td>
+                                    <td>기흥구 신갈로</td>
+                                    <td>2002</td>
+                                    <td><button class="btn-round" style="padding:3px 8px;font-size:11px;">수정</button></td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>성복1교</td>
+                                    <td>교량</td>
+                                    <td>3종</td>
+                                    <td><span class="grade-badge grade-C">C</span></td>
+                                    <td>용인시 수지구청</td>
+                                    <td>수지구 성복길</td>
+                                    <td>1995</td>
+                                    <td><button class="btn-round" style="padding:3px 8px;font-size:11px;">수정</button></td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>기흥저수지 취수탑</td>
+                                    <td>건축물</td>
+                                    <td>1종</td>
+                                    <td><span class="grade-badge grade-A">A</span></td>
+                                    <td>용인시 기흥구청</td>
+                                    <td>기흥구 기흥동</td>
+                                    <td>1985</td>
+                                    <td><button class="btn-round" style="padding:3px 8px;font-size:11px;">수정</button></td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>동막천 호안</td>
+                                    <td>하천</td>
+                                    <td>2종</td>
+                                    <td><span class="grade-badge grade-B">B</span></td>
+                                    <td>용인시 기흥구청</td>
+                                    <td>기흥구 동백동</td>
+                                    <td>2005</td>
+                                    <td><button class="btn-round" style="padding:3px 8px;font-size:11px;">수정</button></td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>구갈 옹벽</td>
+                                    <td>옹벽</td>
+                                    <td>3종</td>
+                                    <td><span class="grade-badge grade-D">D</span></td>
+                                    <td>용인시 기흥구청</td>
+                                    <td>기흥구 구갈동</td>
+                                    <td>1992</td>
+                                    <td><button class="btn-round" style="padding:3px 8px;font-size:11px;">수정</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="pagination-wrap">
+                    <ul class="pagination">
+                        <li class="page-item"><a class="page-prev first"></a></li>
+                        <li class="page-item"><a class="page-prev"></a></li>
+                        <li class="page-item"><a class="page-link active">1</a></li>
+                        <li class="page-item"><a class="page-link">2</a></li>
+                        <li class="page-item"><a class="page-link">3</a></li>
+                        <li class="page-item"><a class="page-next"></a></li>
+                        <li class="page-item"><a class="page-next last"></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 시설물 신규 등록 Modal -->
+    <div class="modal fade" id="safetyModal" tabindex="-1" aria-modal="true" role="dialog">
+        <div class="modal-dialog popup">
+            <div class="modal-content popup facility">
+                <div class="modal-header">
+                    <h1 class="modal-title">시설물 신규 등록</h1>
+                    <button type="button" class="modal-btn-close ml-auto" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="header-line"></div>
+                    <div class="form-wrap">
+                        <div class="sub-head-wrap"><span class="sub-head mb-10">시설물 정보</span></div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                            <div>
+                                <label style="font-size:12px;color:#888;display:block;margin-bottom:4px;">시설물명</label>
+                                <input type="text" class="form-input" placeholder="시설물명 입력">
+                            </div>
+                            <div>
+                                <label style="font-size:12px;color:#888;display:block;margin-bottom:4px;">시설물 종류</label>
+                                <select class="common-select" style="width:100%;">
+                                    <option>교량</option><option>터널</option><option>하천</option><option>옹벽</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style="font-size:12px;color:#888;display:block;margin-bottom:4px;">종</label>
+                                <select class="common-select" style="width:100%;"><option>1종</option><option>2종</option><option>3종</option></select>
+                            </div>
+                            <div>
+                                <label style="font-size:12px;color:#888;display:block;margin-bottom:4px;">안전등급</label>
+                                <select class="common-select" style="width:100%;"><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option></select>
+                            </div>
+                            <div style="grid-column:span 2;">
+                                <label style="font-size:12px;color:#888;display:block;margin-bottom:4px;">소재지</label>
+                                <input type="text" class="form-input" placeholder="소재지 입력">
+                            </div>
+                            <div>
+                                <label style="font-size:12px;color:#888;display:block;margin-bottom:4px;">준공년도</label>
+                                <input type="number" class="form-input" placeholder="예) 2005">
+                            </div>
+                            <div>
+                                <label style="font-size:12px;color:#888;display:block;margin-bottom:4px;">관리주체</label>
+                                <input type="text" class="form-input" placeholder="관리주체 입력">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancel" data-bs-dismiss="modal">취소</button>
+                    <button type="button" class="btn-primary">등록</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- footer -->
+    <div class="footer">
+        <div class="footer_txt">
+            ※ 본 자료는 실제 현황과 차이가 있을 수 있으므로 충분히 유의하여 참고용으로만 활용하시기 바라며, 업무 목적 외 타 용도로의 사용을 금합니다. ※
+        </div>
+    </div>
+</div>
+
+<script src="js/ui.js"></script>
+<script>
+$(document).ready(function(){
+    $('table tbody tr').click(function(){
+        $('table tbody tr').removeClass('active');
+        $(this).addClass('active');
+    });
+});
+</script>
+</body>
+</html>

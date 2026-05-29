@@ -1,0 +1,93 @@
+.main-content {
+    width: 100%;
+    height: 100vh;
+    background: url(../img/index_bg.png) no-repeat center center;
+    background-size: 100% 100%;
+}
+.main-content .logo {
+    width: 234px;
+    height: 19px;
+    background: url(../img/main_logo.png) no-repeat center center;
+    position: relative;
+    top: 50px;
+    left: 50px;
+}
+.main-content .main-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 420px;
+    background: rgba(255, 255, 255, 0.1);
+    position: absolute;
+    top: 28%;
+}
+.main-content .main-btn {
+    display: flex;
+    gap: 63px;
+    height: 167px;
+}
+.main-content .main-btn a {
+    position: relative;
+    display: block;
+    width: 167px;
+    height: 167px;
+    border-radius: 100%;
+    background: rgba(34, 34, 34, 0.9);
+    text-align: center;
+    transition: transform 0.1s;
+    transition: 0.3s;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+.main-content .main-btn a span {
+    color: var(--gray-80);
+    padding-top: 120px;
+    font-size: 16px;
+    font-weight: 500;
+}
+.main-content .main-btn a i {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 36px;
+    margin: 0 auto;
+}
+.main-content .main-btn a i.ico-map {
+    width: 76px;
+    height: 76px;
+    background: url(../img/ico_main_map.svg) no-repeat center center;
+}
+.main-content .main-btn a i.ico-population {
+    width: 78px;
+    height: 79px;
+    background: url(../img/ico_main_population.svg) no-repeat center center;
+}
+.main-content .main-btn a i.ico-public {
+    width: 76px;
+    height: 79px;
+    background: url(../img/ico_main_public.svg) no-repeat center center;
+    top: 32px;
+}
+.main-content .main-btn a i.ico-facility {
+    width: 84px;
+    height: 84px;
+    background: url(../img/ico_main_facility.svg) no-repeat center center;
+    top: 32px;
+}
+.main-content .main-btn a:hover {
+    background: rgba(89, 90, 138, 0.9);
+    transition: 0.3s;
+}
+.main-content .main-btn a:hover i {
+    transition: 0.9s;
+    transform: rotateY(360deg);
+}
+.main-content .main-txt {
+    position: absolute;
+    right: 123px;
+    bottom: 50px;
+    width: 823px;
+    height: 148px;
+    background: url(../img/main_text.svg) no-repeat center center;
+}

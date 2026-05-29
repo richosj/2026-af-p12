@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>시설물 종합 | 용인행정 디지털트윈플랫폼</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/facility.css" rel="stylesheet">
+    <link href="css/facility_manage.css" rel="stylesheet">
+    <link href="css/public.css" rel="stylesheet">
+    <link href="css/form.css" rel="stylesheet">
+    <link href="css/population.css" rel="stylesheet">
+    <link href="css/urban.css" rel="stylesheet">
+    <script src="js/jquery-3.7.1.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        
+    </style>
+</head>
+<body>
+<div class="content">
+    <div id="map">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="opacity:0.3;">
+            <circle cx="45%" cy="40%" r="10" fill="#1C64F2" stroke="#fff" stroke-width="2"/>
+            <circle cx="55%" cy="35%" r="8" fill="#10AD78" stroke="#fff" stroke-width="2"/>
+            <circle cx="60%" cy="55%" r="9" fill="#FFA504" stroke="#fff" stroke-width="2"/>
+            <circle cx="38%" cy="60%" r="11" fill="#1C64F2" stroke="#fff" stroke-width="2"/>
+            <circle cx="50%" cy="70%" r="7" fill="#F14730" stroke="#fff" stroke-width="2"/>
+            <circle cx="65%" cy="45%" r="8" fill="#10AD78" stroke="#fff" stroke-width="2"/>
+        </svg>
+    </div>
+
+    <!-- LNB -->
+    <header class="main-header">
+        <div class="lnbWrap">
+            <div class="logo txt" style="cursor:pointer;"><p class="logotxt">용인행정<br>디지털<br>트윈플랫폼</p></div>
+            <div class="nav-wrap">
+                <ul class="menu">
+                    <li class="menu-home"><a>메인</a><span>메인</span></li>
+                    <li class="menu-sevice"><a>지도서비스</a><span>지도서비스</span></li>
+                    <li class="menu-people"><a>유동인구</a><span>유동인구</span></li>
+                    <li class="menu-map"><a>국공유지</a><span>국공유지</span></li>
+                    <li class="menu-facility active"><a>시설물</a><span>시설물</span></li>
+                    <li class="menu-admin"><a>시스템설정</a><span>시스템설정</span></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- SNB -->
+    <div class="snb-area" id="snbFclt">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn" onclick="location.href='fclt_dash.html'">대시보드</button>
+            <button type="button" class="btn active" onclick="location.href='fclt_analy.html'">시설물 종합</button>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn" data-bs-toggle="dropdown" aria-expanded="false">시설물 관리</button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" onclick="location.href='fclt_mstat.html'">시설물 관리 현황</a></li>
+                </ul>
+            </div>
+            <button type="button" class="btn" onclick="location.href='fclt_msrmt.html'">실시간 계측</button>
+            <button type="button" class="btn" onclick="location.href='fclt_simul.html'">시설물 시뮬레이션</button>
+        </div>
+    </div>
+
+    <!-- GNB -->
+    <div class="gnb">
+        <span class="profile">관리자님</span>
+        <span class="sugComment" id="sugComment">건의사항</span>
+    </div>
+
+    <!-- 우측 툴박스 -->
+    <div class="toolbox">
+        <div id="toolBar">
+            <div class="btn-group-vertical" role="group">
+                <input type="radio" class="btn-check" name="changeMap" id="2d">
+                <label class="btn" for="2d">2D</label>
+                <input type="radio" class="btn-check" name="changeMap" id="3d" checked>
+                <label class="btn" for="3d">3D</label>
+            </div>
+            <button type="button" class="item setting">지도설정</button>
+            <button type="button" class="item layer">레이어</button>
+            <button type="button" class="item shine">일조권</button>
+            <button type="button" class="item distance">거리</button>
+            <button type="button" class="item area">면적</button>
+            <button type="button" class="item save">저장</button>
+            <button type="button" class="item estate">부동산</button>
+            <button type="button" class="item slope">경사도</button>
+            <button type="button" class="item manual">매뉴얼</button>
+            <button type="button" class="item compass" style="padding-top:0;padding-left:8px;"><i style="transform:rotate(-45deg);">◈</i></button>
+        </div>
+    </div>
+
+    <!-- search -->
+    <div class="search-area">
+        <div class="search-wrap transparent">
+            <button type="button" class="btn-cancel"></button>
+        </div>
+        <div class="d-flex">
+            <!-- 검색 패널 -->
+            <div class="map-sv-search">
+                <div class="search-form-wrap">
+                    <span class="sub-head mb-10">도시공간 시설 검색</span>
+
+                    <div class="search-form-wrap-inner">
+                        <span class="mid-tit">검색</span>
+                        <div class="btn-group population w100p" role="group">
+                            <button type="button" class="btn active" id="btnDate">날짜</button>
+                            <button type="button" class="btn" id="btnTitle">제목</button>
+                        </div>
+                        <div class="input-container">
+                            <span class="btn-input-search"></span>
+                            <input type="text" class="input-field pl-40" id="schValue" placeholder="검색어 입력" title="검색어 입력">
+                        </div>
+                        <div class="search-btn-wrap">
+                            <button class="btn-outline" type="button">검색</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- 검색 결과 -->
+                <div class="search-result-wrap">
+
+                    <div class="legend-list">
+                        <div class="legend-item legend-item--apt">
+                            <i class="ico_legend"></i>
+                            <span class="legend-item-title-text">아파트</span>
+                        </div>
+                        <div class="legend-item legend-item--factory">
+                            <i class="ico_legend"></i>
+                            <span class="legend-item-title-text">공장</span>
+                        </div>
+                        <div class="legend-item legend-item--warehouse">
+                            <i class="ico_legend"></i>
+                            <span class="legend-item-title-text">창고</span>
+                        </div>
+                        <div class="legend-item legend-item--life">
+                            <i class="ico_legend"></i>
+                            <span class="legend-item-title-text">근린생활시설</span>
+                        </div>
+                        <div class="legend-item legend-item--etc">
+                            <i class="ico_legend"></i>
+                            <span class="legend-item-title-text">기타</span>
+                        </div>
+                    </div>
+
+                    <div class="u-space-list">
+                        <div class="u-list-head">
+                            <span class="u-list-head-tit">목록</span>
+                            <span class="u-list-count">총 <em>25</em>건</span>
+                        </div>
+
+                        <div class="u-list-group">
+                            <div class="u-list-parent is-open">
+                                <div class="u-list-parent-head" role="button" tabindex="0" aria-expanded="true">
+                                    <span class="btn-toggle" aria-hidden="true"></span>
+                                    <span class="u-list-title">3월 12일 01회차 심의위원회</span>
+                                    <div class="u-list-actions">
+                                        <button type="button" class="btn-row-edit" title="수정"></button>
+                                        <button type="button" class="btn-row-del" title="삭제"></button>
+                                    </div>
+                                </div>
+                                <div class="u-list-children">
+                                    <div class="u-list-child u-list-child--apt">
+                                        <i class="ico_legend" aria-hidden="true"></i>
+                                        <span class="u-list-child-title">역북지구 도시개발사업</span>
+                                        <div class="u-list-actions">
+                                            <button type="button" class="btn-row-edit" title="수정"></button>
+                                            <button type="button" class="btn-row-del" title="삭제"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="u-list-parent">
+                                <div class="u-list-parent-head" role="button" tabindex="0" aria-expanded="false">
+                                    <span class="btn-toggle" aria-hidden="true"></span>
+                                    <span class="u-list-title">3월 12일 02회차 심의위원회</span>
+                                    <div class="u-list-actions">
+                                        <button type="button" class="btn-row-edit" title="수정"></button>
+                                        <button type="button" class="btn-row-del" title="삭제"></button>
+                                    </div>
+                                </div>
+                                <div class="u-list-children">
+                                    <div class="u-list-child u-list-child--factory">
+                                        <i class="ico_legend" aria-hidden="true"></i>
+                                        <span class="u-list-child-title">기흥지구 도시개발사업</span>
+                                        <div class="u-list-actions">
+                                            <button type="button" class="btn-row-edit" title="수정"></button>
+                                            <button type="button" class="btn-row-del" title="삭제"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="u-list-parent">
+                                <div class="u-list-parent-head" role="button" tabindex="0" aria-expanded="false">
+                                    <span class="btn-toggle" aria-hidden="true"></span>
+                                    <span class="u-list-title">3월 11일 01회차 심의위원회</span>
+                                    <div class="u-list-actions">
+                                        <button type="button" class="btn-row-edit" title="수정"></button>
+                                        <button type="button" class="btn-row-del" title="삭제"></button>
+                                    </div>
+                                </div>
+                                <div class="u-list-children">
+                                    <div class="u-list-child u-list-child--warehouse">
+                                        <i class="ico_legend" aria-hidden="true"></i>
+                                        <span class="u-list-child-title">수지지구 도시개발사업</span>
+                                        <div class="u-list-actions">
+                                            <button type="button" class="btn-row-edit" title="수정"></button>
+                                            <button type="button" class="btn-row-del" title="삭제"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                    <div class="pagination-wrap">
+                        <ul class="pagination">
+                            <li class="page-item"><a class="page-prev first"></a></li>
+                            <li class="page-item"><a class="page-prev"></a></li>
+                            <li class="page-item"><a class="page-link active">1</a></li>
+                            <li class="page-item"><a class="page-next"></a></li>
+                            <li class="page-item"><a class="page-next last"></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- footer -->
+    <div class="footer">
+        <div class="footer_txt">
+            ※ 본 자료는 실제 현황과 차이가 있을 수 있으므로 충분히 유의하여 참고용으로만 활용하시기 바라며, 업무 목적 외 타 용도로의 사용을 금합니다. ※
+        </div>
+    </div>
+</div>
+
+<script src="js/ui.js"></script>
+<script>
+$(document).ready(function(){
+    $('#btnDate, #btnTitle').on('click', function(){
+        $(this).addClass('active').siblings().removeClass('active');
+    });
+
+    $('.u-list-parent-head').on('click', function(e){
+        if ($(e.target).closest('.u-list-actions').length) return;
+        var $parent = $(this).closest('.u-list-parent');
+        var isOpen = $parent.hasClass('is-open');
+        $parent.toggleClass('is-open', !isOpen);
+        $(this).attr('aria-expanded', !isOpen);
+    });
+
+    $('.u-list-parent-head').on('keydown', function(e){
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            $(this).trigger('click');
+        }
+    });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 분석 | 용인행정 디지털트윈플랫폼</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/facility.css" rel="stylesheet">
+    <link href="css/facility_manage.css" rel="stylesheet">
+    <link href="css/public.css" rel="stylesheet">
+    <script src="js/jquery-3.7.1.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        #map { position:absolute; top:0; width:100%; height:100%; background:linear-gradient(160deg,#1e2a1e 0%,#2a3a2a 40%,#1a2e28 100%); z-index:0; }
+        .footer { position:absolute; bottom:0; width:100%; z-index:5; }
+        .footer_txt { text-align:center; font-size:10px; color:rgba(255,255,255,0.55); padding:6px 0; }
+        .btn-outline { background:var(--primary-100); color:#fff; border:1px solid var(--primary-100); border-radius:15px; width:120px; height:42px; font-size:14px; cursor:pointer; }
+        .map-sv-search.facility-info { border-top-right-radius:30px; }
+        .hide { display:none; }
+        .position-relative { position:relative; }
+        .excelDownload { float:right; padding:4px 10px; font-size:11px; background:var(--secondary2-10); border:1px solid var(--secondary2-80); border-radius:6px; color:var(--secondary2-100); cursor:pointer; }
+        .btn-input-search { position:absolute; left:10px; width:18px; height:18px; background:url(img/common/btn_input_search.svg) no-repeat center; }
+        .public-search { padding:6px 14px; background:var(--primary-100); color:#fff; border:none; border-radius:20px; font-size:13px; cursor:pointer; }
+        .lAnalyBtnAnaly { display:block; margin:8px auto; padding:6px 20px; background:var(--secondary2-100); color:#fff; border:none; border-radius:20px; font-size:13px; cursor:pointer; }
+        .public-list-wrap { overflow-y:auto; }
+        .sub-count { font-size:12px; color:var(--secondary2-100); font-weight:500; margin-left:6px; }
+    </style>
+</head>
+<body>
+<div class="content">
+    <div id="map">
+        <!-- 위성이미지 시뮬레이션 -->
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="opacity:0.4;">
+            <rect x="30%" y="20%" width="8%" height="6%" fill="#556655" rx="2"/>
+            <rect x="40%" y="25%" width="6%" height="4%" fill="#445544" rx="2"/>
+            <rect x="50%" y="30%" width="12%" height="8%" fill="#667766" rx="2"/>
+            <rect x="35%" y="45%" width="10%" height="7%" fill="#557755" rx="2"/>
+            <!-- 비닐하우스 (흰색 직사각형들) -->
+            <rect x="55%" y="20%" width="5%" height="3%" fill="rgba(220,220,200,0.7)" rx="1" stroke="#aaa" stroke-width="1"/>
+            <rect x="55%" y="24%" width="5%" height="3%" fill="rgba(220,220,200,0.7)" rx="1" stroke="#aaa" stroke-width="1"/>
+            <rect x="62%" y="20%" width="5%" height="3%" fill="rgba(220,220,200,0.7)" rx="1" stroke="#aaa" stroke-width="1"/>
+            <!-- 분석 결과 포인트 -->
+            <circle cx="57%" cy="22%" r="8" fill="rgba(241,71,48,0.7)" stroke="#fff" stroke-width="2"/>
+            <circle cx="64%" cy="22%" r="6" fill="rgba(241,71,48,0.6)" stroke="#fff" stroke-width="2"/>
+            <circle cx="48%" cy="35%" r="10" fill="rgba(255,165,4,0.7)" stroke="#fff" stroke-width="2"/>
+        </svg>
+    </div>
+
+    <!-- LNB -->
+    <header class="main-header">
+        <div class="lnbWrap">
+            <div class="logo txt" style="cursor:pointer;"><p class="logotxt">용인행정<br>디지털<br>트윈플랫폼</p></div>
+            <div class="nav-wrap">
+                <ul class="menu">
+                    <li class="menu-home"><a>메인</a><span>메인</span></li>
+                    <li class="menu-sevice"><a>지도서비스</a><span>지도서비스</span></li>
+                    <li class="menu-people"><a>유동인구</a><span>유동인구</span></li>
+                    <li class="menu-map active"><a>국공유지</a><span>국공유지</span></li>
+                    <li class="menu-facility"><a>시설물</a><span>시설물</span></li>
+                    <li class="menu-admin"><a>시스템설정</a><span>시스템설정</span></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- SNB -->
+    <div class="snb-area" id="snbLand">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn" onclick="location.href='land_dash.html'">대시보드</button>
+            <button type="button" class="btn" onclick="location.href='land_info.html'">국공유지 종합</button>
+            <button type="button" class="btn" onclick="location.href='land_adm.html'">현장조사 관리</button>
+            <button type="button" class="btn active" onclick="location.href='land_analy.html'">AI 분석</button>
+        </div>
+    </div>
+
+    <!-- GNB -->
+    <div class="gnb">
+        <span class="profile">관리자님</span>
+        <span class="sugComment" id="sugComment">건의사항</span>
+    </div>
+
+    <!-- 우측 툴박스 -->
+    <div class="toolbox">
+        <div id="toolBar">
+            <div class="btn-group-vertical" role="group">
+                <input type="radio" class="btn-check" name="changeMap" id="2d">
+                <label class="btn" for="2d">2D</label>
+                <input type="radio" class="btn-check" name="changeMap" id="3d" checked>
+                <label class="btn" for="3d">3D</label>
+            </div>
+            <button type="button" class="item setting">지도설정</button>
+            <button type="button" class="item layer">레이어</button>
+            <button type="button" class="item save">저장</button>
+            <button type="button" class="item manual">매뉴얼</button>
+            <button type="button" class="item compass" style="padding-top:0;padding-left:8px;"><i style="transform:rotate(-45deg);">◈</i></button>
+        </div>
+    </div>
+
+    <!-- search -->
+    <div class="search-area">
+        <div class="search-wrap transparent">
+            <button type="button" class="btn-cancel"></button>
+        </div>
+        <div class="d-flex">
+            <!-- 최근 분석 현황 패널 -->
+            <div class="map-sv-search facility-info" style="border-top-right-radius:30px; width:438px;" id="result_div">
+                <div class="search-form-wrap">
+                    <span class="sub-head mb-10">최근 분석 현황</span>
+                    <!-- 분석현황 -->
+                    <div class="analysis-wrap title">
+                        <li><span>묘지</span><span class="num" id="lanalyCemCnt">12</span></li>
+                        <li><span>비닐하우스</span><span class="num" id="lanalyGhCnt">34</span></li>
+                        <li><span>밭</span><span class="num" id="lanalyFldCnt">8</span></li>
+                        <li><span>컨테이너</span><span class="num" id="lanalyConCnt">21</span></li>
+                        <li><span>임시건물</span><span class="num" id="lanalyTbCnt">5</span></li>
+                        <li><span>폐기물</span><span class="num" id="lanalyCwCnt">17</span></li>
+                    </div>
+                    <div class="analysis-chart" id="lanalyChart1"></div>
+                    <div class="area-btn-wrap">
+                        <button class="lAnalyBtnAnaly" type="button" id="lAnalyBtnAnaly">AI 분석</button>
+                    </div>
+                    <div class="dashed-line"></div>
+                    <div class="public-section past">
+                        <span class="sub-head w100">과거 분석 목록</span>
+                        <div class="public-th">
+                            <span>순번</span>
+                            <span>분석일자</span>
+                            <span>진행여부</span>
+                        </div>
+                        <ul class="public-list-wrap" id="lAnalyList" style="height:200px;">
+                            <li class="public-list"><a class="active"><span>1</span><span>2025.03.05 14:22</span><span style="color:var(--chart-02);">완료</span></a></li>
+                            <li class="public-list"><a><span>2</span><span>2025.02.18 10:05</span><span style="color:var(--chart-02);">완료</span></a></li>
+                            <li class="public-list"><a><span>3</span><span>2025.01.30 16:44</span><span style="color:var(--chart-02);">완료</span></a></li>
+                            <li class="public-list"><a><span>4</span><span>2025.01.10 09:30</span><span style="color:var(--chart-02);">완료</span></a></li>
+                        </ul>
+                        <div class="pagination-wrap fixed">
+                            <ul class="pagination" id="lAnalyListPage">
+                                <li class="page-item"><a class="page-link active">1</a></li>
+                                <li class="page-item"><a class="page-link">2</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI 분석 결과 패널 -->
+            <div class="facility-info-wrap position-relative" id="detail_div" style="width:500px;">
+                <div class="result-item population">
+                    <div><span class="sub-head">AI 분석 결과</span></div>
+                </div>
+                <div class="situation-cont overflow-y-auto">
+                    <div style="height:258px;" id="lanalyChart2"></div>
+                    <div class="dashed-line mb-20"></div>
+                    <div class="analysis-wrap light mb-20">
+                        <li><span>묘지</span><span class="num" id="lanalyCemCnt2">12</span></li>
+                        <li><span>비닐하우스</span><span class="num" id="lanalyGhCnt2">34</span></li>
+                        <li><span>밭</span><span class="num" id="lanalyFldCnt2">8</span></li>
+                        <li><span>컨테이너</span><span class="num" id="lanalyConCnt2">21</span></li>
+                        <li><span>임시건물</span><span class="num" id="lanalyTbCnt2">5</span></li>
+                        <li><span>폐기물</span><span class="num" id="lanalyCwCnt2">17</span></li>
+                    </div>
+                    <div>
+                        <span class="sub-head mb-10">AI분석 결과 필지 목록</span>
+                        <div class="public-th">
+                            <span>번호</span>
+                            <span style="width:220px;flex:none;">소재지</span>
+                            <span style="width:60px;flex:none;">구분</span>
+                            <span style="width:60px;flex:none;">종합공부</span>
+                        </div>
+                        <ul class="public-list-wrap" id="lAnalyList2" style="height:200px;">
+                            <li class="public-list"><a class="active"><span>1</span><span style="width:220px;flex:none;">기흥구 신갈동 388-5</span><span style="width:60px;flex:none;">비닐하우스</span><span style="width:60px;flex:none;">답</span></a></li>
+                            <li class="public-list"><a><span>2</span><span style="width:220px;flex:none;">기흥구 신갈동 388-12</span><span style="width:60px;flex:none;">비닐하우스</span><span style="width:60px;flex:none;">답</span></a></li>
+                            <li class="public-list"><a><span>3</span><span style="width:220px;flex:none;">처인구 모현읍 왕산리 44</span><span style="width:60px;flex:none;">묘지</span><span style="width:60px;flex:none;">임야</span></a></li>
+                            <li class="public-list"><a><span>4</span><span style="width:220px;flex:none;">기흥구 구갈동 125-3</span><span style="width:60px;flex:none;">컨테이너</span><span style="width:60px;flex:none;">대</span></a></li>
+                            <li class="public-list"><a><span>5</span><span style="width:220px;flex:none;">수지구 풍덕천동 105-2</span><span style="width:60px;flex:none;">폐기물</span><span style="width:60px;flex:none;">전</span></a></li>
+                        </ul>
+                        <div class="pagination-wrap fixed">
+                            <ul class="pagination" id="lAnalyListPage2">
+                                <li class="page-item"><a class="page-link active">1</a></li>
+                                <li class="page-item"><a class="page-link">2</a></li>
+                                <li class="page-item"><a class="page-link">3</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-side open"></button>
+        </div>
+    </div>
+
+    <!-- footer -->
+    <div class="footer">
+        <div class="footer_txt">
+            ※ 본 자료는 실제 현황과 차이가 있을 수 있으므로 충분히 유의하여 참고용으로만 활용하시기 바라며, 업무 목적 외 타 용도로의 사용을 금합니다. ※
+        </div>
+    </div>
+</div>
+
+<script src="js/ui.js"></script>
+<script>
+$(document).ready(function(){
+    var c1 = echarts.init(document.getElementById('lanalyChart1'));
+    c1.setOption({
+        legend:{ orient:'vertical', right:5, top:'center', textStyle:{fontSize:10} },
+        series:[{ type:'pie', radius:['40%','68%'], center:['38%','50%'],
+            label:{show:true,fontSize:9,formatter:'{b}: {c}건'},
+            data:[
+                {value:12,name:'묘지'},{value:34,name:'비닐하우스'},
+                {value:8,name:'밭'},{value:21,name:'컨테이너'},
+                {value:5,name:'임시건물'},{value:17,name:'폐기물'}
+            ]
+        }]
+    });
+
+    var c2 = echarts.init(document.getElementById('lanalyChart2'));
+    c2.setOption({
+        grid:{top:10,bottom:30,left:60,right:20},
+        xAxis:{type:'category',data:['묘지','비닐하우스','밭','컨테이너','임시건물','폐기물'],axisLabel:{fontSize:10}},
+        yAxis:{type:'value',axisLabel:{fontSize:9},name:'건',nameTextStyle:{fontSize:9}},
+        series:[{
+            type:'bar', barMaxWidth:28,
+            data:[{value:12,itemStyle:{color:'#595a8a'}},{value:34,itemStyle:{color:'#f3722c'}},
+                  {value:8,itemStyle:{color:'#10AD78'}},{value:21,itemStyle:{color:'#FFA504'}},
+                  {value:5,itemStyle:{color:'#E74694'}},{value:17,itemStyle:{color:'#FF5D4D'}}],
+            label:{show:true,position:'top',fontSize:9}
+        }]
+    });
+
+    // 목록 선택
+    $('.public-list').click(function(){
+        $(this).closest('ul').find('a').removeClass('active');
+        $(this).find('a').addClass('active');
+    });
+});
+</script>
+</body>
+</html>

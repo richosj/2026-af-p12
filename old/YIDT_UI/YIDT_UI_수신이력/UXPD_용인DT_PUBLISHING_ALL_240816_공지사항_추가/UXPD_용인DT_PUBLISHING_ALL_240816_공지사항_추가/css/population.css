@@ -1,0 +1,670 @@
+@charset "UTF-8";
+@import url(../css/common.css);
+.btn-group.population {
+  -webkit-box-shadow: inset 0 0 0 1px var(--gray-60);
+          box-shadow: inset 0 0 0 1px var(--gray-60);
+  border-radius: 30px;
+}
+.btn-group.population .btn {
+  font-size: 14px;
+  color: var(--gray-60);
+  border-radius: 30px;
+}
+.btn-group.population .btn.active, .btn-group.population .btn:active {
+  color: var(--primary-100);
+  border: 1px solid var(--primary-100);
+}
+
+.divide-02 .btn-round {
+  width: 100%;
+}
+
+input[type=date].date-round {
+  width: 100% !important;
+  border: 1px solid var(--gray-60) !important;
+  padding: 7px 8px 7px 12px;
+  font-size: 14px;
+  background: #fff url(../img/population/ico_calendar.svg) no-repeat right 14px center;
+}
+input[type=date]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  right: 8px !important;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.btn-side-1st {
+  position: absolute;
+  top: 60px;
+  left: 336px;
+  width: 28px;
+  height: 42px;
+  border-radius: 0 10px 10px 0;
+  background: #fff url(../img/population/btn_side_close.svg) no-repeat center center;
+  margin-top: 20px;
+}
+.btn-side-1st:active {
+  background: #E7E7ED url(../img/population/btn_side_close.svg) no-repeat center center;
+}
+
+.dashed-line {
+  margin: 10px 0 10px;
+  width: 100%;
+  border-top: 1px dashed var(--gray-80);
+}
+
+.situation-cont {
+  padding: 0 24px 20px;
+  height: calc(100vh - 160px);
+}
+
+.situation-box {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.situation-box li {
+  padding: 14px;
+  height: 80px;
+  background: var(--secondary2-100);
+  border-radius: 10px;
+}
+.situation-box li:first-child {
+  background: var(--secondary2-120);
+}
+.situation-box li:last-child {
+  background: #6B6C9D;
+}
+.situation-box li span {
+  display: block;
+  color: #fff;
+}
+.situation-box li span.situation-tit {
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+.situation-box li span.situation-num {
+  text-align: right;
+  font-size: 18px;
+}
+.situation-box li span.situation-num::after {
+  content: "원";
+  margin-left: 4px;
+  font-size: 14px;
+}
+
+.indic-box {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 10px 44px 5px 20px;
+  width: 100%;
+  height: 140px;
+  background: var(--gray-94);
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+.indic-box .indic-info {
+  width: 174px;
+  height: 116px;
+}
+.indic-box span {
+  font-size: 18px;
+  font-weight: 500;
+}
+.indic-box span.indic-txt {
+  margin-left: auto;
+}
+.indic-box span.indic-txt.num-down {
+  color: var(--chart-01);
+}
+.indic-box span.indic-txt.num-up {
+  color: #F14730;
+}
+
+.indic-chart-area {
+  width: 100%;
+  height: 370px;
+}
+
+.condition-area {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 8px;
+}
+.condition-area li {
+  width: 100%;
+  height: 100px;
+  padding: 14px 9px 0;
+  text-align: center;
+  border: 1px solid var(--gray-90);
+  border-radius: 10px;
+}
+.condition-area li span {
+  font-size: 10px;
+  color: var(--gray-40);
+}
+.condition-area li span.round {
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  color: var(--secondary2-80);
+  font-weight: 500;
+  background: var(--secondary2-10);
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-bottom: 9px;
+}
+.condition-area li span.round.whole {
+  background: var(--secondary2-10) url(../img/population/ico_whole.svg) no-repeat center center;
+}
+.condition-area li span.round.station {
+  background: var(--secondary2-10) url(../img/population/ico_station.svg) no-repeat center center;
+}
+.condition-area li span.round.park {
+  background: var(--secondary2-10) url(../img/population/ico_park.svg) no-repeat center center;
+}
+.condition-area li span.round.school {
+  background: var(--secondary2-10) url(../img/population/ico_school.svg) no-repeat center center;
+}
+.condition-area li:active, .condition-area li.active {
+  border: 1px solid var(--primary-100);
+}
+.condition-area li:active span.round, .condition-area li.active span.round {
+  background: var(--primary-10);
+}
+.condition-area li:active span.round.whole, .condition-area li.active span.round.whole {
+  background: var(--primary-10) url(../img/population/ico_whole_or.svg) no-repeat center center;
+}
+.condition-area li:active span.round.station, .condition-area li.active span.round.station {
+  background: var(--primary-10) url(../img/population/ico_station_or.svg) no-repeat center center;
+}
+.condition-area li:active span.round.park, .condition-area li.active span.round.park {
+  background: var(--primary-10) url(../img/population/ico_park_or.svg) no-repeat center center;
+}
+.condition-area li:active span.round.school, .condition-area li.active span.round.school {
+  background: var(--primary-10) url(../img/population/ico_school_or.svg) no-repeat center center;
+}
+
+.equip-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.equip-list button {
+  padding: 0;
+  font-size: 12px;
+  height: 36px;
+}
+.equip-list .form-label {
+  font-weight: 500;
+}
+
+.extent {
+  margin-left: auto;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--secondary2-100);
+}
+
+.range-value {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-top: 2px;
+}
+.range-value span {
+  font-size: 10px;
+  color: var(--secondary2-80);
+}
+
+.grd-re-txt {
+  color: var(--secondary2-100);
+  margin-bottom: 10px;
+}
+.grd-re-txt.num {
+  font-weight: 500;
+  margin-left: 6px;
+}
+
+.public-th.population span:first-child {
+  width: 200px;
+}
+.public-th.population span:nth-child(2) {
+  width: 90px;
+}
+.public-th.population span:nth-child(3) {
+  width: 88px;
+}
+
+.public-list.population span {
+  white-space: nowrap; /* 텍스트가 줄바꿈되지 않도록 설정 */
+  overflow: hidden; /* 넘치는 텍스트를 숨김 */
+  text-overflow: ellipsis; /* 넘치는 텍스트를 "..."으로 표시 */
+}
+.public-list.population span:first-child {
+  width: 200px;
+  padding-left: 5px;
+  text-align: left;
+}
+.public-list.population span:nth-child(2) {
+  width: 90px;
+  text-align: center;
+}
+.public-list.population span:nth-child(3) {
+  width: 88px;
+}
+
+.pop-th {
+  margin-right: 18px;
+  font-size: 14px;
+  color: var(--gray-40);
+}
+
+.amenities {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+}
+.amenities li {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 8px 0 14px;
+  border: 1px solid rgba(102, 102, 102, 0.1);
+  border-radius: 10px;
+}
+.amenities li span {
+  display: block;
+  text-align: center;
+}
+.amenities li span.spot-name {
+  color: var(--gray-40);
+  margin-bottom: 5px;
+}
+.amenities li span.round {
+  width: 34px;
+  height: 34px;
+  margin-bottom: 4px;
+}
+.amenities li span.round.station {
+  background: url(../img/population/round_station.svg) no-repeat center center;
+}
+.amenities li span.round.subway {
+  background: url(../img/population/round_subway.svg) no-repeat center center;
+}
+.amenities li span.round.terminal {
+  background: url(../img/population/round_terminal.svg) no-repeat center center;
+}
+.amenities li span.round.store {
+  background: url(../img/population/round_store.svg) no-repeat center center;
+}
+.amenities li span.round.hospital {
+  background: url(../img/population/round_hospital.svg) no-repeat center center;
+}
+.amenities li span.round.pharmacy {
+  background: url(../img/population/round_pharmacy.svg) no-repeat center center;
+}
+.amenities li span.round.e-school {
+  background: url(../img/population/round_e_school.svg) no-repeat center center;
+}
+.amenities li span.round.m-school {
+  background: url(../img/population/round_m_school.svg) no-repeat center center;
+}
+.amenities li span.round.h-school {
+  background: url(../img/population/round_h_school.svg) no-repeat center center;
+}
+.amenities li span.round.mart {
+  background: url(../img/population/round_mart.svg) no-repeat center center;
+}
+.amenities li span.round.mall {
+  background: url(../img/population/round_mall.svg) no-repeat center center;
+}
+.amenities li span.round.cinema {
+  background: url(../img/population/round_cinema.svg) no-repeat center center;
+}
+.amenities li span.round.mountain {
+  background: url(../img/population/round_mountain.svg) no-repeat center center;
+}
+.amenities li span.round.park {
+  background: url(../img/population/round_park.svg) no-repeat center center;
+}
+.amenities div {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.slider-container {
+  position: relative;
+  width: 300px;
+  height: 60px;
+}
+.slider-container .rangeInput {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  background: transparent;
+  position: absolute;
+  top: 15px;
+  margin: 0;
+  pointer-events: none; /* To allow pointer events to pass through */
+}
+.slider-container .rangeInput::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ffffff;
+  cursor: pointer;
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 3;
+  pointer-events: auto; /* To enable pointer events on the thumbs */
+}
+.slider-container .rangeInput::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ffffff;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 3;
+  pointer-events: auto;
+}
+.slider-container .slider-track {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: -webkit-gradient(linear, left top, right top, from(#595a8a), color-stop(50%, #595a8a), color-stop(50%, #e7e7ed), to(#e7e7ed));
+  background: linear-gradient(to right, #595a8a 0%, #595a8a 50%, #e7e7ed 50%, #e7e7ed 100%);
+  border-radius: 5px;
+  z-index: 1;
+}
+.slider-container .value-label {
+  position: absolute;
+  top: 30px;
+  width: 40px;
+  color: #595A8A;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.analysis-wrap {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+.analysis-wrap.light li {
+  padding: 10px 10px 6px;
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid var(--secondary2-20);
+}
+.analysis-wrap.light li:nth-child(odd) {
+  background: #F0F0F6;
+  border: 1px solid var(--secondary2-100);
+}
+.analysis-wrap.light li:nth-child(even) {
+  background: #fff;
+  border: 1px solid var(--secondary2-20);
+}
+.analysis-wrap.light li span {
+  color: var(--secondary2-100);
+}
+.analysis-wrap.light li span.num {
+  margin-top: 3px;
+  text-align: right;
+}
+.analysis-wrap.light li span.num::after {
+  content: "건";
+  margin-left: 4px;
+  color: var(--secondary2-80);
+  font-size: 10px;
+}
+.analysis-wrap li {
+  padding: 10px 10px 6px;
+  background: var(--secondary2-120);
+  border-radius: 10px;
+}
+.analysis-wrap li:nth-child(4), .analysis-wrap li:nth-child(5), .analysis-wrap li:nth-child(6) {
+  background: var(--secondary2-100);
+}
+.analysis-wrap li span {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+}
+.analysis-wrap li span.num {
+  margin-top: 3px;
+  text-align: right;
+}
+.analysis-wrap li span.num::after {
+  content: "건";
+  margin-left: 4px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 10px;
+}
+
+.analysis-chart {
+  width: 100%;
+  height: 220px;
+  background: #F9F9F9;
+  border-radius: 10px;
+}
+
+.area-btn-wrap {
+  text-align: center;
+}
+.area-btn-wrap .btn-outline {
+  width: auto;
+  padding: 10px 14px;
+}
+
+.public-section.past {
+  padding: 0;
+}
+.public-section.past .public-list-wrap {
+  height: 240px;
+  overflow-y: auto;
+}
+.public-section.past span:nth-child(1) {
+  width: 60px;
+}
+.public-section.past span:nth-child(2) {
+  width: 250px;
+}
+.public-section.past span:nth-child(3) {
+  width: 74px;
+}
+.public-section.past button {
+  width: 74px;
+}
+
+.panel-open {
+  position: absolute;
+  top: 76px;
+  left: 20px;
+}
+.panel-open button {
+  display: block;
+  width: 42px;
+  height: 42px;
+  background: #f3722c url(../img/population/btn_panel_open.svg) no-repeat center center;
+  border-radius: 50%;
+  border: none;
+}
+.panel-open button:focus {
+  background: #E45304 url(../img/population/btn_panel_open.svg) no-repeat center center;
+}
+
+.position-wrap .status-pop-wrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 8px;
+}
+.position-wrap .status-pop-wrap .status-pop {
+  padding: 14px 9px;
+  height: 118px;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  background: #FAFAFA;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  border-radius: 10px;
+}
+.position-wrap .status-pop-wrap .status-pop .status-pop-tit {
+  font-size: 10px;
+  color: var(--gray-40);
+  margin-bottom: 12px;
+}
+.position-wrap .status-pop-wrap .status-pop .status-pop-purpose {
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  color: var(--secondary2-80);
+  font-size: 15px;
+  font-weight: 500;
+  background: var(--secondary2-20);
+  border-radius: 50%;
+  vertical-align: middle;
+}
+.position-wrap .status-pop-wrap .status-pop .status-pop-purpose.leisure {
+  background: var(--secondary2-20) url(../img/population/ico_leisure.svg) no-repeat center center;
+}
+.position-wrap .status-pop-wrap .status-pop .status-pop-purpose.school {
+  background: var(--secondary2-20) url(../img/population/ico_school.svg) no-repeat center center;
+}
+.position-wrap .status-pop-wrap .status-pop .status-pop-purpose.work {
+  background: var(--secondary2-20) url(../img/population/ico_work.svg) no-repeat center center;
+}
+.position-wrap .status-pop-wrap .status-pop .status-pop-purpose.home {
+  background: var(--secondary2-20) url(../img/population/ico_home.svg) no-repeat center center;
+}
+.position-wrap .status-pop-wrap .status-pop .status-pop-purpose.trip {
+  background: var(--secondary2-20) url(../img/population/ico_trip.svg) no-repeat center center;
+}
+.position-wrap .status-pop-wrap .status-pop .status-pop-purpose.subway {
+  background: var(--secondary2-20) url(../img/population/ico_subway.svg) no-repeat center center;
+}
+.position-wrap .status-pop-wrap .status-pop .status-pop-purpose.taxi {
+  background: var(--secondary2-20) url(../img/population/ico_taxi.svg) no-repeat center center;
+}
+.position-wrap .status-pop-wrap .status-pop .status-pop-purpose.car {
+  background: var(--secondary2-20) url(../img/population/ico_car.svg) no-repeat center center;
+}
+.position-wrap .status-pop-wrap .status-pop .status-pop-purpose.plane {
+  background: var(--secondary2-20) url(../img/population/ico_plane.svg) no-repeat center center;
+}
+.position-wrap .status-pop-wrap .status-pop .status-pop-purpose.train {
+  background: var(--secondary2-20) url(../img/population/ico_train.svg) no-repeat center center;
+}
+.position-wrap .status-pop-wrap .status-pop .status-pop-purpose.walk {
+  background: var(--secondary2-20) url(../img/population/ico_walk.svg) no-repeat center center;
+}
+.position-wrap .status-pop-wrap .status-pop .status-pop-purpose.expressbus {
+  background: var(--secondary2-20) url(../img/population/ico_expressbus.svg) no-repeat center center;
+}
+.position-wrap .status-pop-wrap .status-pop .status-pop-purpose.cargo {
+  background: var(--secondary2-20) url(../img/population/ico_cargo.svg) no-repeat center center;
+}
+.position-wrap .status-pop-wrap .status-pop .status-pop-purpose.pm {
+  background: var(--secondary2-20) url(../img/population/ico_pm.svg) no-repeat center center;
+}
+.position-wrap .status-pop-wrap .status-pop .status-pop-purpose.etc {
+  background: var(--secondary2-20) url(../img/population/ico_etc.svg) no-repeat center center;
+}
+.position-wrap .status-pop-wrap .status-pop .status-pop-purpose.men {
+  background: var(--secondary2-20) url(../img/population/ico_men.svg) no-repeat center center;
+}
+.position-wrap .status-pop-wrap .status-pop .status-pop-purpose.women {
+  background: var(--secondary2-20) url(../img/population/ico_women.svg) no-repeat center center;
+}
+.position-wrap .status-pop-wrap .status-pop .status-sm-tit {
+  font-size: 8px;
+  line-height: 20px;
+  color: var(--secondary2-100);
+}
+.position-wrap .status-pop-wrap .status-pop .status-pop-num {
+  font-weight: 500;
+  margin-top: auto;
+}
+
+.popu-wrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.popu-wrap div {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  padding: 22px 14px 22px 0;
+  height: 90px;
+  background: #F0F0F6;
+  border-radius: 10px;
+  text-align: right;
+}
+.popu-wrap div span {
+  font-size: 14px;
+  font-weight: 500;
+}
+.popu-wrap div .num {
+  margin-top: 5px;
+  font-size: 20px;
+  font-weight: 600;
+}
+.popu-wrap div .num::after {
+  content: "명";
+  font-size: 14px;
+  font-weight: 500;
+}
+.popu-wrap div.popu-down {
+  background: #F0F0F6 url(../img/population/img_popul_down.svg) no-repeat left 8px center;
+}
+.popu-wrap div.popu-up {
+  background: #F0F0F6 url(../img/population/img_popul_up.svg) no-repeat left 8px center;
+}
+
+.popu-chart {
+  width: 100%;
+  height: 240px;
+}/*# sourceMappingURL=population.css.map */

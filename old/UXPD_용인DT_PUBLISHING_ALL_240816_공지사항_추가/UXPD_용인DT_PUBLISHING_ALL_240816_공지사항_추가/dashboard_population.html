@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/common.css" rel="stylesheet">
+    <link href="css/facility.css" rel="stylesheet">
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/jquery-3.7.1.js"></script>
+    <script src="js/ui.js"></script>
+    <title>대시보드-유동인구</title>
+</head>
+<body>
+    <div class="content">       
+        <!-- left menu 영역 01 -->
+        <header class="main-header"> <!-- depth -->
+            <div class="lnbWrap">
+                <h1 class="logo txt" aria-label="logo"><p class="logotxt">용인행정<br/>디지털<br/>트윈플랫폼</p></h1>
+                <div class="nav-wrap">
+                    <ul class="menu">
+                        <li class="menu-home"><a aria-label="메인">메인</a><span>메인</span></li> <!-- active -->
+                        <li class="menu-sevice"><a aria-label="지도서비스">지도서비스</a><span>지도서비스</span></li>
+                        <li class="menu-people"><a aria-label="유동인구">유동인구</a><span>유동인구</span></li>
+                        <li class="menu-map"><a aria-label="국공유지">국공유지</a><span>국공유지</span></li>
+                        <li class="menu-facility"><a aria-label="시설물">시설물</a><span>시설물</span></li>
+                        <li class="menu-admin"><a aria-label="관리자설정">관리자설정</a><span>관리자설정</span></li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="more-service">
+                <button type="button"></button>
+                <div class="notice-list">
+                    <ul>
+                        <li><a>공지사항</a></li>
+                        <li><a>이용안내/권장사항</a></li>
+                        <li><a>사용자 가이드</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+        <!-- //left menu 영역 01 -->
+
+        <!-- search -->
+        <div class="search-area">
+            <div class="search-wrap transparent">
+                <button type="button" class="btn-search">                    
+                </button>
+                <input type="text" class="form-round" placeholder="지역, 주소지, 시설물명 검색" style="display: none;">  
+            </div>
+                
+            
+        </div>
+        <!-- //search -->
+
+        <!-- SNB 영역 -->
+        <div class="snb-area">
+            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                <button type="button" class="btn active">대시보드</button>
+                <button type="button" class="btn">유동인구 분석</button>
+                <button type="button" class="btn">입지 분석</button>
+              </div>
+        </div>
+
+        <!-- //SNB 영역 -->
+
+        <!-- 대시보드-유동인구 -->
+        <div class="dashboard-container">
+            <div class="left pop-left">
+                <div class="map-area pop-map-area board-box h440">
+                    <div class="btn-zoom-wrap">
+                        <button type="button" class="zoomin"></button>
+                        <button type="button" class="zoomout"></button>
+                    </div>
+                    <div class="">
+                       <div class="select-wrap">
+                        <!-- <select class="form-select round w132" aria-label="Default select example">
+                            <option selected>2024년</option>
+                            <option value="1">2023년</option>
+                            <option value="2">2022년</option>
+                            <option value="3">2021년</option>
+                        </select>
+                        <select class="form-select round w132" aria-label="Default select example">
+                            <option selected>2024년</option>
+                            <option value="1">2023년</option>
+                            <option value="2">2022년</option>
+                            <option value="3">2021년</option>
+                        </select> -->
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn select dropdown-toggle w132" data-bs-toggle="dropdown" aria-expanded="false">
+                            2024
+                            </button>
+                            <ul class="dropdown-menu select">
+                                <li><a class="dropdown-item" href="#">2023</a></li>
+                                <li><a class="dropdown-item" href="#">2022</a></li>
+                            </ul>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn select dropdown-toggle w132" data-bs-toggle="dropdown" aria-expanded="false">
+                            5월
+                            </button>
+                            <ul class="dropdown-menu select">
+                                <li><a class="dropdown-item" href="#">2023</a></li>
+                                <li><a class="dropdown-item" href="#">2022</a></li>
+                            </ul>
+                        </div>
+                        <button class="btn-round" type="button">검색</button>
+                       </div>
+                       <!-- 지도영역 -->
+                       <div class="pop-map-area">
+
+                       </div>
+
+                    </div>
+                </div>
+                <div class="board-box radar">
+                        <div class="in-radar">
+                            <span class="sub-head">행정동 유입 인구</span>
+                            <!-- 차트영역 -->
+                            <div class="radar-chart">
+
+                            </div>
+                        </div>
+                        <div class="out-radar">
+                            <span class="sub-head">행정동 유출 인구</span>
+                            <!-- 차트영역 -->
+                            <div class="radar-chart">
+
+                            </div>
+                        </div>
+
+
+                </div>
+            </div>
+            <div class="right">
+                <!-- 유동인구 지표 -->
+                <div class="board-box population">
+                    <span class="board-box-tit">유동인구 지표</span>
+                    <p class="p-exp">유동인구는 5분 단위 기지국 데이터를 기준으로 1시간 동안에 해당 영역에 체류한 인구의 총량</p>
+                    <div class="facility-wrap indicator">
+                        <div class="indic-box">
+                            <div class="indic-info">   
+                                <span class="sub-head">월 평균<br/>유입인구</span>
+                                <span class="source">출처 :  SKT</span>
+                            </div>
+                            <div class="arrow-down">
+                            </div>
+                            <div class="indic-info">
+                                <span class="peo-num">1,234,567</span>  
+                                <div class="d-flex ml-auto">
+                                    <span class="peo">전월대비</span>   
+                                    <span class="peo-rate-down">12.02%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="indic-box">
+                            <div class="indic-info">   
+                                <span class="sub-head">월 평균<br/>유입인구</span>
+                                <span class="source">출처 :  SKT</span>
+                            </div>
+                            <div class="arrow-up">
+                            </div>
+                            <div class="indic-info">
+                                <span class="peo-num">1,234,567</span>  
+                                <div class="d-flex ml-auto">
+                                    <span class="peo">전월대비</span>   
+                                    <span class="peo-rate-up">12.02%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grade-ch-wrap">
+                            <div class="sub-head-wrap">
+                                <span class="sub-head">유입 인구 현황</span>
+                                <span class="source">출처 :  SKT</span>
+                            </div>
+                            <div class="">
+                                <ul class="status-pop-wrap">
+                                    <li class="status-pop">
+                                        <span class="status-pop-tit">이동 목적</span>
+                                        <span class="status-pop-purpose leisure"></span>
+                                        <span class="status-sm-tit">쇼핑/여가</span>
+                                        <span class="status-pop-num">1,234,567</span>
+                                    </li>
+                                     <li class="status-pop">
+                                        <span class="status-pop-tit">이동 수단</span>
+                                        <span class="status-pop-purpose subway"></span>
+                                        <span class="status-sm-tit">지하철</span>
+                                        <span class="status-pop-num">1,234,567</span>
+                                    </li>
+                                     <li class="status-pop">
+                                        <span class="status-pop-tit">성별</span>
+                                        <span class="status-pop-purpose men"></span>
+                                        <span class="status-sm-tit">남성</span>
+                                        <span class="status-pop-num">1,234,567</span>
+                                    </li>
+                                     <li class="status-pop">
+                                        <span class="status-pop-tit">연령대</span>
+                                        <span class="status-pop-purpose">20</span>
+                                        <span class="status-sm-tit">20대</span>
+                                        <span class="status-pop-num">1,234,567</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                        <div class="grade-ch-wrap">
+                            <div class="sub-head-wrap">
+                                <span class="sub-head">유출 인구 현황</span>
+                                <span class="source">출처 :  SKT</span>
+                            </div>
+                            <div class="">
+                                <ul class="status-pop-wrap">
+                                    <li class="status-pop">
+                                        <span class="status-pop-tit">이동 목적</span>
+                                        <span class="status-pop-purpose leisure"></span>
+                                        <span class="status-sm-tit">쇼핑/여가</span>
+                                        <span class="status-pop-num">1,234,567</span>
+                                    </li>
+                                     <li class="status-pop">
+                                        <span class="status-pop-tit">이동 수단</span>
+                                        <span class="status-pop-purpose taxi"></span>
+                                        <span class="status-sm-tit">택시</span>
+                                        <span class="status-pop-num">1,234,567</span>
+                                    </li>
+                                     <li class="status-pop">
+                                        <span class="status-pop-tit">성별</span>
+                                        <span class="status-pop-purpose women"></span>
+                                        <span class="status-sm-tit">여성</span>
+                                        <span class="status-pop-num">1,234,567</span>
+                                    </li>
+                                     <li class="status-pop">
+                                        <span class="status-pop-tit">연령대</span>
+                                        <span class="status-pop-purpose">20</span>
+                                        <span class="status-sm-tit">20대</span>
+                                        <span class="status-pop-num">1,234,567</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <!-- 유입/유출 인구 현황 -->
+                <div class="board-wrapper pop-wrap">
+                    <div class="board-box population h330">
+                        <div class="sub-head-wrap">
+                            <span class="sub-head">유입 인구 현황 TOP 5</span>      
+                            <div class="ml-auto">
+                                <button type="button" class="btn-round active">성별</button>
+                                <button type="button" class="btn-round">주 목적</button>
+                            </div>             
+                        </div>
+                        <div class="population-chart">
+                            <!-- 차트영역 -->
+                        </div>                      
+                    </div>
+                    <div class="board-box population h330">
+                        <div class="sub-head-wrap">
+                            <span class="sub-head">유입 인구 현황 TOP 5</span>      
+                            <div class="ml-auto">
+                                <button type="button" class="btn-round active">성별</button>
+                                <button type="button" class="btn-round">주 목적</button>
+                            </div>             
+                        </div>
+                        <div class="population-chart">
+                            <!-- 차트영역 -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- //대시보드-시설물 -->
+
+        <!-- 상단 gnb 영역 -->
+        <div class="gnb">
+            <span class="profile"></span>
+            <span class="notify">
+                <span class="badge">1
+                    <!-- <span class="visually-hidden">New alerts</span> -->
+                </span>
+            </span>
+        </div>
+        <!-- //상단 gnb 영역 -->
+
+        <!-- 우측 메뉴 -->
+        <div class="toolbox" style="display: none;">
+            <div>
+                <button type="button" class="item layer">필터</button>
+                <button type="button" class="item theme">테마</button>
+                <button type="button" class="item route">거리뷰</button>
+            </div>
+            <div>
+                <button type="button" class="item favorite">저장</button>
+                <button type="button" class="item share">공유</button>
+                <button type="button" class="item print">인쇄</button>
+            </div>
+            <div class="btm-box">
+                <button type="button" class="item location"></button>
+                <button type="button" class="item zoomin"></button>
+                <button type="button" class="item zoomout"></button>
+            </div>
+        </div>
+        <!-- //우측 메뉴 -->
+
+        <!-- 범례 -->
+        <div class="legend" style="display: none;">
+            <div class="range">
+                <span>100</span>
+                <span class="dash"></span>
+                <span>0</span>
+                <span class="dash"></span>
+                <span>100</span>
+            </div>
+            <div class="ratio-wrap">
+                <span class="gender">여성</span>
+                <ul class="color-lev">
+                    <li class="w-05"></li>
+                    <li class="w-04"></li>
+                    <li class="w-03"></li>
+                    <li class="w-02"></li>
+                    <li class="w-01"></li>
+                    <li class="lev-0"></li>
+                    <li class="m-01"></li>
+                    <li class="m-02"></li>
+                    <li class="m-03"></li>
+                    <li class="m-04"></li>
+                    <li class="m-05"></li>
+                </ul>
+                <span class="gender">남성</span>
+                <span class="rate">비율(%)</span>
+            </div>
+
+        </div>
+        <!-- //범례 -->
+        <div class="copyright">
+            <p>COPYRIGHT © Yonginsi. ALL RIGHT RESERVED</p>
+        </div>
+    </div>
+</body>
+</html>

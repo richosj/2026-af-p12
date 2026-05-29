@@ -1,0 +1,47 @@
+@charset "UTF-8";
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f5f7;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.datepicker-container {
+    display: flex;
+    align-items: center;
+    background-color: #f2f3fa;
+    border-radius: 30px;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.custom-datepicker {
+    border: none;
+    background: none;
+    font-size: 1.5em;
+    color: #55568c;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.custom-datepicker::-webkit-calendar-picker-indicator {
+    opacity: 0;
+}
+
+.custom-datepicker::-webkit-inner-spin-button,
+.custom-datepicker::-webkit-clear-button {
+    display: none;
+}
+
+.custom-datepicker:focus {
+    outline: none;
+}
+
+.datepicker-container::before {
+    content: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns="http://www.w3.org/2000/svg" fill="%2355568c" viewBox="0 0 24 24" width="24" height="24"%3E%3Cpath d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/%3E%3C/svg%3E');
+    margin-right: 10px;
+}

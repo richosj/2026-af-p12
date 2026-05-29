@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>시설물 종합 | 용인행정 디지털트윈플랫폼</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/facility.css" rel="stylesheet">
+    <link href="css/facility_manage.css" rel="stylesheet">
+    <link href="css/public.css" rel="stylesheet">
+    <link href="css/form.css" rel="stylesheet">
+    <script src="js/jquery-3.7.1.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        #map { position:absolute; top:0; width:100%; height:100%; background:linear-gradient(160deg,#1a2a3a 0%,#243448 40%,#1e3040 100%); z-index:0; }
+        .footer { position:absolute; bottom:0; width:100%; z-index:5; }
+        .footer_txt { text-align:center; font-size:10px; color:rgba(255,255,255,0.55); padding:6px 0; }
+        .empty-data-wrap { display:flex; flex-direction:column; justify-content:center; align-items:center; }
+        .no-result { background:url(img/img_noresult.png) no-repeat center center; background-size:30%; width:100%; height:200px; }
+        .btn-outline { background:var(--primary-100); color:#fff; border:1px solid var(--primary-100); border-radius:15px; width:120px; height:42px; font-size:14px; cursor:pointer; }
+        /* 결과 플로팅 말풍선 */
+        .result-item.float { position:absolute; top:300px; left:50%; width:380px; background:#fff; padding:20px; box-shadow:0 4px 16px rgba(0,0,0,0.15); border-radius:10px; }
+        .result-item.float::after { content:""; position:absolute; top:110px; left:180px; border-left:12px solid transparent; border-right:12px solid transparent; border-top:25px solid #fff; }
+        .place-info { display:flex; align-items:center; gap:8px; }
+        .place { font-size:18px; font-weight:500; color:var(--secondary2-140); }
+        .alpt { color:var(--primary-100); font-size:18px; }
+        .search-form-wrap.analy { display:flex; flex-direction:column; gap:8px; padding:16px 16px 0; }
+        .divide-02 { display:flex; gap:8px; }
+        .custom-select select { display:block !important; width:100%; padding:6px 10px; border:1px solid #ccc; border-radius:30px; font-size:14px; height:36px; appearance:none; background:url(img/common/ico_arrow_down.svg) no-repeat right 10px center; background-size:16px; cursor:pointer; }
+        .form-input { width:100%; padding:6px 12px; border:1px solid #ccc; border-radius:30px; height:36px; font-size:14px; outline:none; }
+        .form-check { display:flex; align-items:center; white-space:nowrap; }
+        .search-btn-wrap { text-align:center; margin:10px 0 16px; }
+        .result-box.facility { height:calc(100vh - 380px); overflow-y:auto; }
+        .result-item-link { display:flex; width:100%; padding:12px 14px; }
+        .tab-content-wrap { padding:14px 20px; }
+        .table-row { display:flex; padding:8px 0; border-bottom:1px solid #f5f5f5; }
+        .table-row .th { width:120px; font-size:12px; color:var(--gray-40); }
+        .table-row .td { flex:1; font-size:13px; }
+        .sub-count { font-size:12px; color:var(--secondary2-100); font-weight:500; margin-left:6px; }
+    </style>
+</head>
+<body>
+<div class="content">
+    <div id="map">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="opacity:0.3;">
+            <circle cx="45%" cy="40%" r="10" fill="#1C64F2" stroke="#fff" stroke-width="2"/>
+            <circle cx="55%" cy="35%" r="8" fill="#10AD78" stroke="#fff" stroke-width="2"/>
+            <circle cx="60%" cy="55%" r="9" fill="#FFA504" stroke="#fff" stroke-width="2"/>
+            <circle cx="38%" cy="60%" r="11" fill="#1C64F2" stroke="#fff" stroke-width="2"/>
+            <circle cx="50%" cy="70%" r="7" fill="#F14730" stroke="#fff" stroke-width="2"/>
+            <circle cx="65%" cy="45%" r="8" fill="#10AD78" stroke="#fff" stroke-width="2"/>
+        </svg>
+    </div>
+
+    <!-- LNB -->
+    <header class="main-header">
+        <div class="lnbWrap">
+            <div class="logo txt" style="cursor:pointer;"><p class="logotxt">용인행정<br>디지털<br>트윈플랫폼</p></div>
+            <div class="nav-wrap">
+                <ul class="menu">
+                    <li class="menu-home"><a>메인</a><span>메인</span></li>
+                    <li class="menu-sevice"><a>지도서비스</a><span>지도서비스</span></li>
+                    <li class="menu-people"><a>유동인구</a><span>유동인구</span></li>
+                    <li class="menu-map"><a>국공유지</a><span>국공유지</span></li>
+                    <li class="menu-facility active"><a>시설물</a><span>시설물</span></li>
+                    <li class="menu-admin"><a>시스템설정</a><span>시스템설정</span></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- SNB -->
+    <div class="snb-area" id="snbFclt">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn" onclick="location.href='fclt_dash.html'">대시보드</button>
+            <button type="button" class="btn active" onclick="location.href='fclt_analy.html'">시설물 종합</button>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn" data-bs-toggle="dropdown" aria-expanded="false">시설물 관리</button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" onclick="location.href='fclt_mstat.html'">시설물 관리 현황</a></li>
+                </ul>
+            </div>
+            <button type="button" class="btn" onclick="location.href='fclt_msrmt.html'">실시간 계측</button>
+            <button type="button" class="btn" onclick="location.href='fclt_simul.html'">시설물 시뮬레이션</button>
+        </div>
+    </div>
+
+    <!-- GNB -->
+    <div class="gnb">
+        <span class="profile">관리자님</span>
+        <span class="sugComment" id="sugComment">건의사항</span>
+    </div>
+
+    <!-- 우측 툴박스 -->
+    <div class="toolbox">
+        <div id="toolBar">
+            <div class="btn-group-vertical" role="group">
+                <input type="radio" class="btn-check" name="changeMap" id="2d">
+                <label class="btn" for="2d">2D</label>
+                <input type="radio" class="btn-check" name="changeMap" id="3d" checked>
+                <label class="btn" for="3d">3D</label>
+            </div>
+            <button type="button" class="item setting">지도설정</button>
+            <button type="button" class="item layer">레이어</button>
+            <button type="button" class="item shine">일조권</button>
+            <button type="button" class="item distance">거리</button>
+            <button type="button" class="item area">면적</button>
+            <button type="button" class="item save">저장</button>
+            <button type="button" class="item estate">부동산</button>
+            <button type="button" class="item slope">경사도</button>
+            <button type="button" class="item manual">매뉴얼</button>
+            <button type="button" class="item compass" style="padding-top:0;padding-left:8px;"><i style="transform:rotate(-45deg);">◈</i></button>
+        </div>
+    </div>
+
+    <!-- search -->
+    <div class="search-area">
+        <div class="search-wrap transparent">
+            <button type="button" class="btn-cancel"></button>
+        </div>
+        <div class="d-flex">
+            <!-- 검색 패널 -->
+            <div class="map-sv-search">
+                <div class="search-form-wrap analy">
+                    <div class="input-container">
+                        <input type="text" class="form-input" id="input-field" placeholder="시설물명 입력">
+                    </div>
+                    <div class="divide-02">
+                        <div class="custom-select">
+                            <select title="시군구 선택">
+                                <option>용인시</option>
+                                <option>용인시 처인구</option>
+                                <option>용인시 기흥구</option>
+                                <option>용인시 수지구</option>
+                            </select>
+                        </div>
+                        <div class="custom-select">
+                            <select title="읍면동 선택">
+                                <option>전체</option>
+                                <option>신갈동</option>
+                                <option>역북동</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="divide-02">
+                        <div class="custom-select">
+                            <select title="종 선택">
+                                <option>전체</option>
+                                <option>1종</option>
+                                <option>2종</option>
+                                <option>3종</option>
+                            </select>
+                        </div>
+                        <div class="custom-select">
+                            <select title="안전등급 선택">
+                                <option>전체</option>
+                                <option>A등급</option>
+                                <option>B등급</option>
+                                <option>C등급</option>
+                                <option>D등급</option>
+                                <option>E등급</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="divide-02">
+                        <div class="form-check" style="margin-left:20px;">
+                            <input class="form-check-input" type="checkbox" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault" style="margin-left:6px;">용인시 관리 시설물만</label>
+                        </div>
+                    </div>
+                    <div class="search-btn-wrap">
+                        <button class="btn-outline" type="button">검색</button>
+                    </div>
+                </div>
+
+                <!-- 검색 결과 -->
+                <div class="result-wrap">
+                    <div class="tab-space facility">
+                        <div>
+                            <span class="res-tit">검색결과</span>
+                            <span class="res-num sub-count">5건</span>
+                        </div>
+                    </div>
+                    <div>
+                        <ul class="result-box facility" id="fclt_result_list">
+                            <li class="result-item">
+                                <a class="result-item-link active">
+                                    <div>
+                                        <span class="place"><strong>상갈교</strong></span>
+                                        <span class="address">경기 용인시 기흥구 상갈로</span>
+                                        <span class="address">교량 | 2종 | A등급</span>
+                                    </div>
+                                    <div class="result-grade-txt">
+                                        <div><span class="txt-type-lg gradeA">A</span></div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="result-item">
+                                <a class="result-item-link">
+                                    <div>
+                                        <span class="place"><strong>신갈교</strong></span>
+                                        <span class="address">경기 용인시 기흥구 신갈로</span>
+                                        <span class="address">교량 | 2종 | B등급</span>
+                                    </div>
+                                    <div class="result-grade-txt">
+                                        <div><span class="txt-type-lg gradeB">B</span></div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="result-item">
+                                <a class="result-item-link">
+                                    <div>
+                                        <span class="place"><strong>성복1교</strong></span>
+                                        <span class="address">경기 용인시 수지구 성복길</span>
+                                        <span class="address">교량 | 3종 | C등급</span>
+                                    </div>
+                                    <div class="result-grade-txt">
+                                        <div><span class="txt-type-lg gradeC">C</span></div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="result-item">
+                                <a class="result-item-link">
+                                    <div>
+                                        <span class="place"><strong>동막천 호안</strong></span>
+                                        <span class="address">경기 용인시 기흥구 동백동</span>
+                                        <span class="address">하천 | 2종 | B등급</span>
+                                    </div>
+                                    <div class="result-grade-txt">
+                                        <div><span class="txt-type-lg gradeB">B</span></div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="result-item">
+                                <a class="result-item-link">
+                                    <div>
+                                        <span class="place"><strong>기흥저수지 취수탑</strong></span>
+                                        <span class="address">경기 용인시 기흥구 기흥동</span>
+                                        <span class="address">건축물 | 1종 | A등급</span>
+                                    </div>
+                                    <div class="result-grade-txt">
+                                        <div><span class="txt-type-lg gradeA">A</span></div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="pagination-wrap">
+                        <ul class="pagination">
+                            <li class="page-item"><a class="page-prev first"></a></li>
+                            <li class="page-item"><a class="page-prev"></a></li>
+                            <li class="page-item"><a class="page-link active">1</a></li>
+                            <li class="page-item"><a class="page-next"></a></li>
+                            <li class="page-item"><a class="page-next last"></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 시설물 상세 플로팅 -->
+            <div class="result-item float" id="fcltDetail">
+                <div class="place-info">
+                    <span class="alpt">A</span>
+                    <span class="place"><strong>상갈교</strong></span>
+                    <button class="modal-btn-close" id="closeDetail"></button>
+                </div>
+                <div style="display:flex;gap:10px;margin-top:10px;">
+                    <div class="result-grade-txt">
+                        <span class="txt-type-lg gradeA">A</span>
+                        <span style="font-size:11px;color:#888;margin-top:4px;">안전등급</span>
+                    </div>
+                    <div>
+                        <span class="address" style="display:block;">경기 용인시 기흥구 상갈로</span>
+                        <span class="address" style="color:#999;">교량 · 2종</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- footer -->
+    <div class="footer">
+        <div class="footer_txt">
+            ※ 본 자료는 실제 현황과 차이가 있을 수 있으므로 충분히 유의하여 참고용으로만 활용하시기 바라며, 업무 목적 외 타 용도로의 사용을 금합니다. ※
+        </div>
+    </div>
+</div>
+
+<script src="js/ui.js"></script>
+<script>
+$(document).ready(function(){
+    $('#closeDetail').click(function(){ $('#fcltDetail').hide(); });
+    $('.result-item-link').click(function(){
+        $('.result-item-link').removeClass('active');
+        $(this).addClass('active');
+        $('#fcltDetail').show();
+    });
+});
+</script>
+</body>
+</html>
