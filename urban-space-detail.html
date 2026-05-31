@@ -14,9 +14,6 @@
     <script src="js/jquery-3.7.1.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-    <style>
-        
-    </style>
 </head>
 <body>
 <div class="content">
@@ -99,133 +96,165 @@
         </div>
         <div class="d-flex">
             <!-- 검색 패널 -->
-            <div class="map-sv-search">
-                <div class="search-form-wrap">
-                    <span class="sub-head mb-10">도시공간 시설 검색</span>
-
-                    <div class="search-form-wrap-inner">
-                        <span class="mid-tit">검색</span>
-                        <div class="btn-group population w100p" role="group">
-                            <button type="button" class="btn active" id="btnDate">날짜</button>
-                            <button type="button" class="btn" id="btnTitle">제목</button>
-                        </div>
-                        <div class="input-container">
-                            <span class="btn-input-search"></span>
-                            <input type="text" class="input-field pl-40" id="schValue" placeholder="검색어 입력" title="검색어 입력">
-                        </div>
-                        <div class="search-btn-wrap">
-                            <button class="btn-outline" type="button">검색</button>
-                        </div>
-                    </div>
+            <div class="space-detail">
+                <div class="space-detail-header">
+                    <h3 class="space-detail-title">역북지구 도시개발사업</h3>
+                    <span class="space-detail-badge">진행중</span>
                 </div>
-                <!-- 검색 결과 -->
-                <div class="search-result-wrap">
 
-                    <div class="legend-list">
-                        <div class="legend-item legend-item--apt">
-                            <i class="ico_legend"></i>
-                            <span class="legend-item-title-text">아파트</span>
-                        </div>
-                        <div class="legend-item legend-item--factory">
-                            <i class="ico_legend"></i>
-                            <span class="legend-item-title-text">공장</span>
-                        </div>
-                        <div class="legend-item legend-item--warehouse">
-                            <i class="ico_legend"></i>
-                            <span class="legend-item-title-text">창고</span>
-                        </div>
-                        <div class="legend-item legend-item--life">
-                            <i class="ico_legend"></i>
-                            <span class="legend-item-title-text">근린생활시설</span>
-                        </div>
-                        <div class="legend-item legend-item--etc">
-                            <i class="ico_legend"></i>
-                            <span class="legend-item-title-text">기타</span>
-                        </div>
-                    </div>
-
-                    <div class="u-space-list">
-                        <div class="u-list-head">
-                            <span class="u-list-head-tit">목록</span>
-                            <span class="u-list-count">총 <em>25</em>건</span>
-                        </div>
-
-                        <div class="u-list-group">
-                            <div class="u-list-parent is-open">
-                                <div class="u-list-parent-head" role="button" tabindex="0" aria-expanded="true">
-                                    <span class="btn-toggle" aria-hidden="true"></span>
-                                    <span class="u-list-title">3월 12일 01회차 심의위원회</span>
-                                    <div class="u-list-actions">
-                                        <button type="button" class="btn-row-edit" title="수정"></button>
-                                        <button type="button" class="btn-row-del" title="삭제"></button>
-                                    </div>
-                                </div>
-                                <div class="u-list-children">
-                                    <div class="u-list-child u-list-child--apt">
-                                        <i class="ico_legend" aria-hidden="true"></i>
-                                        <span class="u-list-child-title">역북지구 도시개발사업</span>
-                                        <div class="u-list-actions">
-                                            <button type="button" class="btn-row-edit" title="수정"></button>
-                                            <button type="button" class="btn-row-del" title="삭제"></button>
-                                        </div>
-                                    </div>
-                                </div>
+                <div class="space-detail-content">
+                    <div class="space-detail-content-item">
+                        <div class="space-detail-meta">
+                            <div class="space-detail-meta-item space-detail-meta-item--date">
+                                <span class="space-detail-meta-label">심의날짜</span>
+                                <span class="space-detail-meta-value">2026년 3월 12일</span>
                             </div>
-
-                            <div class="u-list-parent">
-                                <div class="u-list-parent-head" role="button" tabindex="0" aria-expanded="false">
-                                    <span class="btn-toggle" aria-hidden="true"></span>
-                                    <span class="u-list-title">3월 12일 02회차 심의위원회</span>
-                                    <div class="u-list-actions">
-                                        <button type="button" class="btn-row-edit" title="수정"></button>
-                                        <button type="button" class="btn-row-del" title="삭제"></button>
-                                    </div>
-                                </div>
-                                <div class="u-list-children">
-                                    <div class="u-list-child u-list-child--factory">
-                                        <i class="ico_legend" aria-hidden="true"></i>
-                                        <span class="u-list-child-title">기흥지구 도시개발사업</span>
-                                        <div class="u-list-actions">
-                                            <button type="button" class="btn-row-edit" title="수정"></button>
-                                            <button type="button" class="btn-row-del" title="삭제"></button>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="space-detail-meta-item space-detail-meta-item--dept">
+                                <span class="space-detail-meta-label">담당부서</span>
+                                <span class="space-detail-meta-value">2026년 3월 12일</span>
                             </div>
-
-                            <div class="u-list-parent">
-                                <div class="u-list-parent-head" role="button" tabindex="0" aria-expanded="false">
-                                    <span class="btn-toggle" aria-hidden="true"></span>
-                                    <span class="u-list-title">3월 11일 01회차 심의위원회</span>
-                                    <div class="u-list-actions">
-                                        <button type="button" class="btn-row-edit" title="수정"></button>
-                                        <button type="button" class="btn-row-del" title="삭제"></button>
-                                    </div>
-                                </div>
-                                <div class="u-list-children">
-                                    <div class="u-list-child u-list-child--warehouse">
-                                        <i class="ico_legend" aria-hidden="true"></i>
-                                        <span class="u-list-child-title">수지지구 도시개발사업</span>
-                                        <div class="u-list-actions">
-                                            <button type="button" class="btn-row-edit" title="수정"></button>
-                                            <button type="button" class="btn-row-del" title="삭제"></button>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="space-detail-meta-item space-detail-meta-item--author">
+                                <span class="space-detail-meta-label">작성자</span>
+                                <span class="space-detail-meta-value">관리자</span>
+                            </div>
+                            <div class="space-detail-meta-item space-detail-meta-item--region">
+                                <span class="space-detail-meta-label">행정구역</span>
+                                <span class="space-detail-meta-value">처인구</span>
+                            </div>
+                            <div class="space-detail-meta-item space-detail-meta-item--desc space-detail-meta-item--full">
+                                <span class="space-detail-meta-label">설명</span>
+                                <span class="space-detail-meta-value">설명이 존재하지 않습니다.</span>
                             </div>
                         </div>
                     </div>
-                    
 
-                    <div class="pagination-wrap">
-                        <ul class="pagination">
-                            <li class="page-item"><a class="page-prev first"></a></li>
-                            <li class="page-item"><a class="page-prev"></a></li>
-                            <li class="page-item"><a class="page-link active">1</a></li>
-                            <li class="page-item"><a class="page-next"></a></li>
-                            <li class="page-item"><a class="page-next last"></a></li>
-                        </ul>
+                    <nav class="space-detail-nav">
+                        <button type="button" class="active" data-tab="setting">설정</button>
+                        <button type="button" data-tab="analysis">분석</button>
+                    </nav>
+
+                    <div class="space-tab-content">
+                        <div class="space-tab-content-item is-active" data-tab-panel="setting">
+                            <div class="space-tab-content-item-header">
+                                <h4 class="space-tab-content-item-title">도시공간 설정</h4>
+                            </div>
+                            <div class="space-tab-content-item-content">
+                                <div class="space-setting-grid">
+                                    <div class="space-setting-card space-setting-card--zone">
+                                        <div class="space-setting-card-head">
+                                            <h5 class="space-setting-card-title">구역경계</h5>
+                                            <button type="button" class="btn-setting-action btn-setting-action--upload">업로드</button>
+                                        </div>
+                                        <div class="space-setting-card-body space-setting-card-body--zone">
+                                            <button type="button" class="btn-zone-set">
+                                                <span class="btn-zone-set-icon" aria-hidden="true"></span>
+                                                <span class="btn-zone-set-text">구역설정</span>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="space-setting-card space-setting-card--image">
+                                        <div class="space-setting-card-head">
+                                            <h5 class="space-setting-card-title">이미지(도시계획도)</h5>
+                                            <button type="button" class="btn-setting-action btn-setting-action--upload">업로드</button>
+                                        </div>
+                                        <div class="space-setting-card-body space-setting-card-body--image">
+                                            <ul class="space-image-list">
+                                                <li class="space-image-item">
+                                                    <span class="space-image-name">도시이미지.jpg</span>
+                                                    <button type="button" class="btn-image-remove" aria-label="삭제"></button>
+                                                </li>
+                                                <li class="space-image-item space-image-item--thumb"></li>
+                                                <li class="space-image-item space-image-item--thumb"></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="space-setting-card space-setting-card--building">
+                                        <div class="space-setting-card-head">
+                                            <h5 class="space-setting-card-title">건물</h5>
+                                            <div class="space-setting-card-actions">
+                                                <button type="button" class="btn-setting-action btn-setting-action--library">라이브러리</button>
+                                                <button type="button" class="btn-setting-action btn-setting-action--upload">업로드</button>
+                                            </div>
+                                        </div>
+                                        <div class="space-setting-card-body space-setting-card-body--building">
+                                            <span class="space-building-icon" aria-hidden="true"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="space-setting-card space-setting-card--object">
+                                        <div class="space-setting-card-head">
+                                            <h5 class="space-setting-card-title">임의객체</h5>
+                                            <button type="button" class="btn-setting-action btn-setting-action--upload">업로드</button>
+                                        </div>
+                                        <div class="space-setting-card-body space-setting-card-body--empty">
+                                            <span class="space-empty-icon" aria-hidden="true"></span>
+                                            <p class="space-empty-text">데이터가 없습니다.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-analysis-list">
+                                    <div class="space-analysis-card">
+                                        <div class="space-analysis-card-head">
+                                            <h5 class="space-analysis-card-title">뷰포인트</h5>
+                                            <button type="button" class="btn-setting-action btn-setting-action--upload">등록</button>
+                                        </div>
+                                        <div class="space-setting-card-body space-setting-card-body--empty">
+                                            <span class="space-empty-icon space-empty-icon--pin" aria-hidden="true"></span>
+                                            <p class="space-empty-text">데이터가 없습니다.</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="space-analysis-card">
+                                        <div class="space-analysis-card-head">
+                                            <h5 class="space-analysis-card-title">지형수정</h5>
+                                        </div>
+                                        <div class="space-terrain-toggle" role="group" aria-label="지형수정 유형">
+                                            <button type="button" class="btn-terrain-type is-active" data-terrain="fill">
+                                                <span class="btn-terrain-type-icon btn-terrain-type-icon--fill" aria-hidden="true"></span>
+                                                <span class="btn-terrain-type-text">성토 Fill</span>
+                                            </button>
+                                            <button type="button" class="btn-terrain-type" data-terrain="cut">
+                                                <span class="btn-terrain-type-icon btn-terrain-type-icon--cut" aria-hidden="true"></span>
+                                                <span class="btn-terrain-type-text">절토 Cut</span>
+                                            </button>
+                                        </div>
+                                        <ul class="space-terrain-form">
+                                            <li class="space-terrain-form-row">
+                                                <span class="space-terrain-form-label space-terrain-form-label--area">영역 선택</span>
+                                                <span class="space-terrain-form-value is-empty">미선택</span>
+                                            </li>
+                                            <li class="space-terrain-form-row">
+                                                <span class="space-terrain-form-label space-terrain-form-label--height">성토 높이</span>
+                                                <div class="space-terrain-form-field">
+                                                    <input type="text" class="space-terrain-input" value="5" title="성토 높이">
+                                                    <span class="space-terrain-unit">m</span>
+                                                </div>
+                                            </li>
+                                            <li class="space-terrain-form-row">
+                                                <span class="space-terrain-form-label space-terrain-form-label--slope">경사도</span>
+                                                <div class="space-terrain-form-field">
+                                                    <input type="text" class="space-terrain-input" value="30" title="경사도">
+                                                    <span class="space-terrain-unit">m</span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-tab-content-item" data-tab-panel="analysis">
+                            <div class="space-tab-content-item-header">
+                                <h4 class="space-tab-content-item-title">도시공간 분석</h4>
+                            </div>
+                            <div class="space-tab-content-item-content">
+                                
+                            </div>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -259,6 +288,17 @@ $(document).ready(function(){
             e.preventDefault();
             $(this).trigger('click');
         }
+    });
+
+    $('.space-detail-nav button').on('click', function(){
+        var tab = $(this).data('tab');
+        $(this).addClass('active').siblings().removeClass('active');
+        $('.space-tab-content-item').removeClass('is-active');
+        $('.space-tab-content-item[data-tab-panel="' + tab + '"]').addClass('is-active');
+    });
+
+    $('.btn-terrain-type').on('click', function(){
+        $(this).addClass('is-active').siblings().removeClass('is-active');
     });
 });
 </script>

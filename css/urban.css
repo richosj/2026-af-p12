@@ -252,3 +252,516 @@
   border-color: #897ab8;
   background-color: rgba(137, 120, 186, 0.15);
 }
+
+/*
+  도시공간 상세
+*/
+.space-detail {
+  width: 336px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.space-detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 56px;
+  padding: 14px 16px;
+  background: #5d5c8d;
+}
+.space-detail-title {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.space-detail-badge {
+  flex-shrink: 0;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  font-size: 12px;
+  font-weight: 500;
+  color: #fff;
+  line-height: 1.4;
+}
+
+.space-detail-content {
+  background: #f2f2f8;
+}
+.space-detail-content-item {
+  padding: 16px;
+}
+
+.space-detail-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 12px;
+}
+.space-detail-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.space-detail-meta-item--full {
+  grid-column: 1 / -1;
+}
+.space-detail-meta-label {
+  display: block;
+  padding-left: 22px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--gray-40, #888);
+  line-height: 1.4;
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: 16px;
+}
+.space-detail-meta-value {
+  display: block;
+  padding-left: 22px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--secondary2-140, #1a1a2e);
+  line-height: 1.45;
+  word-break: keep-all;
+}
+
+/* 메타 아이콘 — background-image 경로만 지정하면 됨 */
+.space-detail-meta-item--date .space-detail-meta-label {
+  /* background-image: url(../img/urban/ico_date.svg); */
+}
+.space-detail-meta-item--dept .space-detail-meta-label {
+  /* background-image: url(../img/urban/ico_dept.svg); */
+}
+.space-detail-meta-item--author .space-detail-meta-label {
+  /* background-image: url(../img/urban/ico_author.svg); */
+}
+.space-detail-meta-item--region .space-detail-meta-label {
+  /* background-image: url(../img/urban/ico_region.svg); */
+}
+.space-detail-meta-item--desc .space-detail-meta-label {
+  /* background-image: url(../img/urban/ico_desc.svg); */
+}
+
+/* 탭 네비 */
+.space-detail-nav {
+  display: flex;
+  gap: 8px;
+  padding: 0 16px 12px;
+}
+.space-detail-nav button {
+  flex: 1;
+  height: 36px;
+  border: 1px solid var(--gray-90, #e5e5e5);
+  border-radius: 999px;
+  background: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--secondary2-100, #595a8a);
+  cursor: pointer;
+}
+.space-detail-nav button.active,
+.space-detail-nav button:first-child.active {
+  border-color: var(--primary-100, #f3722c);
+  background: rgba(243, 114, 44, 0.08);
+  color: var(--primary-100, #f3722c);
+}
+
+/* 탭 콘텐츠 */
+.space-tab-content {
+  padding: 0 16px 16px;
+}
+.space-tab-content-item {
+  display: none;
+}
+.space-tab-content-item.is-active {
+  display: block;
+}
+.space-tab-content-item-header {
+  margin-bottom: 12px;
+}
+.space-tab-content-item-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--secondary2-120, #28283e);
+  padding-left: 12px;
+  background: url(../img/public/dot_secondary.svg) no-repeat left center;
+}
+
+/* 설정 카드 그리드 */
+.space-setting-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.space-setting-card {
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid var(--gray-90, #eee);
+  border-radius: 12px;
+  background: #fff;
+}
+.space-setting-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.space-setting-card-title {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--secondary2-120, #28283e);
+  padding-left: 10px;
+  background: url(../img/public/dot_secondary.svg) no-repeat left center;
+  background-size: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.space-setting-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.btn-setting-action {
+  height: 24px;
+  padding: 0 8px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: #fff;
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn-setting-action--upload {
+  border-color: rgba(243, 114, 44, 0.55);
+  color: var(--primary-100, #f3722c);
+}
+.btn-setting-action--library {
+  border-color: rgba(16, 173, 120, 0.55);
+  color: #10ad78;
+}
+
+.space-setting-card-body {
+  min-height: 96px;
+  border-radius: 10px;
+}
+
+/* 구역경계 */
+.space-setting-card-body--zone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e8f0fc;
+}
+.btn-zone-set {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  min-height: 96px;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+.btn-zone-set:hover,
+.btn-zone-set:focus-visible {
+  background: rgba(28, 100, 242, 0.08);
+  outline: none;
+}
+.btn-zone-set-icon {
+  display: block;
+  width: 40px;
+  height: 40px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  /* background-image: url(../img/urban/ico_zone.svg); */
+}
+.btn-zone-set-text {
+  font-size: 12px;
+  font-weight: 500;
+  color: #1c64f2;
+  line-height: 1.3;
+}
+
+/* 이미지(도시계획도) */
+.space-setting-card-body--image {
+  padding: 8px;
+  background: #fafafa;
+  overflow-x: auto;
+}
+.space-image-list {
+  display: flex;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.space-image-item {
+  position: relative;
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  background: #4a4a4a;
+  overflow: hidden;
+}
+.space-image-item--thumb {
+  background: #ddd;
+  /* background-image: url(../img/urban/img_thumb_sample.jpg); */
+  background-size: cover;
+  background-position: center;
+}
+.space-image-name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 4px;
+  font-size: 8px;
+  font-weight: 500;
+  color: #fff;
+  text-align: center;
+  word-break: keep-all;
+}
+.btn-image-remove {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 14px;
+  height: 14px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--primary-100, #f3722c);
+  cursor: pointer;
+  /* background-image: url(../img/urban/ico_close_wh.svg); */
+}
+
+/* 건물 */
+.space-setting-card-body--building {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e8f7ef;
+}
+.space-building-icon {
+  display: block;
+  width: 40px;
+  height: 40px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  /* background-image: url(../img/urban/ico_building.svg); */
+}
+
+/* 임의객체 - 빈 상태 */
+.space-setting-card-body--empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px dashed var(--gray-90, #ddd);
+  background: #fafafa;
+}
+.space-empty-icon {
+  display: block;
+  width: 28px;
+  height: 28px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  /* background-image: url(../img/urban/ico_upload.svg); */
+}
+.space-empty-text {
+  margin: 0;
+  font-size: 10px;
+  color: var(--gray-40, #888);
+}
+
+/* 도시공간 분석 — 한 행 2열 */
+.space-analysis-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.space-analysis-card {
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid var(--gray-90, #eee);
+  border-radius: 12px;
+  background: #fff;
+}
+.space-analysis-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.space-analysis-card-title {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--secondary2-120, #28283e);
+  padding-left: 10px;
+  background: url(../img/public/dot_secondary.svg) no-repeat left center;
+  background-size: 4px;
+}
+.space-empty-icon--pin {
+  /* background-image: url(../img/urban/ico_pin.svg); */
+}
+
+/* 지형수정 — 성토/절토 좌우 배치 */
+.space-terrain-toggle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.btn-terrain-type {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 72px;
+  padding: 10px 8px;
+  border: 1px solid var(--gray-90, #e5e5e5);
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+.btn-terrain-type.is-active {
+  border-color: var(--primary-100, #f3722c);
+  background: rgba(243, 114, 44, 0.06);
+}
+.btn-terrain-type-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+.btn-terrain-type-icon--fill {
+  /* background-image: url(../img/urban/ico_fill.svg); */
+}
+.btn-terrain-type-icon--cut {
+  /* background-image: url(../img/urban/ico_cut.svg); */
+}
+.btn-terrain-type-text {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--secondary2-120, #28283e);
+  line-height: 1.3;
+}
+.btn-terrain-type.is-active .btn-terrain-type-text {
+  color: var(--primary-100, #f3722c);
+}
+
+/* 지형수정 — 입력 행 좌우 배치 */
+.space-terrain-form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.space-terrain-form-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 40px;
+  padding: 8px 10px;
+  border: 1px solid var(--gray-90, #eee);
+  border-radius: 10px;
+  background: #fff;
+}
+.space-terrain-form-label {
+  flex-shrink: 0;
+  padding-left: 22px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--secondary2-120, #28283e);
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: 16px;
+  white-space: nowrap;
+}
+.space-terrain-form-label--area {
+  /* background-image: url(../img/urban/ico_area.svg); */
+}
+.space-terrain-form-label--height {
+  /* background-image: url(../img/urban/ico_height.svg); */
+}
+.space-terrain-form-label--slope {
+  /* background-image: url(../img/urban/ico_slope.svg); */
+}
+.space-terrain-form-value {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--secondary2-120, #28283e);
+  text-align: right;
+}
+.space-terrain-form-value.is-empty {
+  color: var(--gray-40, #888);
+}
+.space-terrain-form-field {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.space-terrain-input {
+  width: 40px;
+  height: 28px;
+  padding: 0 6px;
+  border: 1px solid var(--gray-90, #e5e5e5);
+  border-radius: 6px;
+  background: #fff;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--secondary2-120, #28283e);
+  text-align: center;
+  outline: none;
+}
+.space-terrain-unit {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--gray-40, #888);
+}
